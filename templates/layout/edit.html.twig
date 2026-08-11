@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Edit layout{% endblock %}
+{% block body %}
+
+    {% if preview %}
+        <table class="table post-grid">
+            <tr>
+                <th class="tbl tdbgh center fonts post-user">User</th>
+                <th class="tbl tdbgh center fonts">Layout preview</th>
+            </tr>
+            {% include board.layout ? board.layout.template : 'post/layout/regular.html.twig'
+               with {post: preview, striped: 0, thread: null} only %}
+        </table>
+    {% endif %}
+
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Post layout</th></tr>
+            <tr>
+                <td class="tbl tdbg1 font" colspan="2">
+                    <span class="fonts">
+                        HTML is allowed here, but it is filtered against an allowlist when
+                        it is displayed: scripts, event handlers, frames and anything that
+                        can escape your own post are removed. Everything you type is kept
+                        exactly as written, so you can always come back and fix a layout
+                        that did not render the way you expected.
+                        <br><br>
+                        Tokens such as <code>&amp;numposts&amp;</code>, <code>&amp;level&amp;</code>,
+                        <code>&amp;exp&amp;</code>, <code>&amp;exppct&amp;</code> and
+                        <code>&amp;rank&amp;</code> are replaced with your stats.
+                    </span>
+                </td>
+            </tr>
+            {% for field in form %}
+                {% if field.vars.name not in ['_token', 'preview', 'save'] %}
+                    <tr>
+                        <td class="tbl tdbg1 font" style="width:200px">
+                            {{ form_label(field) }}
+                            {% if field.vars.help %}<span class="form-help">{{ field.vars.help }}</span>{% endif %}
+                        </td>
+                        <td class="tbl tdbg2 font">{{ form_widget(field) }}{{ form_errors(field) }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font">
+                    {{ form_widget(form.save) }} {{ form_widget(form.preview) }}
+                </td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+
+{% endblock %}

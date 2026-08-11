@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} — Posts by thread{% endblock %}
+
+{% block body %}
+    {% include 'statistics/_nav.html.twig' %}
+
+    <table class="table">
+        <tr>
+            <th class="tbl tdbgh center fonts" colspan="3">
+                Posts by thread from {{ member.username }} ({{ total|number_format }})
+            </th>
+        </tr>
+        <tr>
+            <th class="tbl tdbgh fonts">Thread</th>
+            <th class="tbl tdbgh center fonts" style="width:70px">Posts</th>
+            <th class="tbl tdbgh fonts" style="width:45%">Share</th>
+        </tr>
+
+        {% for row in rows %}
+            <tr>
+                <td class="tbl {{ cycle(['tdbg1','tdbg2'], loop.index0) }} font">
+                    <a href="{{ path('app_thread', {id: row.thread.id}) }}">{{ row.thread.title }}</a>
+                    <span class="fonts">in {{ row.thread.forum.title }}</span>
+                </td>
+                <td class="tbl {{ cycle(['tdbg1','tdbg2'], loop.index0) }} center font">{{ row.count|number_format }}</td>
+                <td class="tbl {{ cycle(['tdbg1','tdbg2'], loop.index0) }} font">
+                    {% include 'statistics/_bar.html.twig' with {value: row.count, max: rows|first.count} only %}
+                </td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="3">No posts in this period.</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}

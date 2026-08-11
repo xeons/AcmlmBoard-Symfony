@@ -1,0 +1,117 @@
+{#
+    Shared pieces every post layout needs, so the eight layouts differ only in
+    arrangement rather than each re-deriving the same values.
+
+    In the original, each tlayouts/*.php file declared its own userfields() listing
+    the columns it wanted, and thread.php interpolated that string into the SELECT.
+    A layout that forgot a column silently rendered blanks; one that named a column
+    another layout did not produced a different query per user. Everything is on the
+    RenderedPost object here.
+#}
+
+{% macro rank_block(post) %}
+    {% if post.rankBlock.rank %}
+        <div class="post-rank">{{ post.rankBlock.rank|board_inline }}</div>
+    {% endif %}
+    {% if post.rankBlock.title %}
+        <div class="post-title">{{ post.rankBlock.title|board_inline }}</div>
+    {% endif %}
+    {% if post.rankBlock.badge %}
+        <div class="post-badge"><strong>{{ post.rankBlock.badge }}</strong></div>
+    {% endif %}
+{% endmacro %}
+
+{% macro user_picture(post) %}
+    {% if post.author %}
+        {% set url = safe_image_url(post.author.picture) %}
+        {% if url %}
+            <img class="post-picture" width="60" alt="" src="{{ url }}" loading="lazy" referrerpolicy="no-referrer">
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro exp_bar(post) %}
+    <span class="exp-bar" role="img"
+          aria-label="Level progress: {{ (post.levelProgress * 100)|round }}%">
+        <span class="exp-bar-fill" style="width: {{ (post.levelProgress * 100)|round(1) }}%"></span>
+    </span>
+{% endmacro %}
+
+{% macro meta_row(post, thread) %}
+    {#
+        A preview has no row in the database, so its Post and Thread have no id.
+        Every link below would be path(..., {id: null}), which throws, and every
+        is_granted() would send the voters looking for a thread that does not exist.
+        Show the timestamp and nothing else.
+    #}
+    {% if post.preview %}
+        <table class="post-meta fonts">
+            <tr>
+                <td>Posted on {{ post.post.createdAt|board_date }}</td>
+                <td class="right nowrap"><em>preview</em></td>
+            </tr>
+        </table>
+    {% else %}
+    <table class="post-meta fonts">
+        <tr>
+            <td>
+                Posted on {{ post.post.createdAt|board_date }}
+                {% if thread is not defined or thread is null %}
+                    , in <a href="{{ path('app_thread', {id: post.post.thread.id}) }}">{{ post.post.thread.title }}</a>
+                {% endif %}
+            </td>
+            <td class="right nowrap">
+                <a href="{{ path('app_post_permalink', {id: post.post.id}) }}">Link</a>
+
+                {% if thread is defined and thread and not thread.closed and is_granted('THREAD_REPLY', thread) %}
+                    | <a href="{{ path('app_thread_reply', {id: thread.id, quote: post.post.id}) }}">Quote</a>
+                {% endif %}
+
+                {% if is_granted('POST_EDIT', post.post) %}
+                    | <a href="{{ path('app_post_edit', {id: post.post.id}) }}">Edit</a>
+                {% endif %}
+
+                {% if is_granted('POST_DELETE', post.post) %}
+                    |
+                    <form method="post" action="{{ path('app_post_delete', {id: post.post.id}) }}"
+                          class="inline-form" data-confirm="Delete this post?">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-post' ~ post.post.id) }}">
+                        <button type="submit" class="linkbutton danger">Delete</button>
+                    </form>
+                {% endif %}
+
+                {% if is_granted('POST_VIEW_IP', post.post) and post.post.ip %}
+                    | IP: <a href="{{ path('app_admin_ip_search', {ip: post.post.ip}) }}">{{ post.post.ip }}</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    {% endif %}
+{% endmacro %}
+
+{% macro body(post) %}
+    {% if post.layoutBlocked %}
+        <div class="layout-blocked fonts">(layout hidden at your request)</div>
+    {% endif %}
+
+    {% if post.hasHeader %}
+        <div class="post-header"{% if post.postBackground %} style="background: {{ post.postBackground }}"{% endif %}>
+            {{ post.header|raw }}
+        </div>
+    {% endif %}
+
+    <div class="post-content">{{ post.body|raw }}</div>
+
+    {% if post.hasSignature %}
+        <div class="post-signature {{ (app.user ? app.user.signatureSeparator.cssClass : 'sigsep-Dashes') }}">
+            {{ post.signature|raw }}
+        </div>
+    {% endif %}
+
+    {% if post.wasEdited %}
+        <div class="post-edited fonts">
+            Edited by {{ post.post.editedBy ? post.post.editedBy.username : 'a moderator' }}
+            on {{ post.post.editedAt|board_date }}
+        </div>
+    {% endif %}
+{% endmacro %}

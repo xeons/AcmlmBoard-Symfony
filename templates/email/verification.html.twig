@@ -1,0 +1,14 @@
+<p>Hello {{ username }},</p>
+
+<p>Your verification code for <strong>{{ boardName }}</strong> is:</p>
+
+<p style="font-family: monospace; font-size: 18px; letter-spacing: 2px;">{{ code }}</p>
+
+<p><a href="{{ verifyUrl }}">Open this link to finish creating your account.</a>
+You will be asked to choose a password.</p>
+
+<p>The code expires on {{ expiresAt|date('Y-m-d H:i') }} UTC.</p>
+
+<p style="color: #666; font-size: 12px;">
+    If you did not ask to register, ignore this message; no account has been created.
+</p>

@@ -1,0 +1,39 @@
+/*
+ * Dracula.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-dracula {
+    --page-bg: #282A36;
+    --text-color: #F8F8F2;
+
+    --table-bg-1: #343746;
+    --table-bg-2: #282A36;
+    --category-bg: #44475A;
+    --table-head-bg: #6272A4;
+    --table-head-text: #F8F8F2;
+    --table-border: #191A21;
+
+    --link-color: #BD93F9;
+    --link-visited: #FF79C6;
+    --link-active: #8BE9FD;
+    --link-hover: #8BE9FD;
+
+    --input-bg: #44475A;
+    --input-border: #191A21;
+
+    --name-male-0: #8BE9FD;
+    --name-male-1: #8BE9FD;
+    --name-male-2: #8BE9FD;
+    --name-male-3: #BD93F9;
+    --name-female-0: #FF79C6;
+    --name-female-1: #FF79C6;
+    --name-female-2: #8BE9FD;
+    --name-female-3: #BD93F9;
+    --name-na-0: #50FA7B;
+    --name-na-1: #50FA7B;
+    --name-na-2: #8BE9FD;
+    --name-na-3: #BD93F9;
+    --name-banned: #6E7681;
+}

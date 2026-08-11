@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Ranks{% endblock %}
+{% block body %}
+
+    <form method="get" action="{{ path('app_ranks') }}" class="fonts">
+        <label>Rank set:
+            <select name="set" onchange="this.form.submit()">
+                {% for s in sets %}
+                    <option value="{{ s.id }}"{{ selected and selected.id == s.id ? ' selected' : '' }}>{{ s.name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label><input type="checkbox" name="all" value="1" {{ showAll ? 'checked' : '' }}
+                      onchange="this.form.submit()"> Show members using any rank set</label>
+        <noscript><button type="submit">View</button></noscript>
+    </form>
+
+    <table class="table">
+        <tr>
+            <th class="tbl tdbgh center fonts" style="width:200px">Rank</th>
+            <th class="tbl tdbgh center fonts" style="width:80px">Posts</th>
+            <th class="tbl tdbgh center fonts" style="width:80px">Members</th>
+            <th class="tbl tdbgh center fonts">Currently on this rank</th>
+        </tr>
+        {% for row in rows %}
+            <tr>
+                <td class="tbl tdbg2 font">{{ row.rank.label|board_inline }}</td>
+                <td class="tbl tdbg1 center font">{{ row.rank.minPosts|number_format }}</td>
+                <td class="tbl tdbg1 center font">{{ row.count }}</td>
+                <td class="tbl tdbg2 fonts">
+                    {% for member in row.occupants %}
+                        {{ user_link(member) }}{{ not loop.last ? ',' }}
+                    {% endfor %}
+                    {% set inactive = row.count - row.occupants|length %}
+                    {% if inactive > 0 %}
+                        {{ row.occupants is not empty ? ', ' }}{{ inactive }} inactive
+                    {% endif %}
+                    {% if row.count == 0 %}&mdash;{% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="4">This rank set has no ranks.</td></tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

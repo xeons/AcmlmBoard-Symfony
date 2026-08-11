@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Banned{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Posting suspended</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                You are not allowed to post at the moment. You can still read the board.
+                <br><br>
+                If you think this is a mistake, contact a moderator.
+            </td>
+        </tr>
+    </table>
+{% endblock %}

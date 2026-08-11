@@ -1,0 +1,26 @@
+/*
+ * Old blue - ported from schemes/oldblue.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-oldblue {
+    --page-bg: #000000;
+    --page-bg-image: url('/images/back08.gif');
+    --text-color: #E0E0E0;
+
+    --table-bg-1: #000060;
+    --table-bg-2: #000036;
+    --category-bg: #000060;
+    --table-head-bg: #0050A0;
+    --table-head-text: #FFFFFF;
+    --table-border: #0070C0;
+
+    --link-color: #FFD040;
+    --link-visited: #F0A020;
+    --link-active: #FFEA00;
+    --link-hover: #FFFFFF;
+
+    --input-bg: #000060;
+    --input-border: #0070C0;
+}

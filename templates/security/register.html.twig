@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }} - Register{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Registration</th></tr>
+
+            <tr>
+                <td class="tbl tdbg1 font" style="width:220px">
+                    {{ form_label(form.username) }}
+                    <span class="form-help">{{ form.username.vars.help }}</span>
+                </td>
+                <td class="tbl tdbg2 font">
+                    {{ form_widget(form.username) }}
+                    {{ form_errors(form.username) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">
+                    {{ form_label(form.email) }}
+                    <span class="form-help">{{ form.email.vars.help }}</span>
+                </td>
+                <td class="tbl tdbg2 font">
+                    {{ form_widget(form.email) }}
+                    {{ form_errors(form.email) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit">Register account</button></td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+
+    <table class="table">
+        <tr>
+            <td class="tbl tdbg1 fonts">
+                Lost your verification code? Register again with the same details and a fresh
+                code will be emailed to you. You can only do this once.
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

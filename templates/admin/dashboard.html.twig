@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Administration{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="2">Administration</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font" style="width:240px"><a href="{{ path('app_admin_config') }}">Board configuration</a></td>
+            <td class="tbl tdbg2 fonts">Name, registration policy, thresholds, special accounts.</td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><a href="{{ path('app_admin_forums') }}">Forums and categories</a></td>
+            <td class="tbl tdbg2 fonts">{{ forumCount }} forum{{ forumCount == 1 ? '' : 's' }}.</td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><a href="{{ path('app_members') }}">Members</a></td>
+            <td class="tbl tdbg2 fonts">{{ userCount|number_format }} registered.</td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><a href="{{ path('app_admin_ip_bans') }}">IP bans</a></td>
+            <td class="tbl tdbg2 fonts">Address and CIDR-range bans.</td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><a href="{{ path('app_admin_ip_search') }}">IP search</a></td>
+            <td class="tbl tdbg2 fonts">Find accounts and posts from an address.</td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><a href="{{ path('app_admin_log') }}">Moderator log</a></td>
+            <td class="tbl tdbg2 fonts">Audit trail of moderation actions.</td>
+        </tr>
+    </table>
+
+    {% if not config.trashForum or not config.systemAccount %}
+        <div class="flash flash-error">
+            Setup incomplete:
+            {% if not config.trashForum %}no trash forum is configured (the "Trash" moderator action will not work);{% endif %}
+            {% if not config.systemAccount %}no system account is configured (system messages will be sent from the acting moderator);{% endif %}
+            fix this in <a href="{{ path('app_admin_config') }}">board configuration</a>.
+        </div>
+    {% endif %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="4">Recent moderator actions</th></tr>
+        <tr>
+            <th class="tbl tdbgh center fonts" style="width:150px">When</th>
+            <th class="tbl tdbgh center fonts" style="width:150px">Who</th>
+            <th class="tbl tdbgh center fonts" style="width:180px">Action</th>
+            <th class="tbl tdbgh center fonts">Target</th>
+        </tr>
+        {% for entry in recentActions %}
+            <tr>
+                <td class="tbl tdbg1 center fonts">{{ entry.createdAt|board_date }}</td>
+                <td class="tbl tdbg2 font">{{ user_link(entry.actor) }}</td>
+                <td class="tbl tdbg2 fonts">{{ entry.action }}</td>
+                <td class="tbl tdbg1 fonts">{{ entry.target ?: '-' }}</td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="4">Nothing logged yet.</td></tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

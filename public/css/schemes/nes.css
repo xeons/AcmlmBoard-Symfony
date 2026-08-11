@@ -1,0 +1,26 @@
+/*
+ * NES - ported from schemes/nes.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-nes {
+    --page-bg: #2139EF;
+    --page-bg-image: none;
+    --text-color: #FFFFFF;
+
+    --table-bg-1: #000000;
+    --table-bg-2: #212121;
+    --category-bg: #18395A;
+    --table-head-bg: #737373;
+    --table-head-text: #FFE7A5;
+    --table-border: #BDBDBD;
+
+    --link-color: #F7BD39;
+    --link-visited: #FFBDB5;
+    --link-active: #ADE7FF;
+    --link-hover: #FFE7A5;
+
+    --input-bg: #000000;
+    --input-border: #FF9C39;
+}

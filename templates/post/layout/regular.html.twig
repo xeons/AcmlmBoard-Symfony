@@ -1,0 +1,41 @@
+{# The default layout: full stats column on the left, post on the right. #}
+{% import 'post/_shell.html.twig' as shell %}
+{% set bg = striped ? 'tdbg2' : 'tdbg1' %}
+
+<tr>
+    <td class="tbl {{ bg }} font post-user" rowspan="2">
+        <a id="post-{{ post.post.id }}"></a>
+        {{ user_link(post.author) }}
+        <div class="fonts">
+            {{ shell.rank_block(post) }}
+
+            {% if post.author %}
+                <div class="post-level">Level: {{ post.level }}</div>
+                {{ shell.exp_bar(post) }}
+
+                {{ shell.user_picture(post) }}
+
+                <div>Posts: {{ post.post.authorPostNumber }}/{{ post.author.posts }}</div>
+                <div>EXP: {{ post.experience|number_format }}</div>
+                <div>For next: {{ post.experienceToNextLevel|number_format }}</div>
+
+                <div class="post-since">Since: {{ post.author.registeredAt|board_date_short }}</div>
+                {% if post.author.location %}
+                    <div>From: {{ post.author.location }}</div>
+                {% endif %}
+
+                <div>Since last post: {{ post.author.lastPostAt|duration }}</div>
+                <div>Last activity: {{ post.author.lastActivityAt|duration }}</div>
+            {% endif %}
+        </div>
+    </td>
+
+    <td class="tbl {{ bg }} font">
+        {{ shell.meta_row(post, thread|default(null)) }}
+    </td>
+</tr>
+<tr>
+    <td class="tbl {{ bg }} font post-body">
+        {{ shell.body(post) }}
+    </td>
+</tr>

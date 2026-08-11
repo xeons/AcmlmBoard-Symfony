@@ -1,0 +1,26 @@
+{# UBB-style: rank and avatar, registration month, a rule above the body. #}
+{% import 'post/_shell.html.twig' as shell %}
+{% set bg = striped ? 'tdbg2' : 'tdbg1' %}
+
+<tr>
+    <td class="tbl {{ bg }} font post-user">
+        <a id="post-{{ post.post.id }}"></a>
+        {{ user_link(post.author) }}
+        <div class="fonts">
+            {{ shell.rank_block(post) }}
+            {{ shell.user_picture(post) }}
+            <div>Posts: {{ post.author ? post.author.posts : 0 }}</div>
+            {% if post.author and post.author.location %}
+                <div>From: {{ post.author.location }}</div>
+            {% endif %}
+            {% if post.author %}
+                <div>Registered: {{ post.author.registeredAt|board_date('M Y') }}</div>
+            {% endif %}
+        </div>
+    </td>
+    <td class="tbl {{ bg }} font post-body">
+        {{ shell.meta_row(post, thread|default(null)) }}
+        <hr>
+        {{ shell.body(post) }}
+    </td>
+</tr>

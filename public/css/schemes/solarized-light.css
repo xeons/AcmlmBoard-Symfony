@@ -1,0 +1,39 @@
+/*
+ * Solarized Light.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-solarized-light {
+    --page-bg: #FDF6E3;
+    --text-color: #586E75;
+
+    --table-bg-1: #EEE8D5;
+    --table-bg-2: #FDF6E3;
+    --category-bg: #E4DCC4;
+    --table-head-bg: #93A1A1;
+    --table-head-text: #002B36;
+    --table-border: #D6CFB8;
+
+    --link-color: #268BD2;
+    --link-visited: #6C71C4;
+    --link-active: #CB4B16;
+    --link-hover: #CB4B16;
+
+    --input-bg: #FFFFFF;
+    --input-border: #D6CFB8;
+
+    --name-male-0: #268BD2;
+    --name-male-1: #268BD2;
+    --name-male-2: #CB4B16;
+    --name-male-3: #268BD2;
+    --name-female-0: #D33682;
+    --name-female-1: #D33682;
+    --name-female-2: #CB4B16;
+    --name-female-3: #268BD2;
+    --name-na-0: #859900;
+    --name-na-1: #859900;
+    --name-na-2: #CB4B16;
+    --name-na-3: #268BD2;
+    --name-banned: #6E7681;
+}

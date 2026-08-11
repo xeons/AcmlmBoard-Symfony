@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Online users{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="3">Online now</th></tr>
+        <tr>
+            <th class="tbl tdbgh center fonts">Member</th>
+            <th class="tbl tdbgh center fonts" style="width:200px">Currently in</th>
+            <th class="tbl tdbgh center fonts" style="width:130px">Last seen</th>
+        </tr>
+        {% for person in online.users %}
+            <tr>
+                <td class="tbl tdbg2 font">{{ user_link(person, true) }}</td>
+                <td class="tbl tdbg2 fonts">
+                    {% if person.currentForum %}
+                        <a href="{{ path('app_forum', {id: person.currentForum.id}) }}">{{ person.currentForum.title }}</a>
+                    {% else %}&mdash;{% endif %}
+                </td>
+                <td class="tbl tdbg1 center fonts">{{ person.lastActivityAt|duration }}</td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="3">Nobody is online.</td></tr>
+        {% endfor %}
+        <tr>
+            <td class="tbl tdbg1 fonts" colspan="3">
+                {{ online.userCount }} member{{ online.userCount == 1 ? '' : 's' }}
+                and {{ online.guestCount }} guest{{ online.guestCount == 1 ? '' : 's' }} in the last five minutes.
+                <br>Record: {{ records.maxUsersOnline }} members
+                {% if records.maxUsersOnlineAt %}on {{ records.maxUsersOnlineAt|board_date }}{% endif %}
+                {% if records.maxUsersOnlineNames %}
+                    <br><span class="fonts">{{ records.maxUsersOnlineNames|join(', ') }}</span>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+{% endblock %}

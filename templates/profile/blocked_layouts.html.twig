@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Blocked layouts{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Blocked layouts</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                {% for person in blocked %}
+                    {{ user_link(person) }}
+                    <form method="post" action="{{ path('app_layout_block', {id: person.id}) }}" class="inline-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('block' ~ person.id) }}">
+                        (<button type="submit" class="linkbutton">unblock</button>)
+                    </form><br>
+                {% else %}
+                    You have no layouts blocked. To block someone's layout, open their
+                    profile and use "Block layout".
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+{% endblock %}

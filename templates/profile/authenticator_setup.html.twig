@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Set up an authenticator app{% endblock %}
+
+{% block body %}
+
+    <form method="post" action="{{ path('app_totp_confirm') }}" class="board-form">
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Set up an authenticator app</th></tr>
+
+            <tr>
+                <td class="tbl tdbg1 font" style="width:250px">1. Scan this</td>
+                <td class="tbl tdbg2 font">
+                    <img src="{{ path('app_totp_qr') }}" width="220" height="220"
+                         alt="QR code for setting up your authenticator app">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="tbl tdbg1 font">
+                    2. Or type this in
+                    <span class="form-help">If your app cannot scan, enter the key by hand.</span>
+                </td>
+                <td class="tbl tdbg2 font">
+                    <code class="totp-secret">{{ secret }}</code>
+                    <div class="fonts">Time-based, 6 digits, 30 seconds.</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="tbl tdbg1 font">
+                    3. Enter the code it shows
+                    <span class="form-help">This is what switches it on.</span>
+                </td>
+                <td class="tbl tdbg2 font">
+                    <input type="text" name="code" inputmode="numeric" autocomplete="one-time-code"
+                           autofocus required size="14" maxlength="20">
+                    <input type="hidden" name="_token" value="{{ csrf_token('totp-setup') }}">
+                    <button type="submit">Turn on</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="tbl tdbg1 font" colspan="2">
+                    <span class="fonts">
+                        Nothing about signing in changes until you enter a working code
+                        above, so leaving this page cannot lock you out.
+                        <a href="{{ path('app_totp') }}">Cancel</a>
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}

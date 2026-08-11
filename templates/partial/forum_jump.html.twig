@@ -1,0 +1,12 @@
+{# The forum jump menu that sat at the bottom of every listing page. #}
+<form method="get" action="{{ path('app_forum_jump') }}" class="forum-jump fonts">
+    <label for="forum-jump-select">Forum jump:</label>
+    <select name="id" id="forum-jump-select" onchange="this.form.submit()">
+        {% for forum in board.forumJumpList %}
+            <option value="{{ forum.id }}"{{ current and current.id == forum.id ? ' selected' : '' }}>
+                {{ forum.category ? forum.category.name ~ ' - ' : '' }}{{ forum.title }}
+            </option>
+        {% endfor %}
+    </select>
+    <noscript><button type="submit">Go</button></noscript>
+</form>

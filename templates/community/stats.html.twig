@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Statistics{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="2">Records</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font" style="width:280px"><strong>Most posts within 24 hours</strong></td>
+            <td class="tbl tdbg2 font">
+                {{ records.maxPostsInDay }}
+                {% if records.maxPostsInDayAt %}on {{ records.maxPostsInDayAt|board_date }}{% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Most posts within one hour</strong></td>
+            <td class="tbl tdbg2 font">
+                {{ records.maxPostsInHour }}
+                {% if records.maxPostsInHourAt %}on {{ records.maxPostsInHourAt|board_date }}{% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Most users online</strong></td>
+            <td class="tbl tdbg2 font">
+                {{ records.maxUsersOnline }}
+                {% if records.maxUsersOnlineAt %}on {{ records.maxUsersOnlineAt|board_date }}{% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Totals</strong></td>
+            <td class="tbl tdbg2 font">
+                {{ totals.users|number_format }} members,
+                {{ totals.threads|number_format }} threads,
+                {{ totals.posts|number_format }} posts,
+                {{ records.pageViews|number_format }} page views
+            </td>
+        </tr>
+    </table>
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="9">Daily statistics</th></tr>
+        <tr>
+            <th class="tbl tdbgh center fonts">Date</th>
+            <th class="tbl tdbgh center fonts">Members</th>
+            <th class="tbl tdbgh center fonts">Threads</th>
+            <th class="tbl tdbgh center fonts">Posts</th>
+            <th class="tbl tdbgh center fonts">Views</th>
+            <th class="tbl tdbgh center fonts">New members</th>
+            <th class="tbl tdbgh center fonts">New threads</th>
+            <th class="tbl tdbgh center fonts">New posts</th>
+            <th class="tbl tdbgh center fonts">New views</th>
+        </tr>
+        {% set prev = null %}
+        {% for day in daily %}
+            <tr>
+                <td class="tbl tdbg1 center fonts">{{ day.date|date('Y-m-d') }}</td>
+                <td class="tbl tdbg2 center fonts">{{ day.users|number_format }}</td>
+                <td class="tbl tdbg2 center fonts">{{ day.threads|number_format }}</td>
+                <td class="tbl tdbg2 center fonts">{{ day.posts|number_format }}</td>
+                <td class="tbl tdbg2 center fonts">{{ day.views|number_format }}</td>
+                <td class="tbl tdbg1 center fonts">{{ prev ? (day.users - prev.users)|number_format : '-' }}</td>
+                <td class="tbl tdbg1 center fonts">{{ prev ? (day.threads - prev.threads)|number_format : '-' }}</td>
+                <td class="tbl tdbg1 center fonts">{{ prev ? (day.posts - prev.posts)|number_format : '-' }}</td>
+                <td class="tbl tdbg1 center fonts">{{ prev ? (day.views - prev.views)|number_format : '-' }}</td>
+            </tr>
+            {% set prev = day %}
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="9">No statistics recorded yet.</td></tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

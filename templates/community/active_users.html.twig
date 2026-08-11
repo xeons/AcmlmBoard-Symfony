@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Active users{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr>
+            <th class="tbl tdbgh center fonts" colspan="4">
+                Members seen since {{ since|board_date_short }}
+            </th>
+        </tr>
+        <tr>
+            <th class="tbl tdbgh center fonts">Member</th>
+            <th class="tbl tdbgh center fonts" style="width:90px">Posts</th>
+            <th class="tbl tdbgh center fonts" style="width:140px">Last post</th>
+            <th class="tbl tdbgh center fonts" style="width:140px">Last seen</th>
+        </tr>
+        {% for member in members %}
+            <tr>
+                <td class="tbl tdbg2 font">{{ user_link(member, true) }}</td>
+                <td class="tbl tdbg1 center font">{{ member.posts|number_format }}</td>
+                <td class="tbl tdbg2 center fonts">{{ member.lastPostAt|duration }}</td>
+                <td class="tbl tdbg2 center fonts">{{ member.lastActivityAt|duration }}</td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="4">Nobody has been active recently.</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Message {{ recipient.username }}{% endblock %}
+{% block body %}
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        <table class="table">
+            <tr>
+                <th class="tbl tdbgh center fonts" colspan="2">
+                    Send a message to {{ recipient.username }}
+                </th>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font" style="width:180px">{{ form_label(form.title) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.title) }}{{ form_errors(form.title) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">{{ form_label(form.body) }}</td>
+                <td class="tbl tdbg2 font">
+                    {% include 'partial/post_toolbar.html.twig' with {target: 'send_message_body'} only %}
+                    {{ form_widget(form.body) }}{{ form_errors(form.body) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit">Send message</button></td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+{% endblock %}

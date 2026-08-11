@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Not found{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Not found</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                That page, thread or post does not exist. It may have been deleted.
+                <br><br><a href="{{ path('app_index') }}">Return to the board</a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

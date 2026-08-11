@@ -1,0 +1,179 @@
+framework:
+    html_sanitizer:
+        sanitizers:
+            # ---------------------------------------------------------------
+            # app.post_sanitizer
+            #
+            # Applied to post bodies, post headers, signatures and announcements
+            # - anywhere a user may author raw HTML, which on AcmlmBoard is
+            # everywhere. The original "protection" (lib/protector.php plus the
+            # regexes in dofilters()) was a blocklist of <script>, on*= and
+            # "filter:", which is trivially defeated by e.g. <img src=x
+            # onerror=...> written as on\x00error, SVG event handlers, or
+            # <a href="javas&Tab;cript:">.
+            #
+            # This is an allowlist instead: anything not named here is dropped.
+            # ---------------------------------------------------------------
+            app.post_sanitizer:
+                allow_safe_elements: false
+
+                block_elements:
+                    # Strip the tag but keep its text, rather than deleting the
+                    # subtree - a user who typed <script> in a code discussion
+                    # should still see their words.
+                    - script
+                    - style
+                    - noscript
+
+                drop_elements:
+                    - iframe
+                    - frame
+                    - frameset
+                    - object
+                    - embed
+                    - applet
+                    - form
+                    - input
+                    - button
+                    - textarea
+                    - select
+                    - option
+                    - meta
+                    - link
+                    - base
+                    - svg
+                    - math
+
+                allow_elements:
+                    # Inline text
+                    b: ['style', 'class']
+                    strong: ['style', 'class']
+                    i: ['style', 'class']
+                    em: ['style', 'class']
+                    u: ['style', 'class']
+                    s: ['style', 'class']
+                    strike: ['style', 'class']
+                    del: ['style', 'class']
+                    ins: ['style', 'class']
+                    sub: []
+                    sup: []
+                    small: ['style', 'class']
+                    big: ['style', 'class']
+                    tt: []
+                    code: ['style', 'class']
+                    pre: ['style', 'class']
+                    kbd: []
+                    samp: []
+                    var: []
+                    abbr: ['title']
+                    q: []
+                    cite: []
+                    mark: ['style', 'class']
+                    # font is 2005 HTML and half the board's layouts depend on it
+                    font: ['color', 'face', 'size', 'style', 'class']
+                    # Structure
+                    div: ['style', 'class', 'align', 'id']
+                    span: ['style', 'class', 'id']
+                    p: ['style', 'class', 'align']
+                    br: []
+                    hr: ['style', 'class', 'width', 'size', 'color', 'align', 'noshade']
+                    center: []
+                    blockquote: ['style', 'class', 'cite']
+                    nobr: []
+                    wbr: []
+                    ul: ['style', 'class']
+                    ol: ['style', 'class', 'start', 'type']
+                    li: ['style', 'class', 'value']
+                    dl: ['style', 'class']
+                    dt: ['style', 'class']
+                    dd: ['style', 'class']
+                    h1: ['style', 'class']
+                    h2: ['style', 'class']
+                    h3: ['style', 'class']
+                    h4: ['style', 'class']
+                    h5: ['style', 'class']
+                    h6: ['style', 'class']
+                    fieldset: ['style', 'class']
+                    legend: ['style', 'class']
+                    # Tables - layouts lean on these heavily
+                    table: ['style', 'class', 'width', 'height', 'border', 'cellpadding', 'cellspacing', 'align', 'bgcolor', 'background', 'bordercolor']
+                    thead: ['style', 'class']
+                    tbody: ['style', 'class']
+                    tfoot: ['style', 'class']
+                    tr: ['style', 'class', 'align', 'valign', 'bgcolor', 'height']
+                    td: ['style', 'class', 'colspan', 'rowspan', 'align', 'valign', 'width', 'height', 'bgcolor', 'background', 'nowrap']
+                    th: ['style', 'class', 'colspan', 'rowspan', 'align', 'valign', 'width', 'height', 'bgcolor', 'nowrap']
+                    caption: ['style', 'class']
+                    colgroup: ['span', 'width']
+                    col: ['span', 'width']
+                    # Media
+                    img: ['src', 'alt', 'title', 'width', 'height', 'style', 'class', 'align', 'border', 'hspace', 'vspace']
+                    a: ['href', 'title', 'name', 'style', 'class']
+                    marquee: ['style', 'class', 'width', 'height', 'behavior', 'direction', 'scrollamount', 'scrolldelay', 'loop', 'bgcolor']
+
+                allow_attributes:
+                    # Global attributes permitted on every allowed element above.
+                    title: '*'
+                    dir: '*'
+                    lang: '*'
+
+                # Any attribute not listed against its element is dropped, which
+                # covers every on*= handler by construction.
+                drop_attributes:
+                    srcset: '*'
+                    formaction: '*'
+                    ping: '*'
+
+                force_attributes:
+                    a:
+                        # Defeats reverse-tabnabbing and stops referrer leakage
+                        # from a board where every signature is a link farm.
+                        rel: 'nofollow ugc noopener noreferrer'
+                        target: '_blank'
+                    img:
+                        loading: 'lazy'
+                        referrerpolicy: 'no-referrer'
+
+                # Only these URL schemes survive on href/src. javascript:, data:,
+                # vbscript: and file: are therefore impossible, including via
+                # entity- or whitespace-obfuscated spellings, because the
+                # sanitizer parses the URL after decoding rather than regexing it.
+                allowed_link_schemes: ['http', 'https', 'mailto', 'ftp']
+                allow_relative_links: true
+                allowed_media_schemes: ['http', 'https']
+                allow_relative_medias: true
+
+                with_attribute_sanitizers:
+                    # Filters the contents of every surviving style="" against a
+                    # property allowlist (see the service for the reasoning).
+                    - 'App\Service\Sanitizer\StyleAttributeSanitizer'
+
+            # ---------------------------------------------------------------
+            # app.title_sanitizer
+            #
+            # Custom user titles and thread titles: inline decoration only, no
+            # block boxes, no images, no links.
+            # ---------------------------------------------------------------
+            app.title_sanitizer:
+                allow_safe_elements: false
+                allow_elements:
+                    b: ['style']
+                    strong: ['style']
+                    i: ['style']
+                    em: ['style']
+                    u: ['style']
+                    s: ['style']
+                    strike: ['style']
+                    small: []
+                    big: []
+                    sub: []
+                    sup: []
+                    font: ['color', 'style']
+                    span: ['style']
+                    br: []
+                allowed_link_schemes: []
+                allowed_media_schemes: []
+                allow_relative_links: false
+                allow_relative_medias: false
+                with_attribute_sanitizers:
+                    - 'App\Service\Sanitizer\StyleAttributeSanitizer'

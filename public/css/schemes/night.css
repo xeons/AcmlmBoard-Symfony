@@ -1,0 +1,26 @@
+/*
+ * Night - ported from schemes/night.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-night {
+    --page-bg: #000F1F;
+    --page-bg-image: url('/images/nightscheme_starsbg.png');
+    --text-color: #DDDDDD;
+
+    --table-bg-1: #111133;
+    --table-bg-2: #11112B;
+    --category-bg: #2F2F5F;
+    --table-head-bg: #221133;
+    --table-head-text: #FFEEFF;
+    --table-border: #000000;
+
+    --link-color: #DEDAFE;
+    --link-visited: #CECAFE;
+    --link-active: #FFEEFF;
+    --link-hover: #EEEAFE;
+
+    --input-bg: #111133;
+    --input-border: #663399;
+}

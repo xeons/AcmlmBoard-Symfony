@@ -1,0 +1,98 @@
+[
+    {
+        "code": ":)",
+        "image": "/images/smilies/smile.gif"
+    },
+    {
+        "code": ";)",
+        "image": "/images/smilies/wink.gif"
+    },
+    {
+        "code": ":D",
+        "image": "/images/smilies/biggrin.gif"
+    },
+    {
+        "code": ":LOL:",
+        "image": "/images/smilies/lol.gif"
+    },
+    {
+        "code": "8-)",
+        "image": "/images/smilies/glasses.gif"
+    },
+    {
+        "code": ":(",
+        "image": "/images/smilies/frown.gif"
+    },
+    {
+        "code": ">:",
+        "image": "/images/smilies/mad.gif"
+    },
+    {
+        "code": ">_<",
+        "image": "/images/smilies/yuck.gif"
+    },
+    {
+        "code": ":P",
+        "image": "/images/smilies/tongue.gif"
+    },
+    {
+        "code": ":S",
+        "image": "/images/smilies/wobbly.gif"
+    },
+    {
+        "code": "O_O",
+        "image": "/images/smilies/eek.gif"
+    },
+    {
+        "code": "o_O",
+        "image": "/images/smilies/bigeyes.gif"
+    },
+    {
+        "code": "^_^",
+        "image": "/images/smilies/cute.gif"
+    },
+    {
+        "code": "^^;;;",
+        "image": "/images/smilies/cute2.gif"
+    },
+    {
+        "code": "~:o",
+        "image": "/images/smilies/baby.gif"
+    },
+    {
+        "code": "x_x",
+        "image": "/images/smilies/sick.gif"
+    },
+    {
+        "code": "¬_¬",
+        "image": "/images/smilies/eyeshift.gif"
+    },
+    {
+        "code": ":[",
+        "image": "/images/smilies/vamp.gif"
+    },
+    {
+        "code": "o_o",
+        "image": "/images/smilies/blank.gif"
+    },
+    {
+        "code": ";_;",
+        "image": "/images/smilies/cry.gif"
+    },
+    {
+        "code": "@_@",
+        "image": "/images/smilies/dizzy.gif"
+    },
+    {
+        "code": "-_-",
+        "image": "/images/smilies/annoyed.gif"
+    },
+    {
+        "code": ">_>",
+        "image": "/images/smilies/shiftright.gif"
+    },
+    {
+        "code": "<_<",
+        "image": "/images/smilies/shiftleft.gif"
+    }
+]

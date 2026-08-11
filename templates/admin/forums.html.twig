@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Forums{% endblock %}
+{% block body %}
+
+    <div class="fonts">
+        <a href="{{ path('app_admin_forum_new') }}">New forum</a> |
+        <a href="{{ path('app_admin_category_new') }}">New category</a>
+    </div>
+
+    {% for category in categories %}
+        <table class="table">
+            <tr>
+                <th class="tbl tdbgc center fonts" colspan="4">
+                    {{ category.name }}
+                    <a href="{{ path('app_admin_category_edit', {id: category.id}) }}">(edit)</a>
+                    {% if category.minPower > 0 %}
+                        <span class="fonts">- requires power {{ category.minPower }}</span>
+                    {% endif %}
+                </th>
+            </tr>
+            <tr>
+                <th class="tbl tdbgh center fonts">Forum</th>
+                <th class="tbl tdbgh center fonts" style="width:180px">Access</th>
+                <th class="tbl tdbgh center fonts" style="width:120px">Content</th>
+                <th class="tbl tdbgh center fonts" style="width:160px">&nbsp;</th>
+            </tr>
+            {% for forum in forums|filter(f => f.category and f.category.id == category.id) %}
+                <tr>
+                    <td class="tbl tdbg2 font">
+                        <a href="{{ path('app_forum', {id: forum.id}) }}">{{ forum.title }}</a>
+                        {% if forum.trash %}<span class="fonts">(trash)</span>{% endif %}
+                    </td>
+                    <td class="tbl tdbg1 center fonts">
+                        read {{ forum.minPower }} / thread {{ forum.minPowerThread }} / reply {{ forum.minPowerReply }}
+                    </td>
+                    <td class="tbl tdbg1 center fonts">
+                        {{ forum.threadCount }}T / {{ forum.postCount }}P
+                    </td>
+                    <td class="tbl tdbg2 center fonts">
+                        <a href="{{ path('app_admin_forum_edit', {id: forum.id}) }}">Edit</a> |
+                        <a href="{{ path('app_admin_forum_moderators', {id: forum.id}) }}">Moderators</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <table class="table">
+            <tr><td class="tbl tdbg1 center font">No categories yet. Create one first.</td></tr>
+        </table>
+    {% endfor %}
+
+{% endblock %}

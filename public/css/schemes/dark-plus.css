@@ -1,0 +1,39 @@
+/*
+ * Dark+ (VS Code).
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-dark-plus {
+    --page-bg: #1E1E1E;
+    --text-color: #D4D4D4;
+
+    --table-bg-1: #252526;
+    --table-bg-2: #1E1E1E;
+    --category-bg: #333333;
+    --table-head-bg: #007ACC;
+    --table-head-text: #FFFFFF;
+    --table-border: #3C3C3C;
+
+    --link-color: #569CD6;
+    --link-visited: #C586C0;
+    --link-active: #9CDCFE;
+    --link-hover: #9CDCFE;
+
+    --input-bg: #3C3C3C;
+    --input-border: #3C3C3C;
+
+    --name-male-0: #569CD6;
+    --name-male-1: #569CD6;
+    --name-male-2: #9CDCFE;
+    --name-male-3: #569CD6;
+    --name-female-0: #C586C0;
+    --name-female-1: #C586C0;
+    --name-female-2: #9CDCFE;
+    --name-female-3: #569CD6;
+    --name-na-0: #4EC9B0;
+    --name-na-1: #4EC9B0;
+    --name-na-2: #9CDCFE;
+    --name-na-3: #569CD6;
+    --name-banned: #6E7681;
+}

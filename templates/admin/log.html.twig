@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Moderator log{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="5">Moderator log</th></tr>
+        <tr>
+            <th class="tbl tdbgh center fonts" style="width:150px">When</th>
+            <th class="tbl tdbgh center fonts" style="width:150px">Who</th>
+            <th class="tbl tdbgh center fonts" style="width:170px">Action</th>
+            <th class="tbl tdbgh center fonts" style="width:130px">Target</th>
+            <th class="tbl tdbgh center fonts">Details</th>
+        </tr>
+        {% for entry in entries %}
+            <tr>
+                <td class="tbl tdbg1 center fonts">{{ entry.createdAt|board_date }}</td>
+                <td class="tbl tdbg2 font">{{ user_link(entry.actor) }}</td>
+                <td class="tbl tdbg2 fonts">{{ entry.action }}</td>
+                <td class="tbl tdbg1 center fonts">{{ entry.target ?: '-' }}</td>
+                <td class="tbl tdbg1 fonts">
+                    {% for key, value in entry.context %}
+                        {{ key }}: {{ value is same as(true) ? 'yes' : (value is same as(false) ? 'no' : value) }}{{ not loop.last ? ', ' }}
+                    {% endfor %}
+                    {% if entry.ip %}<br><span class="fonts">from {{ entry.ip }}</span>{% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="5">Nothing logged yet.</td></tr>
+        {% endfor %}
+    </table>
+
+    {% include 'partial/pagination.html.twig' with {
+        page: page, pageCount: pageCount, route: 'app_admin_log', routeParams: {}
+    } only %}
+
+{% endblock %}

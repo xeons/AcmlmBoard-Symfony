@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }} - Passkeys{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="4">Your passkeys</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font" colspan="4">
+                <span class="fonts">
+                    A passkey lets you sign in with your fingerprint, face, screen lock
+                    or a security key instead of typing a password. The key itself never
+                    leaves your device, and it only works on this site - so it cannot be
+                    phished, and there is nothing here worth stealing if the board's
+                    database is ever exposed.
+                    <br><br>
+                    Your password keeps working. Passkeys are an alternative, not a
+                    replacement, and you can register one for each device you use.
+                </span>
+            </td>
+        </tr>
+
+        {% if not enabled %}
+            <tr>
+                <td class="tbl tdbg1 font" colspan="4">
+                    Passkeys are currently disabled on this board.
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <th class="tbl tdbgh center fonts">Name</th>
+                <th class="tbl tdbgh center fonts" style="width:150px">Added</th>
+                <th class="tbl tdbgh center fonts" style="width:150px">Last used</th>
+                <th class="tbl tdbgh center fonts" style="width:200px">&nbsp;</th>
+            </tr>
+
+            {% for passkey in passkeys %}
+                <tr>
+                    <td class="tbl tdbg2 font">
+                        {{ passkey.name }}
+                        {% if passkey.backedUp %}
+                            <span class="fonts">(synced to your account, so it survives losing the device)</span>
+                        {% elseif passkey.backedUp is same as(false) %}
+                            <span class="fonts">(stored on one device only)</span>
+                        {% endif %}
+                    </td>
+                    <td class="tbl tdbg1 center fonts">{{ passkey.createdAt|board_date_short }}</td>
+                    <td class="tbl tdbg1 center fonts">
+                        {{ passkey.lastUsedAt ? passkey.lastUsedAt|duration ~ ' ago' : 'never' }}
+                    </td>
+                    <td class="tbl tdbg2 center fonts">
+                        <form method="post" action="{{ path('app_passkey_rename', {id: passkey.id}) }}" class="inline-form">
+                            <input type="hidden" name="_token" value="{{ csrf_token('passkey' ~ passkey.id) }}">
+                            <input type="text" name="name" value="{{ passkey.name }}" maxlength="100" size="14">
+                            <button type="submit" class="linkbutton">Rename</button>
+                        </form>
+                        |
+                        <form method="post" action="{{ path('app_passkey_delete', {id: passkey.id}) }}"
+                              class="inline-form" data-confirm="Remove the passkey &quot;{{ passkey.name }}&quot;?">
+                            <input type="hidden" name="_token" value="{{ csrf_token('passkey' ~ passkey.id) }}">
+                            <button type="submit" class="linkbutton danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td class="tbl tdbg1 center font" colspan="4">
+                        You have no passkeys yet.
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+
+    {% if enabled %}
+        {#
+            Always rendered, with the button disabled until passkeys.js confirms the
+            browser can do WebAuthn. The note beneath says what is missing when it
+            cannot; password login is unaffected either way.
+        #}
+        <table class="table" data-passkey-block>
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Add a passkey</th></tr>
+            <tr>
+                <td class="tbl tdbg1 font" style="width:200px">
+                    <label for="passkey-name">Name</label>
+                    <span class="form-help">So you can tell your devices apart later.</span>
+                </td>
+                <td class="tbl tdbg2 font">
+                    <input type="text" id="passkey-name" data-passkey-name maxlength="100" size="30"
+                           placeholder="e.g. My laptop">
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font">
+                    <button type="button" data-passkey-register disabled
+                            data-csrf="{{ csrf_token('passkey-register') }}">
+                        Register a passkey
+                    </button>
+                    {#
+                        The default text is the failure case, so it is what a member
+                        sees when the script never runs at all. passkeys.js replaces
+                        it the moment it confirms support.
+                    #}
+                    <span data-passkey-status class="passkey-status">
+                        Checking whether this browser can use passkeys&hellip;
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font">
+                    <span class="fonts">
+                        Your device will ask you to confirm with a fingerprint, your face,
+                        your screen lock or a security key. Passkeys need JavaScript and a
+                        secure connection &mdash; HTTPS, or localhost while testing &mdash;
+                        so if the button stays disabled, that is usually why.
+                    </span>
+                </td>
+            </tr>
+        </table>
+
+        {% if not hasPassword %}
+            <div class="flash flash-error">
+                Your account has no password, so your passkeys are the only way in.
+                The board will not let you remove the last one.
+            </div>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/passkeys.js') }}" defer></script>
+{% endblock %}

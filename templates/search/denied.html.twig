@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Search{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Search unavailable</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                You do not have sufficient rights to use search on this board.
+                <br><br><a href="{{ path('app_index') }}">Return to the board</a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

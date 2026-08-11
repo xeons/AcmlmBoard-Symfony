@@ -1,0 +1,33 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+/.phpunit.cache/
+###< phpunit/phpunit ###
+
+# Editors and operating systems.
+/.idea/
+/.vscode/
+/nbproject/
+*.sw?
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Anything a member uploaded or the board generated. The shipped artwork under
+# public/images/ is committed; put runtime uploads somewhere else and add it here.
+/public/uploads/
+
+# Local tooling that is nobody else's business.
+/.php-cs-fixer.cache
+/.phpstan.cache

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Edit thread{% endblock %}
+{% block body %}
+    <div class="breadcrumb font">
+        <a href="{{ path('app_thread', {id: thread.id}) }}">{{ thread.title }}</a> &mdash; Edit
+    </div>
+
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Thread settings</th></tr>
+            {% for field in form %}
+                {% if field.vars.name != '_token' %}
+                    <tr>
+                        <td class="tbl tdbg1 font" style="width:200px">{{ form_label(field) }}</td>
+                        <td class="tbl tdbg2 font">{{ form_widget(field) }}{{ form_errors(field) }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit">Save changes</button></td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+{% endblock %}

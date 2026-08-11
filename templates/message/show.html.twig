@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - {{ message.title }}{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="2">{{ message.title }}</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font" style="width:170px">
+                {{ user_link(message.sender) }}
+                <div class="fonts">
+                    To {{ user_link(message.recipient) }}<br>
+                    {{ message.createdAt|board_date }}
+                </div>
+            </td>
+            <td class="tbl tdbg2 font post-body">
+                {% if header %}<div class="post-header">{{ header|raw }}</div>{% endif %}
+                <div class="post-content">{{ body|raw }}</div>
+                {% if signature %}<div class="post-signature">{{ signature|raw }}</div>{% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font">&nbsp;</td>
+            <td class="tbl tdbg2 font">
+                {% if canReply %}
+                    <a href="{{ path('app_message_send', {id: message.sender.id, reply: message.id}) }}">Reply</a> |
+                {% endif %}
+                <a href="{{ path(message.system ? 'app_system_messages' : 'app_messages') }}">Back to the list</a>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

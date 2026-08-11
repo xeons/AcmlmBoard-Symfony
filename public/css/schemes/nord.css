@@ -1,0 +1,39 @@
+/*
+ * Nord.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-nord {
+    --page-bg: #2E3440;
+    --text-color: #D8DEE9;
+
+    --table-bg-1: #3B4252;
+    --table-bg-2: #2E3440;
+    --category-bg: #434C5E;
+    --table-head-bg: #5E81AC;
+    --table-head-text: #ECEFF4;
+    --table-border: #4C566A;
+
+    --link-color: #88C0D0;
+    --link-visited: #81A1C1;
+    --link-active: #8FBCBB;
+    --link-hover: #8FBCBB;
+
+    --input-bg: #434C5E;
+    --input-border: #4C566A;
+
+    --name-male-0: #81A1C1;
+    --name-male-1: #81A1C1;
+    --name-male-2: #8FBCBB;
+    --name-male-3: #88C0D0;
+    --name-female-0: #B48EAD;
+    --name-female-1: #B48EAD;
+    --name-female-2: #8FBCBB;
+    --name-female-3: #88C0D0;
+    --name-na-0: #A3BE8C;
+    --name-na-1: #A3BE8C;
+    --name-na-2: #8FBCBB;
+    --name-na-3: #88C0D0;
+    --name-banned: #6E7681;
+}

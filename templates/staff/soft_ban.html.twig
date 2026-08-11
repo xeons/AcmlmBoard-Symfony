@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Suspend posting{% endblock %}
+{% block body %}
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="2">Suspend {{ profile.username }} from posting</th></tr>
+        {% for field in form %}
+            {% if field.vars.name != '_token' and field.vars.block_prefixes|last != 'submit' %}
+                <tr>
+                    <td class="tbl tdbg1 font" style="width:240px">
+                        {{ form_label(field) }}
+                        {% if field.vars.help %}<span class="form-help">{{ field.vars.help }}</span>{% endif %}
+                    </td>
+                    <td class="tbl tdbg2 font">{{ form_widget(field) }}{{ form_errors(field) }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        <tr>
+            <td class="tbl tdbg1 font">&nbsp;</td>
+            <td class="tbl tdbg2 font"><button type="submit">Suspend</button></td>
+        </tr>
+    </table>
+    {{ form_end(form) }}
+{% endblock %}

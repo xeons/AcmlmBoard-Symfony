@@ -1,0 +1,62 @@
+{#
+    Moderator controls.
+
+    Every one of these was a bare GET link in the original
+    (thread.php?id=N&qmod=1&trash=1), so any page on the internet could make a
+    moderator trash a thread with an <img> tag. They are POST forms with CSRF
+    tokens here, and the destructive ones confirm first.
+#}
+<table class="table mod-bar">
+    <tr>
+        <td class="tbl tdbgc fonts" colspan="2">
+            <strong>Moderating options:</strong>
+
+            <form method="post" action="{{ path('app_thread_sticky', {id: thread.id}) }}" class="inline-form">
+                <input type="hidden" name="_token" value="{{ csrf_token('moderate' ~ thread.id) }}">
+                <input type="hidden" name="sticky" value="{{ thread.sticky ? 0 : 1 }}">
+                <button type="submit" class="linkbutton">{{ thread.sticky ? 'Unstick' : 'Stick' }}</button>
+            </form>
+            |
+            <form method="post" action="{{ path('app_thread_close', {id: thread.id}) }}" class="inline-form">
+                <input type="hidden" name="_token" value="{{ csrf_token('moderate' ~ thread.id) }}">
+                <input type="hidden" name="closed" value="{{ thread.closed ? 0 : 1 }}">
+                <button type="submit" class="linkbutton">{{ thread.closed ? 'Open' : 'Close' }}</button>
+            </form>
+
+            {% if is_granted('THREAD_LOCK', thread) %}
+                |
+                <form method="post" action="{{ path('app_thread_lock', {id: thread.id}) }}" class="inline-form">
+                    <input type="hidden" name="_token" value="{{ csrf_token('moderate' ~ thread.id) }}">
+                    <input type="hidden" name="locked" value="{{ thread.locked ? 0 : 1 }}">
+                    <button type="submit" class="linkbutton">{{ thread.locked ? 'Unlock' : 'Lock' }}</button>
+                </form>
+            {% endif %}
+
+            {# Included with `only`, so reach the forum through the thread rather
+               than relying on it being in the caller's context. #}
+            {% if board.config.trashForum and board.config.trashForum.id != thread.forum.id %}
+                |
+                <form method="post" action="{{ path('app_thread_trash', {id: thread.id}) }}" class="inline-form"
+                      data-confirm="Move this thread to the trash?">
+                    <input type="hidden" name="_token" value="{{ csrf_token('moderate' ~ thread.id) }}">
+                    <button type="submit" class="linkbutton">Trash</button>
+                </form>
+            {% endif %}
+
+            | <a href="{{ path('app_thread_edit', {id: thread.id}) }}">Edit thread</a>
+
+            {% if is_granted('THREAD_DELETE', thread) %}
+                |
+                <form method="post" action="{{ path('app_thread_delete', {id: thread.id}) }}" class="inline-form"
+                      data-confirm="Delete this thread and every post in it? This cannot be undone.">
+                    <input type="hidden" name="_token" value="{{ csrf_token('moderate' ~ thread.id) }}">
+                    <button type="submit" class="linkbutton danger">Delete</button>
+                </form>
+            {% endif %}
+
+            {% if not thread.poll %}
+                | <a href="{{ path('app_poll_edit', {id: thread.id}) }}">Add poll</a>
+            {% endif %}
+        </td>
+    </tr>
+</table>

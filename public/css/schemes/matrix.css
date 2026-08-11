@@ -1,0 +1,43 @@
+/*
+ * Matrix.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-matrix {
+    --page-bg: #000000;
+    --text-color: #00FF41;
+
+    --table-bg-1: #001400;
+    --table-bg-2: #000A00;
+    --category-bg: #002200;
+    --table-head-bg: #003B00;
+    --table-head-text: #39FF14;
+    --table-border: #008F11;
+
+    --link-color: #39FF14;
+    --link-visited: #00B32C;
+    --link-active: #B7FFB7;
+    --link-hover: #B7FFB7;
+
+    --input-bg: #000A00;
+    --input-border: #008F11;
+
+    --name-male-0: #00FF41;
+    --name-male-1: #00FF41;
+    --name-male-2: #B7FFB7;
+    --name-male-3: #39FF14;
+    --name-female-0: #7CFFA0;
+    --name-female-1: #7CFFA0;
+    --name-female-2: #B7FFB7;
+    --name-female-3: #39FF14;
+    --name-na-0: #008F11;
+    --name-na-1: #008F11;
+    --name-na-2: #B7FFB7;
+    --name-na-3: #39FF14;
+    --name-banned: #6E7681;
+
+    --font-main: 'Cascadia Mono', Consolas, 'DejaVu Sans Mono', monospace;
+    --font-small: 'Cascadia Mono', Consolas, 'DejaVu Sans Mono', monospace;
+    --font-tiny: 'Cascadia Mono', Consolas, 'DejaVu Sans Mono', monospace;
+}

@@ -1,0 +1,21 @@
+{# Name and post count only - the smallest layout. #}
+{% import 'post/_shell.html.twig' as shell %}
+{% set bg = striped ? 'tdbg2' : 'tdbg1' %}
+
+<tr>
+    <td class="tbl {{ bg }} font post-user" rowspan="2">
+        <a id="post-{{ post.post.id }}"></a>
+        {{ user_link(post.author) }}
+        <div class="fonts">
+            Posts: {{ post.post.authorPostNumber }}/{{ post.author ? post.author.posts : 0 }}
+        </div>
+    </td>
+    <td class="tbl {{ bg }} font">
+        {{ shell.meta_row(post, thread|default(null)) }}
+    </td>
+</tr>
+<tr>
+    <td class="tbl {{ bg }} font post-body compact">
+        {{ shell.body(post) }}
+    </td>
+</tr>

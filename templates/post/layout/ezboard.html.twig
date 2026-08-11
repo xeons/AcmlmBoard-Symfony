@@ -1,0 +1,19 @@
+{# ezboard-style: name inline above the body, minimal furniture. #}
+{% import 'post/_shell.html.twig' as shell %}
+{% set bg = striped ? 'tdbg2' : 'tdbg1' %}
+
+<tr>
+    <td class="tbl {{ bg }} font" colspan="2">
+        <a id="post-{{ post.post.id }}"></a>
+        <div class="ezboard-head">
+            {{ shell.user_picture(post) }}
+            <strong>{{ user_link(post.author) }}</strong>
+            <span class="fonts">
+                {{ shell.rank_block(post) }}
+                &mdash; {{ post.author ? post.author.posts : 0 }} posts
+            </span>
+        </div>
+        {{ shell.meta_row(post, thread|default(null)) }}
+        <div class="post-body">{{ shell.body(post) }}</div>
+    </td>
+</tr>

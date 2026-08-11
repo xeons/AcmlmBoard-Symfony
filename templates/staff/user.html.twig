@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Record for {{ profile.username }}{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr>
+            <th class="tbl tdbgh center fonts" colspan="2">
+                Disciplinary record - {{ user_link(profile) }}
+            </th>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font" style="width:200px"><strong>Strikes</strong></td>
+            <td class="tbl tdbg2 font">
+                {{ record.strikes }}
+                <form method="post" action="{{ path('app_staff_strike', {id: profile.id}) }}" class="inline-form">
+                    <input type="hidden" name="_token" value="{{ csrf_token('strike' ~ profile.id) }}">
+                    <button type="submit" name="action" value="add">Add strike</button>
+                    <button type="submit" name="action" value="remove">Remove strike</button>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Suspension</strong></td>
+            <td class="tbl tdbg2 font">
+                {% if softBan %}
+                    Suspended {{ softBan.expiresAt ? 'until ' ~ softBan.expiresAt|board_date : 'indefinitely' }}.
+                    {% if softBan.reason %}<br><span class="fonts">{{ softBan.reason }}</span>{% endif %}
+                    <form method="post" action="{{ path('app_staff_soft_ban_lift', {id: softBan.id}) }}" class="inline-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('lift-ban' ~ softBan.id) }}">
+                        <button type="submit">Lift suspension</button>
+                    </form>
+                {% else %}
+                    Not suspended.
+                    <a href="{{ path('app_staff_soft_ban', {id: profile.id}) }}">Suspend posting</a>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Forum bans</strong></td>
+            <td class="tbl tdbg2 font">
+                {% for ban in forumBans %}
+                    {{ ban.forum.title }}
+                    ({{ ban.expiresAt ? 'until ' ~ ban.expiresAt|board_date_short : 'permanent' }})
+                    <form method="post" action="{{ path('app_staff_forum_ban_lift', {id: ban.id}) }}" class="inline-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('lift-forum-ban' ~ ban.id) }}">
+                        <button type="submit" class="linkbutton danger">lift</button>
+                    </form><br>
+                {% else %}None.{% endfor %}
+                <br><a href="{{ path('app_staff_forum_ban', {id: profile.id}) }}">Add a forum ban</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Actions</strong></td>
+            <td class="tbl tdbg2 font">
+                <a href="{{ path('app_staff_system_message', {id: profile.id}) }}">Send a system message</a>
+                {% if record.thread %}
+                    | <a href="{{ path('app_thread', {id: record.thread.id}) }}">Staff comments thread</a>
+                {% endif %}
+                | <a href="{{ path('app_profile', {id: profile.id}) }}">Profile</a>
+                | <a href="{{ path('app_posts_by_user', {id: profile.id}) }}">Posts</a>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

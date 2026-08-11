@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Error{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Something went wrong</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                The board hit an unexpected error. It has been logged.
+                <br><br><a href="{{ path('app_index') }}">Return to the board</a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

@@ -1,0 +1,27 @@
+{# vBulletin-style: metadata strip on top, author block beside the body. #}
+{% import 'post/_shell.html.twig' as shell %}
+{% set bg = striped ? 'tdbg2' : 'tdbg1' %}
+
+<tr>
+    <td class="tbl tdbgh fonts" colspan="2">
+        <a id="post-{{ post.post.id }}"></a>
+        {{ shell.meta_row(post, thread|default(null)) }}
+    </td>
+</tr>
+<tr>
+    <td class="tbl {{ bg }} font post-user">
+        {{ user_link(post.author) }}
+        <div class="fonts">
+            {{ shell.rank_block(post) }}
+            {{ shell.user_picture(post) }}
+            {% if post.author %}
+                <div>Registered: {{ post.author.registeredAt|board_date('M Y') }}</div>
+                {% if post.author.location %}<div>Location: {{ post.author.location }}</div>{% endif %}
+                <div>Posts: {{ post.author.posts }}</div>
+            {% endif %}
+        </div>
+    </td>
+    <td class="tbl {{ bg }} font post-body">
+        {{ shell.body(post) }}
+    </td>
+</tr>

@@ -1,0 +1,23 @@
+# CSRF protection.
+#
+# Symfony 7.2+ defaults to *stateless* CSRF tokens, which are a double-submit cookie
+# scheme: the server renders the literal placeholder "csrf-token" and a small
+# JavaScript shim swaps in the real value from a cookie before submit. That is a fine
+# default for an app that assumes JavaScript.
+#
+# This board does not. Every action works with scripting disabled - board.js only
+# adds confirm() dialogs, the formatting toolbar and spoiler toggles - so a
+# JS-dependent CSRF token would silently break every form for anyone without it, and
+# for curl, and for text browsers. Session-backed tokens are rendered server-side and
+# need nothing from the client.
+#
+# The trade-off is that tokens live in the session, which is the classic behaviour and
+# entirely adequate here.
+framework:
+    csrf_protection:
+        enabled: true
+
+    form:
+        csrf_protection:
+            enabled: true
+            field_name: _token

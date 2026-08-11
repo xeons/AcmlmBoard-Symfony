@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - IP bans{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="5">Active bans</th></tr>
+        <tr>
+            <th class="tbl tdbgh center fonts">Range</th>
+            <th class="tbl tdbgh center fonts">Reason</th>
+            <th class="tbl tdbgh center fonts" style="width:150px">Expires</th>
+            <th class="tbl tdbgh center fonts" style="width:150px">Issued by</th>
+            <th class="tbl tdbgh center fonts" style="width:90px">&nbsp;</th>
+        </tr>
+        {% for ban in bans %}
+            <tr>
+                <td class="tbl tdbg2 font"><code>{{ ban.ipRange }}</code></td>
+                <td class="tbl tdbg2 fonts">{{ ban.reason ?: '-' }}</td>
+                <td class="tbl tdbg1 center fonts">
+                    {{ ban.permanent ? 'Never' : ban.expiresAt|board_date }}
+                </td>
+                <td class="tbl tdbg1 center fonts">{{ user_link(ban.issuedBy) }}</td>
+                <td class="tbl tdbg2 center">
+                    <form method="post" action="{{ path('app_admin_ip_ban_delete', {id: ban.id}) }}" class="inline-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-ip-ban' ~ ban.id) }}">
+                        <button type="submit" class="linkbutton danger">Lift</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="5">No addresses are banned.</td></tr>
+        {% endfor %}
+    </table>
+
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Add a ban</th></tr>
+            {% for field in form %}
+                {% if field.vars.name != '_token' %}
+                    <tr>
+                        <td class="tbl tdbg1 font" style="width:240px">
+                            {{ form_label(field) }}
+                            {% if field.vars.help %}<span class="form-help">{{ field.vars.help }}</span>{% endif %}
+                        </td>
+                        <td class="tbl tdbg2 font">{{ form_widget(field) }}{{ form_errors(field) }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit">Ban</button></td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }}{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <tr>
+            <td class="tbl tdbg1 fonts">
+                {% if board.isLoggedIn %}
+                    You are logged in as {{ user_link(app.user) }}.
+                {% else %}
+                    You are not logged in.
+                    <a href="{{ path('app_login') }}">Log in</a> or
+                    <a href="{{ path('app_register') }}">register</a>.
+                {% endif %}
+            </td>
+            <td class="tbl tdbg1 fonts right">
+                {{ totals.users|number_format }} registered user{{ totals.users == 1 ? '' : 's' }}<br>
+                {% if newestUser %}Latest: {{ user_link(newestUser) }}{% endif %}
+            </td>
+        </tr>
+
+        {% if birthdays is not empty %}
+            <tr>
+                <td class="tbl tdbg2 fonts" colspan="2">
+                    Birthdays for {{ now|date('F j') }}:
+                    {% for person in birthdays %}
+                        {{ user_link(person) }}{% set age = person.getAgeOn(now) %}{% if age %} ({{ age }}){% endif %}{{ not loop.last ? ',' }}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td class="tbl tdbg2 fonts" colspan="2">
+                {{ totals.threads|number_format }} threads and {{ totals.posts|number_format }} posts
+                | {{ totals.postsToday|number_format }} posts in the last day,
+                {{ totals.postsThisHour|number_format }} in the last hour.
+                {% if board.isLoggedIn %}
+                    <form method="post" action="{{ path('app_mark_all_read') }}" class="inline-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('mark-read') }}">
+                        | <button type="submit" class="linkbutton">Mark all forums read</button>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="tbl tdbg1 fonts" colspan="2">
+                {{ online.userCount }} user{{ online.userCount == 1 ? '' : 's' }} online{% if online.users is not empty %}:
+                    {% for person in online.users %}
+                        {{ user_link(person, true) }}{{ not loop.last ? ',' }}
+                    {% endfor %}
+                {% else %}.{% endif %}
+                {% if online.guestCount %}| {{ online.guestCount }} guest{{ online.guestCount == 1 ? '' : 's' }}{% endif %}
+            </td>
+        </tr>
+    </table>
+
+    {% if announcement %}
+        <table class="table">
+            <tr><td class="tbl tdbgh center fonts">Announcement</td></tr>
+            <tr>
+                <td class="tbl tdbg1 font">
+                    <a href="{{ path('app_announcements') }}">{{ announcement.title }}</a>
+                    &mdash; posted by {{ user_link(announcement.author) }}
+                    on {{ announcement.createdAt|board_date }}
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+
+    <table class="table forum-list">
+        <tr>
+            <th class="tbl tdbgh center fonts new-cell">&nbsp;</th>
+            <th class="tbl tdbgh center fonts">Forum</th>
+            <th class="tbl tdbgh center fonts hide-narrow" style="width:70px">Threads</th>
+            <th class="tbl tdbgh center fonts hide-narrow" style="width:70px">Posts</th>
+            <th class="tbl tdbgh center fonts" style="width:170px">Last post</th>
+        </tr>
+
+        {% for group in categories %}
+            <tr>
+                <td class="tbl tdbgc center font" colspan="5">
+                    <strong>{{ group.category.name }}</strong>
+                </td>
+            </tr>
+
+            {% for forum in group.forums %}
+                {#
+                   A forum shows the "new" flag when its newest post is later than the
+                   viewer's bookmark. Guests have no bookmark, so they get a one-hour
+                   window - the same fallback the original used.
+                #}
+                {% set readAt = readMap[forum.id] is defined ? readMap[forum.id] : null %}
+                {% set cutoff = readAt ?? guestCutoff %}
+                {% set isNew = forum.postCount > 0 and forum.lastPostAt and forum.lastPostAt > cutoff %}
+
+                <tr>
+                    <td class="tbl tdbg1 center new-cell">
+                        {% if isNew %}<span class="status-icon status-new" title="New posts">N</span>{% endif %}
+                    </td>
+                    <td class="tbl tdbg2 font">
+                        <a href="{{ path('app_forum', {id: forum.id}) }}">{{ forum.title }}</a>
+                        {% if forum.description %}
+                            <br><span class="fonts">{{ forum.description }}</span>
+                        {% endif %}
+                        {% set mods = forum.moderatorUsers %}
+                        {% if mods is not empty %}
+                            <br><span class="fonts">(moderated by:
+                                {% for mod in mods %}{{ user_link(mod) }}{{ not loop.last ? ',' }}{% endfor %})
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td class="tbl tdbg1 center hide-narrow">{{ forum.threadCount|number_format }}</td>
+                    <td class="tbl tdbg1 center hide-narrow">{{ forum.postCount|number_format }}</td>
+                    <td class="tbl tdbg2 fonts">
+                        {% if forum.lastPostAt %}
+                            <span class="nowrap">{{ forum.lastPostAt|board_date }}</span>
+                            {% if forum.lastPoster %}<br>by {{ user_link(forum.lastPoster) }}{% endif %}
+                        {% else %}
+                            <span class="nowrap">-------- --:-- --</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td class="tbl tdbg1 center font" colspan="5">
+                    There are no forums yet.
+                    {% if board.isAdmin %}
+                        <a href="{{ path('app_admin_forum_new') }}">Create one.</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <table class="table">
+        <tr>
+            <td class="tbl tdbg1 fonts center">
+                Most posts in one day: {{ records.maxPostsInDay }}
+                {% if records.maxPostsInDayAt %}on {{ records.maxPostsInDayAt|board_date_short }}{% endif %}
+                | Most in one hour: {{ records.maxPostsInHour }}
+                {% if records.maxPostsInHourAt %}on {{ records.maxPostsInHourAt|board_date_short }}{% endif %}
+                | Most users online: {{ records.maxUsersOnline }}
+                {% if records.maxUsersOnlineAt %}on {{ records.maxUsersOnlineAt|board_date_short }}{% endif %}
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

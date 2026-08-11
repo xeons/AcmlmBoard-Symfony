@@ -1,0 +1,39 @@
+/*
+ * One Dark.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-one-dark {
+    --page-bg: #282C34;
+    --text-color: #ABB2BF;
+
+    --table-bg-1: #2C313A;
+    --table-bg-2: #282C34;
+    --category-bg: #3E4451;
+    --table-head-bg: #4B5263;
+    --table-head-text: #E6E6E6;
+    --table-border: #181A1F;
+
+    --link-color: #61AFEF;
+    --link-visited: #C678DD;
+    --link-active: #56B6C2;
+    --link-hover: #56B6C2;
+
+    --input-bg: #3E4451;
+    --input-border: #181A1F;
+
+    --name-male-0: #61AFEF;
+    --name-male-1: #61AFEF;
+    --name-male-2: #56B6C2;
+    --name-male-3: #61AFEF;
+    --name-female-0: #C678DD;
+    --name-female-1: #C678DD;
+    --name-female-2: #56B6C2;
+    --name-female-3: #61AFEF;
+    --name-na-0: #98C379;
+    --name-na-1: #98C379;
+    --name-na-2: #56B6C2;
+    --name-na-3: #61AFEF;
+    --name-banned: #6E7681;
+}

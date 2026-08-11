@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }} - FAQ{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Frequently asked questions</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font faq">
+
+                <h2>Levels and experience</h2>
+
+                <p>
+                    Your level comes from your post count and how long you have been
+                    registered, not from post count alone. The formula is the original
+                    board's:
+                </p>
+                <pre class="code">EXP   = floor(posts &times; sqrt(posts &times; days))
+Level = floor(EXP ^ (2/7))</pre>
+                <p>
+                    So posting more raises your level, but so does simply having been
+                    here longer. A member with 500 posts over three years outranks one
+                    with 500 posts over three months.
+                </p>
+
+                <h2>Ranks</h2>
+                <p>
+                    Ranks are titles awarded at post-count thresholds. You choose which
+                    <a href="{{ path('app_ranks') }}">rank set</a> to display in your
+                    profile, and outside the percentile-based set the ladder repeats
+                    every 10,000 posts.
+                </p>
+
+                <h2>Post layouts</h2>
+                <p>
+                    You can give your posts a custom header, signature and background
+                    on the <a href="{{ path('app_layout_edit') }}">layout page</a>.
+                    HTML and CSS are allowed.
+                </p>
+                <p>
+                    What is <em>not</em> allowed: scripts, event handlers
+                    (<code>onclick=</code> and friends), frames, form controls,
+                    <code>position: fixed</code>, and anything else that could reach
+                    outside your own post or run code in another member's browser.
+                    Those are stripped when the layout is displayed. Whatever you type
+                    is stored exactly as written, so if a layout does not come out the
+                    way you expected you can always go back and adjust it.
+                </p>
+
+                <h3>Layout tokens</h3>
+                <p>These are replaced with your statistics:</p>
+                <table class="table inner">
+                    <tr><th class="tbl tdbgh fonts">Token</th><th class="tbl tdbgh fonts">Value</th></tr>
+                    {% for token, description in {
+                        '&numposts&': 'Your post count',
+                        '&numdays&': 'Days since you registered',
+                        '&exp&': 'Total experience',
+                        '&level&': 'Your level',
+                        '&expdone&': 'Experience earned inside the current level',
+                        '&expnext&': 'Experience still needed for the next level',
+                        '&exppct&': 'Percentage through the current level',
+                        '&expgain&': 'Experience one more post is worth',
+                        '&rank&': 'Your rank title',
+                        '&date&': 'The current date in your timezone',
+                        '&postrank&': 'Your position in the post-count table'
+                    } %}
+                        <tr>
+                            <td class="tbl tdbg2 fonts"><code>{{ token }}</code></td>
+                            <td class="tbl tdbg1 fonts">{{ description }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <p class="fonts">
+                    Tokens in a post are frozen at the moment you post, so an old post
+                    keeps saying what it said. Set "Signatures and post headers" to
+                    <em>auto-updating</em> in your profile to see everyone's current
+                    layout instead.
+                </p>
+
+                <h2>Formatting</h2>
+                <p>The bracket tags work in posts, signatures and messages:</p>
+                <table class="table inner">
+                    <tr><th class="tbl tdbgh fonts">Tag</th><th class="tbl tdbgh fonts">Effect</th></tr>
+                    {% for tag, effect in {
+                        '[b] [i] [u] [s]': 'Bold, italic, underline, strikethrough',
+                        '[color=#33CCFF]...[/color]': 'Coloured text',
+                        '[red] [green] [blue] [orange] [yellow] [pink] [white] [black]': 'Preset colours',
+                        '[url=https://...]text[/url]': 'A link',
+                        '[img]https://...[/img]': 'An image',
+                        '[quote=Name]...[/quote]': 'A quotation',
+                        '[code]...[/code]': 'Preformatted code',
+                        '[spoiler]...[/spoiler]': 'Hidden until clicked'
+                    } %}
+                        <tr>
+                            <td class="tbl tdbg2 fonts"><code>{{ tag }}</code></td>
+                            <td class="tbl tdbg1 fonts">{{ effect }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                <h2>Smileys</h2>
+                <div class="smiley-list">
+                    {% for smiley in smileys() %}
+                        <span class="smiley-entry">
+                            <img src="{{ smiley.image }}" alt=""> <code>{{ smiley.code }}</code>
+                        </span>
+                    {% endfor %}
+                </div>
+
+                <h2>Posting rules</h2>
+                <ul>
+                    <li>You cannot reply twice in a row to the same thread.</li>
+                    <li>
+                        You can make at most
+                        {{ board.config.maxPostsPerThreadPerDay }} posts in one thread
+                        per day.
+                    </li>
+                    <li>
+                        Unread <a href="{{ path('app_system_messages') }}">system
+                        messages</a> block you from posting until you have read them.
+                    </li>
+                </ul>
+
+                <h2>Custom titles</h2>
+                <p>
+                    You can set a custom title once you reach
+                    {{ board.config.customTitlePostThreshold|number_format }} posts, or
+                    {{ board.config.customTitleAgePostThreshold|number_format }} posts
+                    combined with {{ board.config.customTitleAgeDayThreshold }} days
+                    registered. Staff always can.
+                </p>
+
+                <h2>The item shop</h2>
+                <p>
+                    Coins accumulate from your post count and account age. Spend them in
+                    the <a href="{{ path('app_shop') }}">item shop</a> on equipment that
+                    modifies the RPG stats shown in some post layouts. Selling an item
+                    back refunds 60% of what you paid.
+                </p>
+
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

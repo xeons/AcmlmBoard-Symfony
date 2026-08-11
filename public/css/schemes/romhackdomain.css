@@ -1,0 +1,42 @@
+/*
+ * ROM Hack Domain - ported from schemes/romhackdomain.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-romhackdomain {
+    --page-bg: #330000;
+    --page-bg-image: url('/images/back07.gif');
+    --text-color: #F0F0F0;
+
+    --table-bg-1: #000050;
+    --table-bg-2: #000016;
+    --category-bg: #000040;
+    --table-head-bg: #002090;
+    --table-head-text: #FFEA40;
+    --table-border: #668899;
+
+    --link-color: #FFC040;
+    --link-visited: #C09030;
+    --link-active: #FFEA00;
+    --link-hover: #FFFFFF;
+
+    --input-bg: #000050;
+    --input-border: #1042A7;
+}
+
+body.scheme-romhackdomain .tdbg1 {
+    background-image: url('/images/back06.gif');
+}
+
+body.scheme-romhackdomain .tdbg2 {
+    background-image: url('/images/back08.gif');
+}
+
+body.scheme-romhackdomain .tdbgc {
+    background-image: url('/images/back09.gif');
+}
+
+body.scheme-romhackdomain .tdbgh {
+    background-image: url('/images/back10.gif');
+}

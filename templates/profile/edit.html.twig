@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Edit profile{% endblock %}
+
+{#
+    The profile form is long - twenty-odd fields covering everything from your
+    password to how many posts fit on a page. One flat table made it a wall to scroll
+    through, so the fields are grouped into tables by what they are actually for.
+
+    The grouping lives here rather than in EditProfileType because it is presentation:
+    the form type decides what a member may change, this decides how it is arranged.
+    Any field not named below still renders, under "Other settings" at the end - so
+    adding a field to the form type can never make it silently unreachable.
+#}
+{% block body %}
+
+    {% set sections = [
+        {
+            title: 'Account',
+            note: 'How you sign in, and how the board reaches you.',
+            fields: ['plainPassword', 'email', 'emailPublic'],
+        },
+        {
+            title: 'About you',
+            note: 'Shown on your profile page. Every field is optional.',
+            fields: ['realName', 'location', 'birthday', 'sex', 'bio', 'homepageUrl', 'homepageName'],
+        },
+        {
+            title: 'Your posts',
+            note: 'How you appear beside everything you write.',
+            fields: ['picture', 'miniPic', 'title', 'rankSet', 'signatureDisplay', 'signatureSeparator'],
+        },
+        {
+            title: 'Reading the board',
+            note: 'Times, page sizes and the skin the board is drawn in.',
+            fields: ['timezone', 'colorScheme', 'threadLayout', 'postsPerPage', 'threadsPerPage'],
+        },
+        {
+            title: 'Conveniences',
+            fields: ['postToolbar', 'markReadOutsideMenu'],
+        },
+    ] %}
+
+    {# Everything the sections above account for, so leftovers can be found. #}
+    {% set placed = [] %}
+    {% for section in sections %}
+        {% set placed = placed|merge(section.fields) %}
+    {% endfor %}
+
+    {% set leftovers = [] %}
+    {% for name, field in form.children %}
+        {% if name != '_token'
+            and field.vars.block_prefixes|last != 'submit'
+            and name not in placed %}
+            {% set leftovers = leftovers|merge([name]) %}
+        {% endif %}
+    {% endfor %}
+
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+
+        {% include 'partial/form_errors.html.twig' %}
+
+        {% for section in sections %}
+            {# A section whose fields are all conditional can end up empty. #}
+            {% set present = [] %}
+            {% for name in section.fields %}
+                {% if form.children[name] is defined %}
+                    {% set present = present|merge([name]) %}
+                {% endif %}
+            {% endfor %}
+
+            {% if present is not empty %}
+                <table class="table">
+                    <tr><th class="tbl tdbgh center fonts" colspan="2">{{ section.title }}</th></tr>
+
+                    {% if section.note is defined %}
+                        <tr>
+                            <td class="tbl tdbg1 font" colspan="2">
+                                <span class="fonts">{{ section.note }}</span>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    {% for name in present %}
+                        {{ _self.field_row(form.children[name]) }}
+                    {% endfor %}
+
+                    {# The sign-in methods belong with the password, not on their own page. #}
+                    {% if section.title == 'Account' %}
+                        <tr>
+                            <td class="tbl tdbg1 font" style="width:230px">
+                                Passkeys
+                                <span class="form-help">An alternative to your password.</span>
+                            </td>
+                            <td class="tbl tdbg2 font">
+                                <a href="{{ path('app_passkeys') }}">Manage passkeys</a>
+                                <span class="fonts">
+                                    &mdash; sign in with your fingerprint, face, screen lock or a
+                                    security key instead of typing a password.
+                                    {% if passkeyCount is defined and passkeyCount > 0 %}
+                                        You have {{ passkeyCount }} registered.
+                                    {% endif %}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tbl tdbg1 font">
+                                Authenticator app
+                                <span class="form-help">A second step on top of your password.</span>
+                            </td>
+                            <td class="tbl tdbg2 font">
+                                <a href="{{ path('app_totp') }}">Manage authenticator</a>
+                                <span class="fonts">
+                                    &mdash;
+                                    {% if totpActive is defined and totpActive %}
+                                        on. Signing in asks for a six-digit code.
+                                    {% else %}
+                                        ask for a six-digit code from an app when signing in,
+                                        so a stolen password is not enough on its own.
+                                    {% endif %}
+                                </span>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </table>
+            {% endif %}
+        {% endfor %}
+
+        {% if leftovers is not empty %}
+            <table class="table">
+                <tr><th class="tbl tdbgh center fonts" colspan="2">Other settings</th></tr>
+                {% for name in leftovers %}
+                    {{ _self.field_row(form.children[name]) }}
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        <table class="table">
+            <tr>
+                <td class="tbl tdbg2 font center">
+                    <button type="submit">Save profile</button>
+                    <span class="fonts">Saves every section above.</span>
+                </td>
+            </tr>
+        </table>
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% macro field_row(field) %}
+    <tr>
+        <td class="tbl tdbg1 font" style="width:230px">
+            {{ form_label(field) }}
+            {% if field.vars.help %}<span class="form-help">{{ field.vars.help }}</span>{% endif %}
+        </td>
+        <td class="tbl tdbg2 font">
+            {{ form_widget(field) }}
+            {{ form_errors(field) }}
+        </td>
+    </tr>
+{% endmacro %}

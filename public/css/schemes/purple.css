@@ -1,0 +1,26 @@
+/*
+ * Purple - ported from schemes/purple.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-purple {
+    --page-bg: #100018;
+    --page-bg-image: url('/images/darkbubblebg.jpg');
+    --text-color: #EEDDFF;
+
+    --table-bg-1: #200030;
+    --table-bg-2: #300048;
+    --category-bg: #400060;
+    --table-head-bg: #662299;
+    --table-head-text: #FFEEFF;
+    --table-border: #000000;
+
+    --link-color: #DEDAFE;
+    --link-visited: #CECAFE;
+    --link-active: #FFEEFF;
+    --link-hover: #EEEAFE;
+
+    --input-bg: #200030;
+    --input-border: #552288;
+}

@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - {{ category.name }}{% endblock %}
+{% block body %}
+
+    <div class="breadcrumb font">
+        <a href="{{ path('app_shop') }}">Item shop</a> &mdash; {{ category.name }}
+    </div>
+
+    <div class="shop-layout">
+        <div class="shop-status">
+            {#
+                Hovering an item repoints this at the same image with ?item=, which
+                renders the member's stats as they would be with that item equipped.
+                Without JavaScript it simply stays on the current loadout.
+            #}
+            <img class="rpg-status" width="256" height="224" alt="Your status screen"
+                 src="{{ path('app_rpg_status', {id: app.user.id}) }}"
+                 data-status-image
+                 data-status-base="{{ path('app_rpg_status', {id: app.user.id}) }}">
+
+            <div class="rpg-status-caption fonts" data-status-caption></div>
+
+            {% include 'shop/_status.html.twig' with {stats: stats, coins: coins} only %}
+        </div>
+
+        <div class="shop-main">
+            <table class="table shop-items">
+                <tr>
+                    <th class="tbl tdbgh center fonts" style="width:90px">&nbsp;</th>
+                    <th class="tbl tdbgh center fonts">Item</th>
+                    {% for stat in statKeys %}
+                        <th class="tbl tdbgh center fonts">{{ stat }}</th>
+                    {% endfor %}
+                    <th class="tbl tdbgh center fonts">Price</th>
+                </tr>
+
+                {% for item in items %}
+                    {% set isEquipped = equippedId == item.id %}
+                    {% set affordable = item.price <= coins %}
+                    <tr class="{{ isEquipped ? 'item-equipped' : (affordable ? '' : 'item-unaffordable') }}"
+                        data-preview-item="{{ item.id }}" data-preview-name="{{ item.name }}">
+                        <td class="tbl tdbg1 center fonts">
+                            {% if isEquipped %}
+                                <form method="post" action="{{ path('app_shop_sell', {id: category.id}) }}" class="inline-form">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('shop' ~ category.id) }}">
+                                    <button type="submit" class="linkbutton">Sell</button>
+                                </form>
+                            {% elseif affordable %}
+                                <form method="post" action="{{ path('app_shop_buy', {id: category.id}) }}" class="inline-form">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('shop' ~ category.id) }}">
+                                    <input type="hidden" name="item" value="{{ item.id }}">
+                                    <button type="submit" class="linkbutton">Buy</button>
+                                </form>
+                            {% else %}&mdash;{% endif %}
+                        </td>
+                        <td class="tbl tdbg2 font"><strong>{{ item.name }}</strong></td>
+                        {% for stat in statKeys %}
+                            <td class="tbl tdbg1 center fonts">
+                                {%- if item.isStatNeutral(stat) -%}
+                                    &nbsp;
+                                {%- elseif item.isMultiplicative(stat) -%}
+                                    &times;{{ (item.getStat(stat) / 100)|number_format(2) }}
+                                {%- else -%}
+                                    {{ item.getStat(stat) > 0 ? '+' : '' }}{{ item.getStat(stat) }}
+                                {%- endif -%}
+                            </td>
+                        {% endfor %}
+                        <td class="tbl tdbg2 right fonts">{{ item.price|number_format }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="tbl tdbg1 center font" colspan="{{ statKeys|length + 3 }}">
+                            This shop has no stock.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            {% if equippedItem %}
+                <p class="fonts">
+                    Selling {{ equippedItem.name }} refunds
+                    {{ (equippedItem.price * 0.6)|round }} coins (60% of its price).
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/shop.js') }}" defer></script>
+{% endblock %}

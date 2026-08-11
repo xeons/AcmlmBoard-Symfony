@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - ACS{% endblock %}
+
+{% block body %}
+
+    {% set labels = {full: 'Full rankings', top10: 'Top 10', movement: 'Movement'} %}
+
+    <form method="get" action="{{ path('app_acs') }}">
+        <table class="table">
+            <tr>
+                <th class="tbl tdbgh center fonts" colspan="2">
+                    Post rankings for {{ day|date('l, j F Y') }}{% if isToday %} (today){% endif %}
+                </th>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font" style="width:150px">
+                    Day
+                    <span class="form-help">Rankings are counted in your own timezone.</span>
+                </td>
+                <td class="tbl tdbg2 font">
+                    <input type="date" name="day" value="{{ day|date('Y-m-d') }}">
+                    <a class="fonts" href="{{ path('app_acs', {view: view, day: day|date_modify('-1 day')|date('Y-m-d')}) }}">&larr; previous</a>
+                    {% if not isToday %}
+                        <a class="fonts" href="{{ path('app_acs', {view: view, day: day|date_modify('+1 day')|date('Y-m-d')}) }}">next &rarr;</a>
+                        <a class="fonts" href="{{ path('app_acs', {view: view}) }}">today</a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">
+                    Highlight
+                    <span class="form-help">Leave blank for nobody.</span>
+                </td>
+                <td class="tbl tdbg2 font">
+                    <input type="text" name="member" maxlength="25"
+                           value="{{ highlight ? highlight.username : '' }}">
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">View</td>
+                <td class="tbl tdbg2 font">
+                    {% for key in views %}
+                        <label class="fonts">
+                            <input type="radio" name="view" value="{{ key }}"{{ key == view ? ' checked' : '' }}>
+                            {{ labels[key] }}
+                        </label>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit">Show</button></td>
+            </tr>
+        </table>
+    </form>
+
+    <table class="table">
+        <tr>
+            <th class="tbl tdbgh center fonts" style="width:45px">#</th>
+            {% if view == 'movement' %}
+                <th class="tbl tdbgh center fonts" style="width:55px">Move</th>
+            {% endif %}
+            <th class="tbl tdbgh fonts">Name</th>
+            <th class="tbl tdbgh center fonts" style="width:60px">Posts</th>
+            <th class="tbl tdbgh fonts" style="width:40%">Total: {{ total|number_format }}</th>
+        </tr>
+
+        {% for row in rows %}
+            {% set isHighlighted = highlight and row.user.id == highlight.id %}
+            {% set bg = isHighlighted ? 'tdbgc' : (row.rank <= 10 ? 'tdbg1' : 'tdbg2') %}
+
+            <tr>
+                <td class="tbl {{ bg }} center font">
+                    {% if isHighlighted %}<strong>{{ row.rank }}</strong>{% else %}{{ row.rank }}{% endif %}
+                </td>
+
+                {% if view == 'movement' %}
+                    {% set was = previous[row.user.id]|default(null) %}
+                    <td class="tbl {{ bg }} center fonts">
+                        {% if was is null %}
+                            <span class="acs-new" title="Not ranked yesterday">new</span>
+                        {% elseif was > row.rank %}
+                            <span class="acs-up" title="Was {{ was }} yesterday">&#9650;{{ was - row.rank }}</span>
+                        {% elseif was < row.rank %}
+                            <span class="acs-down" title="Was {{ was }} yesterday">&#9660;{{ row.rank - was }}</span>
+                        {% else %}
+                            <span class="acs-same" title="Unchanged">&mdash;</span>
+                        {% endif %}
+                    </td>
+                {% endif %}
+
+                <td class="tbl {{ bg }} font">{{ user_link(row.user) }}</td>
+                <td class="tbl {{ bg }} center font">
+                    {% if isHighlighted %}<strong>{{ row.count }}</strong>{% else %}{{ row.count }}{% endif %}
+                </td>
+                <td class="tbl {{ bg }} font">
+                    {% include 'statistics/_bar.html.twig' with {value: row.count, max: busiest} only %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td class="tbl tdbg1 center font" colspan="{{ view == 'movement' ? 5 : 4 }}">
+                    Nobody posted on this day.
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

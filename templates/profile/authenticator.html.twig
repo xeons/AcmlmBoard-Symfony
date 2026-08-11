@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Authenticator app{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="2">Authenticator app</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font" colspan="2">
+                <span class="fonts">
+                    An authenticator app shows a six-digit code that changes every thirty
+                    seconds. With one set up, signing in needs your password <em>and</em>
+                    that code, so a stolen password on its own is not enough to get in.
+                    <br><br>
+                    Any standard app works: Aegis, Google Authenticator, 1Password,
+                    Bitwarden and the rest.
+                </span>
+            </td>
+        </tr>
+
+        {% if not enabled %}
+            <tr>
+                <td class="tbl tdbg1 font" colspan="2">
+                    Authenticator apps are disabled on this board.
+                </td>
+            </tr>
+        {% elseif active %}
+            <tr>
+                <td class="tbl tdbg1 font" style="width:190px">Status</td>
+                <td class="tbl tdbg2 font">
+                    <strong>On</strong>
+                    <span class="fonts">since {{ confirmedAt|board_date_short }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">Recovery codes</td>
+                <td class="tbl tdbg2 font">
+                    {{ recoveryCodesLeft }} unused
+                    {% if recoveryCodesLeft <= 2 %}
+                        <span class="fonts">&mdash; running low; generate a new set.</span>
+                    {% endif %}
+                    <form method="post" action="{{ path('app_totp_recovery') }}" class="inline-form"
+                          data-confirm="Generating a new set stops your existing recovery codes working. Continue?">
+                        <input type="hidden" name="_token" value="{{ csrf_token('totp-manage') }}">
+                        <button type="submit" class="linkbutton">Generate a new set</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td class="tbl tdbg1 font" style="width:190px">Status</td>
+                <td class="tbl tdbg2 font">
+                    Off &mdash; <a href="{{ path('app_totp_setup') }}">set up an authenticator app</a>
+                </td>
+            </tr>
+        {% endif %}
+    </table>
+
+    {% if active %}
+        <form method="post" action="{{ path('app_totp_disable') }}" class="board-form">
+            <table class="table">
+                <tr><th class="tbl tdbgh center fonts" colspan="2">Turn it off</th></tr>
+                <tr>
+                    <td class="tbl tdbg1 font" style="width:190px">
+                        <label for="disable-code">Current code</label>
+                        <span class="form-help">Proves it is you, not somebody at your keyboard.</span>
+                    </td>
+                    <td class="tbl tdbg2 font">
+                        <input type="text" id="disable-code" name="code" inputmode="numeric"
+                               autocomplete="one-time-code" size="14" maxlength="20" required>
+                        <input type="hidden" name="_token" value="{{ csrf_token('totp-manage') }}">
+                        <button type="submit" class="danger">Remove authenticator</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    {% endif %}
+
+{% endblock %}

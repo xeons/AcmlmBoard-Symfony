@@ -1,0 +1,39 @@
+{#
+    RPG layout: the author's stats rendered as a Final-Fantasy-style status window.
+
+    The original drew the LV/HP/MP box with nested <table border bordercolor=...>
+    elements and inline bgcolor attributes. Same arrangement, styled in CSS.
+#}
+{% import 'post/_shell.html.twig' as shell %}
+{% set bg = striped ? 'tdbg2' : 'tdbg1' %}
+
+<tr>
+    <td class="tbl {{ bg }} font post-user" rowspan="2">
+        <a id="post-{{ post.post.id }}"></a>
+        {{ user_link(post.author) }}
+        <div class="fonts">{{ shell.rank_block(post) }}</div>
+
+        <div class="rpg-window">
+            <div class="rpg-portrait">{{ shell.user_picture(post) }}</div>
+            <table class="rpg-stats fontt">
+                <tr><th>LV</th><td>{{ post.level }}</td></tr>
+                <tr><th>HP</th><td>{{ post.author ? post.author.posts : 0 }}</td></tr>
+                <tr><th>MP</th><td>{{ post.postsToday }}</td></tr>
+            </table>
+            <table class="rpg-exp fontt">
+                <tr><th>EXP points</th><td>{{ post.experience|number_format }}</td></tr>
+                <tr><th>For next LV</th><td>{{ post.experienceToNextLevel|number_format }}</td></tr>
+            </table>
+            {{ shell.exp_bar(post) }}
+        </div>
+    </td>
+
+    <td class="tbl {{ bg }} font">
+        {{ shell.meta_row(post, thread|default(null)) }}
+    </td>
+</tr>
+<tr>
+    <td class="tbl {{ bg }} font post-body">
+        {{ shell.body(post) }}
+    </td>
+</tr>

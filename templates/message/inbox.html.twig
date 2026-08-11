@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - {{ folder.name }}{% endblock %}
+{% block body %}
+
+    <table class="bare">
+        <tr>
+            <td class="font"><strong>{{ folder.name }}</strong></td>
+            <td class="fonts right">
+                {% if not isSystem %}
+                    <a href="{{ path('app_messages') }}">Inbox</a>
+                    | <a href="{{ path('app_messages', {folder: 'sent'}) }}">Sent</a>
+                    {% for f in folders %}
+                        | <a href="{{ path('app_messages', {folder: f.number}) }}">{{ f.name }}</a>
+                    {% endfor %}
+                    | <a href="{{ path('app_message_folders') }}">Manage folders</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <form method="post" action="{{ path('app_message_bulk') }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('message-bulk') }}">
+        <input type="hidden" name="folder" value="{{ folder.number }}">
+
+        <table class="table">
+            <tr>
+                <th class="tbl tdbgh center fonts" style="width:30px">&nbsp;</th>
+                <th class="tbl tdbgh center fonts new-cell">&nbsp;</th>
+                <th class="tbl tdbgh center fonts">Subject</th>
+                <th class="tbl tdbgh center fonts" style="width:150px">{{ isSentFolder ? 'To' : 'From' }}</th>
+                <th class="tbl tdbgh center fonts" style="width:150px">Date</th>
+            </tr>
+
+            {% for message in messages %}
+                <tr>
+                    <td class="tbl tdbg1 center">
+                        <input type="checkbox" name="selected[]" value="{{ message.id }}">
+                    </td>
+                    <td class="tbl tdbg1 center new-cell">
+                        {% if message.unread %}<span class="new-flag">NEW</span>{% endif %}
+                    </td>
+                    <td class="tbl tdbg2 font">
+                        <a href="{{ path('app_message_show', {id: message.id}) }}">{{ message.title }}</a>
+                    </td>
+                    <td class="tbl tdbg2 font">
+                        {{ user_link(isSentFolder ? message.recipient : message.sender) }}
+                    </td>
+                    <td class="tbl tdbg2 fonts">{{ message.createdAt|board_date }}</td>
+                </tr>
+            {% else %}
+                <tr><td class="tbl tdbg1 center font" colspan="5">This folder is empty.</td></tr>
+            {% endfor %}
+        </table>
+
+        {% if messages is not empty and not isSystem %}
+            <div class="bulk-actions fonts">
+                With selected:
+                <button type="submit" name="action" value="delete">Delete</button>
+                {% if folders is not empty or folder.number != 1 %}
+                    or move to
+                    <select name="moveTo">
+                        <option value="1">Inbox</option>
+                        {% for f in folders %}
+                            {% if f.number != folder.number %}
+                                <option value="{{ f.number }}">{{ f.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button type="submit" name="action" value="move">Move</button>
+                {% endif %}
+            </div>
+        {% endif %}
+    </form>
+
+    {% include 'partial/pagination.html.twig' with {
+        page: page, pageCount: pageCount,
+        route: isSystem ? 'app_system_messages' : 'app_messages',
+        routeParams: isSystem ? {} : {folder: folder.number}
+    } only %}
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Cannot post{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Your post was not accepted</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                {{ reason }}
+                <br><br>
+                <a href="{{ path(backRoute, backParams) }}">Go back</a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

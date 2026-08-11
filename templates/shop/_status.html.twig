@@ -1,0 +1,28 @@
+{#
+    The RPG status panel.
+
+    The original rendered this as a PNG by hand with GD (status.php): it allocated a
+    palette, blitted a bitmap font glyph by glyph, and drew the window chrome with
+    ImageRectangle calls. That meant it could not be themed, could not be selected or
+    read by a screen reader, and needed the gd extension. It is markup here.
+#}
+<table class="table rpg-status">
+    <tr><th class="tbl tdbgh center fonts" colspan="2">{{ app.user.username }}</th></tr>
+    <tr>
+        <td class="tbl tdbg1 font" style="width:110px">Coins</td>
+        <td class="tbl tdbg2 font">{{ coins|number_format }}</td>
+    </tr>
+    {% for name, value in stats %}
+        <tr>
+            <td class="tbl tdbg1 font">{{ name }}</td>
+            <td class="tbl tdbg2 font">
+                {{ value }}
+                {% if baseStats is defined and baseStats[name] is defined and baseStats[name] != value %}
+                    <span class="fonts {{ value > baseStats[name] ? 'stat-up' : 'stat-down' }}">
+                        ({{ value > baseStats[name] ? '+' : '' }}{{ value - baseStats[name] }})
+                    </span>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

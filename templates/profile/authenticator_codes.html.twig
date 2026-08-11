@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Recovery codes{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <tr>
+            <th class="tbl tdbgh center fonts">
+                {% if firstTime %}Authenticator app is on{% else %}New recovery codes{% endif %}
+            </th>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                <span class="fonts">
+                    {% if firstTime %}
+                        Signing in will now ask for a code from your app.
+                    {% endif %}
+                    Save these somewhere that is not your phone. Each one signs you in
+                    once if you lose access to your authenticator, and
+                    <strong>they are shown only now</strong> &mdash; the board stores
+                    only hashes of them, so it cannot show them to you again.
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg2 font center">
+                <ul class="recovery-codes">
+                    {% for code in codes %}
+                        <li><code>{{ code }}</code></li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 center font">
+                <a href="{{ path('app_totp') }}">I have saved them</a>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

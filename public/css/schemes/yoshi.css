@@ -1,0 +1,39 @@
+/*
+ * Yoshi - palette carried over from the acmlm19208 fork.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-yoshi {
+    --page-bg: #210207;
+    --text-color: #F3DE4F;
+
+    --table-bg-1: #3a0810;
+    --table-bg-2: #2d060c;
+    --category-bg: #4a0d16;
+    --table-head-bg: #8D751D;
+    --table-head-text: #F3DE4F;
+    --table-border: #120103;
+
+    --link-color: #F3DE4F;
+    --link-visited: #F3DE4F;
+    --link-active: #FFF3A0;
+    --link-hover: #FFF3A0;
+
+    --input-bg: #3a0810;
+    --input-border: #8D751D;
+
+    --name-male-0: #8CD98C;
+    --name-male-1: #8CD98C;
+    --name-male-2: #FFF3A0;
+    --name-male-3: #FFF3A0;
+    --name-female-0: #FF9ED8;
+    --name-female-1: #FF9ED8;
+    --name-female-2: #FFF3A0;
+    --name-female-3: #FFF3A0;
+    --name-na-0: #F3DE4F;
+    --name-na-1: #F3DE4F;
+    --name-na-2: #FFF3A0;
+    --name-na-3: #FFF3A0;
+    --name-banned: #888888;
+}

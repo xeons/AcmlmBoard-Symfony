@@ -1,0 +1,44 @@
+/*
+ * Mario - ported from schemes/mario.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-mario {
+    --page-bg: #001144;
+    --page-bg-image: url('/images/smwmountainbg.jpg');
+    --text-color: #FFFFFF;
+
+    --table-bg-1: #301A0C;
+    --table-bg-2: #442413;
+    --category-bg: #014542;
+    --table-head-bg: #008438;
+    --table-head-text: #FFFFFF;
+    --table-border: #CF985F;
+
+    --link-color: #FDD240;
+    --link-visited: #F7AE2F;
+    --link-active: #DDFFEE;
+    --link-hover: #DDEEFF;
+
+    --input-bg: #301A0C;
+    --input-border: #B08050;
+
+    --font-main: tahoma, sans-serif;
+}
+
+body.scheme-mario .tdbg1 {
+    background-image: url('/images/dirtbg2.png');
+}
+
+body.scheme-mario .tdbg2 {
+    background-image: url('/images/dirtbg1.png');
+}
+
+body.scheme-mario .tdbgc {
+    background-image: url('/images/treebg2.png');
+}
+
+body.scheme-mario .tdbgh {
+    background-image: url('/images/treebg1.png');
+}

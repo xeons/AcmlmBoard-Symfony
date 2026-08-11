@@ -1,0 +1,38 @@
+/*
+ * Mega Man - ported from schemes/megaman.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-megaman {
+    --page-bg: #100018;
+    --page-bg-image: url('/images/mmback.jpg');
+    --text-color: #EEEEEE;
+
+    --table-bg-1: #222222;
+    --table-bg-2: #333333;
+    --category-bg: #003979;
+    --table-head-bg: #0054B0;
+    --table-head-text: #FFFFFF;
+    --table-border: #000000;
+
+    --link-color: #BABECE;
+    --link-visited: #9EBAFE;
+    --link-active: #FFEA00;
+    --link-hover: #FFD8A0;
+
+    --input-bg: #222222;
+    --input-border: #777799;
+}
+
+body.scheme-megaman .tdbg1 {
+    background-image: url('/images/mmback2b.png');
+}
+
+body.scheme-megaman .tdbg2 {
+    background-image: url('/images/mmback2a.png');
+}
+
+body.scheme-megaman .tdbgh {
+    background-image: url('/images/mmback3.png');
+}

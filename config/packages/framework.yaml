@@ -1,0 +1,38 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    # Every non-safe request must carry a valid CSRF token. The original board had
+    # no CSRF protection at all, so moderation actions were one-click forgeable.
+    csrf_protection: true
+
+    trusted_proxies: '%env(TRUSTED_PROXIES)%'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-port']
+
+    session:
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
+        cookie_httponly: true
+        storage_factory_id: session.storage.factory.native
+
+    rate_limiter:
+        # Flood control. Replaces the original's hardcoded "50 posts per thread per
+        # day" check and the commented-out "1 pageview per second" block.
+        post_creation:
+            policy: 'sliding_window'
+            limit: 30
+            interval: '1 hour'
+        registration:
+            policy: 'fixed_window'
+            limit: 5
+            interval: '1 day'
+        private_message:
+            policy: 'sliding_window'
+            limit: 20
+            interval: '1 hour'
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

@@ -1,0 +1,26 @@
+/*
+ * Neon - ported from schemes/neon.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-neon {
+    --page-bg: #113011;
+    --page-bg-image: none;
+    --text-color: #F0F0F0;
+
+    --table-bg-1: #000000;
+    --table-bg-2: #222222;
+    --category-bg: #444444;
+    --table-head-bg: #446644;
+    --table-head-text: #FFFA40;
+    --table-border: #10BA57;
+
+    --link-color: #32C7FF;
+    --link-visited: #28DF10;
+    --link-active: #FFEA60;
+    --link-hover: #FFFFFF;
+
+    --input-bg: #000000;
+    --input-border: #30A2E7;
+}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} — Posts by thread{% endblock %}
+
+{% block body %}
+    {% set member = null %}
+    {% include 'statistics/_nav.html.twig' %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Posts by thread</th></tr>
+        <tr>
+            <td class="tbl tdbg1 center font">
+                Pick a member to see which threads they have been posting in.
+                <br><br>
+                <a href="{{ path('app_members') }}">Memberlist</a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

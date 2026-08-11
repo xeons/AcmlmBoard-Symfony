@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Member list{% endblock %}
+{% block body %}
+
+    <form method="get" action="{{ path('app_members') }}" class="fonts search-bar">
+        <input type="search" name="q" value="{{ search }}" placeholder="Find a member">
+        <input type="hidden" name="sort" value="{{ sort }}">
+        <button type="submit">Search</button>
+        {% if search %}<a href="{{ path('app_members') }}">Clear</a>{% endif %}
+    </form>
+
+    <table class="table">
+        {% set columns = {
+            'name': 'Name', 'posts': 'Posts', 'registered': 'Registered',
+            'active': 'Last active', 'power': 'Level'
+        } %}
+        <tr>
+            {% for key, label in columns %}
+                {#
+                    The sort arrows are written as entities in template text rather
+                    than inside {{ }}. Twig escapes expression output, so an entity
+                    there would reach the page as the literal text "&#9650;".
+                #}
+                <th class="tbl tdbgh center fonts">
+                    <a href="{{ path('app_members', {
+                        sort: key,
+                        dir: (sort == key and direction == 'ASC') ? 'desc' : 'asc',
+                        q: search
+                    }) }}">{{ label }}{% if sort == key %} {% if direction == 'ASC' %}&#9650;{% else %}&#9660;{% endif %}{% endif %}</a>
+                </th>
+            {% endfor %}
+            <th class="tbl tdbgh center fonts">Rank</th>
+        </tr>
+
+        {% for member in members %}
+            <tr>
+                <td class="tbl tdbg2 font">{{ user_link(member, true) }}</td>
+                <td class="tbl tdbg1 center font">{{ member.posts|number_format }}</td>
+                <td class="tbl tdbg2 center fonts">{{ member.registeredAt|board_date_short }}</td>
+                <td class="tbl tdbg2 center fonts">{{ member.lastActivityAt|duration }}</td>
+                <td class="tbl tdbg1 center fonts">{{ member.powerLevel.label }}</td>
+                <td class="tbl tdbg2 fonts">{{ ranks.resolveLabel(member)|board_inline }}</td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="6">No members matched.</td></tr>
+        {% endfor %}
+    </table>
+
+    {% include 'partial/pagination.html.twig' with {
+        page: page, pageCount: pageCount, route: 'app_members',
+        routeParams: {sort: sort, dir: direction|lower, q: search}
+    } only %}
+
+{% endblock %}

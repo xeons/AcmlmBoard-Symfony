@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }} - Verify your account{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Complete your registration</th></tr>
+            <tr>
+                <td class="tbl tdbg1 font" colspan="2">
+                    Enter your user name, the verification code from your email, and the
+                    password you want to use.
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font" style="width:220px">{{ form_label(form.username) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.username) }}{{ form_errors(form.username) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">{{ form_label(form.code) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.code) }}{{ form_errors(form.code) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">{{ form_label(form.password.first) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.password.first) }}{{ form_errors(form.password.first) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">{{ form_label(form.password.second) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.password.second) }}{{ form_errors(form.password.second) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit">Verify and create account</button></td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+
+{% endblock %}

@@ -1,0 +1,39 @@
+/*
+ * Aceboard - palette carried over from the acmlm19208 fork.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-aceboard {
+    --page-bg: #202245;
+    --text-color: #E8E8F4;
+
+    --table-bg-1: #0D125C;
+    --table-bg-2: #141a6b;
+    --category-bg: #0a0e42;
+    --table-head-bg: #0D125C;
+    --table-head-text: #FFFFFF;
+    --table-border: #000022;
+
+    --link-color: #9FB0FF;
+    --link-visited: #9FB0FF;
+    --link-active: #C8D2FF;
+    --link-hover: #C8D2FF;
+
+    --input-bg: #0D125C;
+    --input-border: #0D125C;
+
+    --name-male-0: #97ACEF;
+    --name-male-1: #97ACEF;
+    --name-male-2: #C8D2FF;
+    --name-male-3: #C8D2FF;
+    --name-female-0: #F185C9;
+    --name-female-1: #F185C9;
+    --name-female-2: #C8D2FF;
+    --name-female-3: #C8D2FF;
+    --name-na-0: #7C60B0;
+    --name-na-1: #7C60B0;
+    --name-na-2: #C8D2FF;
+    --name-na-3: #C8D2FF;
+    --name-banned: #888888;
+}

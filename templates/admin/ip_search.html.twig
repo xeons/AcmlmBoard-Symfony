@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - IP search{% endblock %}
+{% block body %}
+
+    <form method="get" action="{{ path('app_admin_ip_search') }}" class="board-form">
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">IP search</th></tr>
+            <tr>
+                <td class="tbl tdbg1 font" style="width:180px"><label for="ip">Address</label></td>
+                <td class="tbl tdbg2 font">
+                    <input type="text" id="ip" name="ip" value="{{ ip }}" maxlength="45">
+                    <button type="submit">Search</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    {% if ip %}
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="3">Accounts last seen at {{ ip }}</th></tr>
+            {% for member in users %}
+                <tr>
+                    <td class="tbl tdbg2 font">{{ user_link(member) }}</td>
+                    <td class="tbl tdbg1 center fonts">{{ member.posts }} posts</td>
+                    <td class="tbl tdbg1 center fonts">{{ member.lastActivityAt|duration }} ago</td>
+                </tr>
+            {% else %}
+                <tr><td class="tbl tdbg1 center font" colspan="3">No accounts match.</td></tr>
+            {% endfor %}
+        </table>
+
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="3">Posts from {{ ip }}</th></tr>
+            {% for post in posts %}
+                <tr>
+                    <td class="tbl tdbg2 font">{{ user_link(post.author) }}</td>
+                    <td class="tbl tdbg2 font">
+                        <a href="{{ path('app_post_permalink', {id: post.id}) }}">{{ post.thread.title }}</a>
+                    </td>
+                    <td class="tbl tdbg1 center fonts">{{ post.createdAt|board_date }}</td>
+                </tr>
+            {% else %}
+                <tr><td class="tbl tdbg1 center font" colspan="3">No posts match.</td></tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{# Breadcrumb, pager and thread actions; rendered above and below the post list. #}
+<div class="breadcrumb">
+    <table class="bare">
+        <tr>
+            <td class="font">
+                <a href="{{ path('app_index') }}">{{ board.name }}</a>
+                &mdash; <a href="{{ path('app_forum', {id: forum.id}) }}">{{ forum.title }}</a>
+                &mdash; {{ thread.title }}
+            </td>
+            <td class="fonts right">
+                {% if is_granted('FORUM_CREATE_THREAD', forum) %}
+                    <a href="{{ path('app_thread_new', {id: forum.id}) }}">New thread</a>
+                {% endif %}
+                {% if thread.closed %}
+                    | <em>Thread closed</em>
+                {% elseif is_granted('THREAD_REPLY', thread) %}
+                    | <a href="{{ path('app_thread_reply', {id: thread.id}) }}">New reply</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</div>
+
+<table class="bare">
+    <tr>
+        <td>
+            {% include 'partial/pagination.html.twig' with {
+                page: page, pageCount: pageCount,
+                route: 'app_thread', routeParams: {id: thread.id}
+            } only %}
+        </td>
+        <td class="fonts right">
+            {% if board.isLoggedIn %}
+                <form method="post" action="{{ path('app_favorite_toggle', {id: thread.id}) }}" class="inline-form">
+                    <input type="hidden" name="_token" value="{{ csrf_token('favorite' ~ thread.id) }}">
+                    <button type="submit" class="linkbutton">
+                        {{ isFavorite ? 'Remove from favorites' : 'Add to favorites' }}
+                    </button>
+                </form> |
+            {% endif %}
+            <a href="{{ path('app_feed_thread', {id: thread.id}) }}">Feed</a>
+            {% if newerThread %}
+                | <a href="{{ path('app_thread', {id: newerThread.id}) }}">Next newer thread</a>
+            {% endif %}
+            {% if olderThread %}
+                | <a href="{{ path('app_thread', {id: olderThread.id}) }}">Next older thread</a>
+            {% endif %}
+        </td>
+    </tr>
+</table>

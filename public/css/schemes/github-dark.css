@@ -1,0 +1,39 @@
+/*
+ * GitHub Dark.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-github-dark {
+    --page-bg: #0D1117;
+    --text-color: #C9D1D9;
+
+    --table-bg-1: #161B22;
+    --table-bg-2: #0D1117;
+    --category-bg: #21262D;
+    --table-head-bg: #1F6FEB;
+    --table-head-text: #FFFFFF;
+    --table-border: #30363D;
+
+    --link-color: #58A6FF;
+    --link-visited: #BC8CFF;
+    --link-active: #79C0FF;
+    --link-hover: #79C0FF;
+
+    --input-bg: #0D1117;
+    --input-border: #30363D;
+
+    --name-male-0: #58A6FF;
+    --name-male-1: #58A6FF;
+    --name-male-2: #79C0FF;
+    --name-male-3: #58A6FF;
+    --name-female-0: #FF7B72;
+    --name-female-1: #FF7B72;
+    --name-female-2: #79C0FF;
+    --name-female-3: #58A6FF;
+    --name-na-0: #7EE787;
+    --name-na-1: #7EE787;
+    --name-na-2: #79C0FF;
+    --name-na-3: #58A6FF;
+    --name-banned: #6E7681;
+}

@@ -1,0 +1,39 @@
+/*
+ * Horde - palette carried over from the acmlm19208 fork.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-horde {
+    --page-bg: #112E28;
+    --text-color: #D6F2E9;
+
+    --table-bg-1: #0d2621;
+    --table-bg-2: #102c26;
+    --category-bg: #0a1c18;
+    --table-head-bg: #14C099;
+    --table-head-text: #0a1c18;
+    --table-border: #061210;
+
+    --link-color: #14C099;
+    --link-visited: #14C099;
+    --link-active: #7FE8CF;
+    --link-hover: #7FE8CF;
+
+    --input-bg: #0d2621;
+    --input-border: #14C099;
+
+    --name-male-0: #14C099;
+    --name-male-1: #14C099;
+    --name-male-2: #7FE8CF;
+    --name-male-3: #7FE8CF;
+    --name-female-0: #7FE8CF;
+    --name-female-1: #7FE8CF;
+    --name-female-2: #7FE8CF;
+    --name-female-3: #7FE8CF;
+    --name-na-0: #B7E36B;
+    --name-na-1: #B7E36B;
+    --name-na-2: #7FE8CF;
+    --name-na-3: #7FE8CF;
+    --name-banned: #888888;
+}

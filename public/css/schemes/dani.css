@@ -1,0 +1,28 @@
+/*
+ * Dani - ported from schemes/dani.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-dani {
+    --page-bg: #181031;
+    --page-bg-image: url('/images/starbg.png');
+    --text-color: #EEE0F8;
+
+    --table-bg-1: #000000;
+    --table-bg-2: #180024;
+    --category-bg: #300048;
+    --table-head-bg: #662299;
+    --table-head-text: #FFEEFF;
+    --table-border: #500078;
+
+    --link-color: #FEB7CE;
+    --link-visited: #CE778E;
+    --link-active: #7E4098;
+    --link-hover: #EEEEEE;
+
+    --input-bg: #000000;
+    --input-border: #552288;
+
+    --font-main: "book antiqua", georgia, serif;
+}

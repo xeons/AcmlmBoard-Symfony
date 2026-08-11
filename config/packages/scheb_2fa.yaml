@@ -1,0 +1,22 @@
+scheb_two_factor:
+    # The tokens a completed sign-in produces. Both of the board's authenticators
+    # end in a PostAuthenticationToken; the username/password one is listed because
+    # remember-me restores that shape.
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
+
+    # Signing in with a passkey already proves possession of a specific device, so
+    # challenging for a second factor afterwards asks for the same assurance twice.
+    two_factor_condition: App\Security\PasskeySkipsTwoFactor
+
+    backup_codes:
+        enabled: true
+
+    totp:
+        enabled: true
+        issuer: "%env(BOARD_NAME)%"
+        server_name: "%env(BOARD_NAME)%"
+        parameters:
+            image: ''
+        template: security/two_factor.html.twig

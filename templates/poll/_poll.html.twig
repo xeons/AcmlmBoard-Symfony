@@ -1,0 +1,59 @@
+{#
+    Poll display and voting.
+
+    Voting is a POST with a CSRF token. The original used
+    `thread.php?id=N&choice=M&action=vote`, a GET link that wrote to the database -
+    so a poll could be stuffed by embedding an image tag pointing at it.
+#}
+{% set total = poll.totalVotes %}
+{% set canVote = board.isLoggedIn and not poll.closed
+                 and (poll.multiVote or votedChoiceIds is empty) %}
+
+<form method="post" action="{{ path('app_poll_vote', {id: thread.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('vote' ~ thread.id) }}">
+
+    <table class="table poll">
+        <tr><th class="tbl tdbgc center font" colspan="3">{{ poll.question }}</th></tr>
+
+        {% if poll.briefing %}
+            <tr><td class="tbl tdbg2 fonts" colspan="3">{{ poll.briefing|nl2br }}</td></tr>
+        {% endif %}
+
+        {% for choice in poll.choices %}
+            {% set pct = choice.percentageOf(total) %}
+            {% set alreadyVoted = choice.id in votedChoiceIds %}
+            <tr>
+                <td class="tbl tdbg1 font" style="width:25%">
+                    {% if canVote and not alreadyVoted %}
+                        <button type="submit" name="choice" value="{{ choice.id }}" class="linkbutton">
+                            {{ choice.label }}
+                        </button>
+                    {% else %}
+                        {{ choice.label }}
+                        {% if alreadyVoted %}<span class="fonts">(your vote)</span>{% endif %}
+                    {% endif %}
+                </td>
+                <td class="tbl tdbg2 font" style="width:55%">
+                    <span class="poll-bar">
+                        <span class="poll-bar-fill"
+                              style="width: {{ pct }}%{% if choice.color %}; background: {{ choice.color }}{% endif %}"></span>
+                    </span>
+                </td>
+                <td class="tbl tdbg1 center fonts" style="width:20%">
+                    {{ pct }}%, {{ choice.voteCount }} vote{{ choice.voteCount == 1 ? '' : 's' }}
+                </td>
+            </tr>
+        {% endfor %}
+
+        <tr>
+            <td class="tbl tdbg2 fonts" colspan="3">
+                Multi-voting {{ poll.closed ? 'was' : 'is' }} {{ poll.multiVote ? 'enabled' : 'disabled' }}.
+                {% if poll.closed %}This poll is closed.{% endif %}
+                {{ total }} vote{{ total == 1 ? '' : 's' }} cast.
+                {% if is_granted('THREAD_MODERATE', thread) or (app.user and thread.author == app.user) %}
+                    | <a href="{{ path('app_poll_edit', {id: thread.id}) }}">Edit poll</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</form>

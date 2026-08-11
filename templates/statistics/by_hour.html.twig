@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} — Posts by time of day{% endblock %}
+
+{% block body %}
+    {% include 'statistics/_nav.html.twig' %}
+
+    <table class="table">
+        <tr>
+            <th class="tbl tdbgh center fonts" colspan="3">
+                Posts by time of day{% if member %} from {{ member.username }}{% endif %} ({{ total|number_format }})
+            </th>
+        </tr>
+        <tr>
+            <th class="tbl tdbgh center fonts" style="width:60px">Hour</th>
+            <th class="tbl tdbgh center fonts" style="width:70px">Posts</th>
+            <th class="tbl tdbgh fonts">&nbsp;</th>
+        </tr>
+
+        {% for hour, count in hours %}
+            <tr>
+                <td class="tbl {{ cycle(['tdbg1','tdbg2'], hour) }} center font">{{ '%02d:00'|format(hour) }}</td>
+                <td class="tbl {{ cycle(['tdbg1','tdbg2'], hour) }} center font">{{ count|number_format }}</td>
+                <td class="tbl {{ cycle(['tdbg1','tdbg2'], hour) }} font">
+                    {% include 'statistics/_bar.html.twig' with {value: count, max: peak} only %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class="fonts center">Hours are shown in your own timezone.</div>
+{% endblock %}

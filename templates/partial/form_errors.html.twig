@@ -1,0 +1,32 @@
+{#
+    A summary of everything wrong with the form, at the top of it. Covers the root
+    form's own errors and each field's, since nearly every failure belongs to a
+    field. Entries name their field: a long form scrolls, and "must be a full
+    http(s) URL" is not much help on its own.
+#}
+{% set failures = [] %}
+
+{% for error in form.vars.errors %}
+    {% set failures = failures|merge([{label: null, message: error.message}]) %}
+{% endfor %}
+
+{# Buttons are children too, and a ButtonView carries no "errors" key. #}
+{% for child in form %}
+    {% for error in child.vars.errors|default([]) %}
+        {% set failures = failures|merge([{
+            label: child.vars.label|default(child.vars.name),
+            message: error.message,
+        }]) %}
+    {% endfor %}
+{% endfor %}
+
+{% if failures is not empty %}
+    <div class="flash flash-error">
+        <strong>{{ failures|length == 1 ? 'This was not saved:' : 'This was not saved. ' ~ failures|length ~ ' problems:' }}</strong>
+        <ul class="form-errors">
+            {% for failure in failures %}
+                <li>{% if failure.label %}<strong>{{ failure.label }}</strong> &mdash; {% endif %}{{ failure.message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

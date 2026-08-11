@@ -1,0 +1,670 @@
+/*
+ * AcmlmBoard - structural stylesheet.
+ *
+ * The original produced its look by emitting <font>, bgcolor= and nested tables from
+ * PHP, with a per-scheme file defining two dozen globals that were interpolated into
+ * a <style> block on every request. Structure lives here; a scheme file redefines
+ * only the custom properties below, so adding a skin cannot break the layout.
+ *
+ * The default values are the "classic" palette (dark blue on black), which is what
+ * an unconfigured board showed.
+ */
+
+:root {
+    /* Table surfaces */
+    --table-bg-1: #000090;
+    --table-bg-2: #000066;
+    --category-bg: #000090;
+    --table-head-bg: #0050a0;
+    --table-head-text: #ffffff;
+    --table-border: #000000;
+
+    /* Page */
+    --page-bg: #550000;
+    --page-bg-image: none;
+    --text-color: #e0e0e0;
+
+    /* Links */
+    --link-color: #ffc040;
+    --link-visited: #c09030;
+    --link-active: #ffea00;
+    --link-hover: #ffffff;
+
+    /* Form controls */
+    --input-bg: #000000;
+    --input-border: #4060c0;
+
+    /* Username colours: [sex][power]. The original's $nmcol lookup table. */
+    --name-male-0: #97acef;
+    --name-male-1: #d8e8fe;
+    --name-male-2: #affabe;
+    --name-male-3: #ffea95;
+    --name-female-0: #f185c9;
+    --name-female-1: #ffb3f3;
+    --name-female-2: #c762f2;
+    --name-female-3: #c53a9e;
+    --name-na-0: #7c60b0;
+    --name-na-1: #eeb9ba;
+    --name-na-2: #47b53c;
+    --name-na-3: #f0c413;
+    --name-banned: #888888;
+
+    /* Fonts */
+    --font-main: arial, helvetica, sans-serif;
+    --font-small: verdana, geneva, sans-serif;
+    --font-tiny: tahoma, verdana, sans-serif;
+
+    /*
+     * Fluid type.
+     *
+     * The original hardcoded 13px and 10px, which suited a 1024x768 CRT and is
+     * genuinely hard to read on a modern high-density display. These scale with the
+     * viewport between a floor and a ceiling: about 14px/12px on a laptop, 16px/13px
+     * at 1080p, topping out at 18px/15px on very wide screens.
+     *
+     * The bounds are in rem rather than px so they follow the reader's own browser
+     * font size - somebody who has set their default to 20px gets everything
+     * proportionally larger, which a px floor would override and discard.
+     */
+    --size-main: clamp(0.875rem, 0.75rem + 0.2vw, 1.125rem);
+    --size-small: clamp(0.75rem, 0.66rem + 0.15vw, 0.9375rem);
+}
+
+/*
+ * Anyone who prefers the original's proportions can put the board back with
+ * html { font-size: 81.25% } in their browser, or the board can ship a preference.
+ */
+
+/* ---------------------------------------------------------------- reset */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 8px;
+    background-color: var(--page-bg);
+    background-image: var(--page-bg-image);
+    color: var(--text-color);
+    font: var(--size-main) var(--font-main);
+}
+
+a { color: var(--link-color); text-decoration: none; font-weight: bold; }
+a:visited { color: var(--link-visited); }
+a:active { color: var(--link-active); }
+a:hover, a:focus-visible { color: var(--link-hover); text-decoration: underline; }
+
+img { border: 0; max-width: 100%; height: auto; }
+
+/* --------------------------------------------------------------- layout */
+
+.board {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.board-title {
+    text-align: center;
+    font-size: clamp(1.375rem, 1.1rem + 0.9vw, 2.125rem);
+    font-weight: bold;
+    padding: 12px 0;
+    letter-spacing: 1px;
+}
+
+.board-title a { color: var(--text-color); }
+
+/*
+ * The scheme banner. The originals are 600x100 and were shown at native size on a
+ * 800x600 screen; max-width keeps them from forcing a horizontal scrollbar on a
+ * phone without enlarging them anywhere else.
+ */
+.board-banner {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+main { display: block; }
+
+.footer {
+    text-align: center;
+    padding: 24px 0 12px;
+    line-height: 1.6;
+}
+
+/* --------------------------------------------------------------- tables
+ *
+ * The board is built from tables because the board *is* tables - thread lists and
+ * post grids are tabular data. The difference from the original is that the borders
+ * and backgrounds are CSS rather than attributes, so a scheme can restyle them.
+ */
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    empty-cells: show;
+    border-top: 1px solid var(--table-border);
+    border-left: 1px solid var(--table-border);
+    margin-bottom: 4px;
+}
+
+.table td, .table th {
+    border-right: 1px solid var(--table-border);
+    border-bottom: 1px solid var(--table-border);
+    padding: 3px 5px;
+    vertical-align: top;
+}
+
+.tdbg1 { background: var(--table-bg-1); }
+.tdbg2 { background: var(--table-bg-2); }
+.tdbgc { background: var(--category-bg); }
+.tdbgh { background: var(--table-head-bg); color: var(--table-head-text); }
+.tdbgh a { color: var(--table-head-text); }
+
+.font  { font: var(--size-main) var(--font-main); }
+.fonts { font: var(--size-small) var(--font-small); }
+.fontt { font: var(--size-small) var(--font-tiny); }
+
+.center { text-align: center; }
+.right  { text-align: right; }
+.nowrap, .nowrap * { white-space: nowrap; }
+
+.header-bar .nav-side { width: 13em; }
+.header-bar .nav-main { width: auto; }
+
+/* ---------------------------------------------------------- name colours */
+
+.name { font-weight: bold; }
+
+.name-male.power-0   { color: var(--name-male-0); }
+.name-male.power-1   { color: var(--name-male-1); }
+.name-male.power-2   { color: var(--name-male-2); }
+.name-male.power-3,
+.name-male.power-4,
+.name-male.power-5   { color: var(--name-male-3); }
+
+.name-female.power-0 { color: var(--name-female-0); }
+.name-female.power-1 { color: var(--name-female-1); }
+.name-female.power-2 { color: var(--name-female-2); }
+.name-female.power-3,
+.name-female.power-4,
+.name-female.power-5 { color: var(--name-female-3); }
+
+.name-na.power-0     { color: var(--name-na-0); }
+.name-na.power-1     { color: var(--name-na-1); }
+.name-na.power-2     { color: var(--name-na-2); }
+.name-na.power-3,
+.name-na.power-4,
+.name-na.power-5     { color: var(--name-na-3); }
+
+.name.power-neg1     { color: var(--name-banned); }
+.name-deleted        { color: var(--name-banned); font-style: italic; }
+
+/*
+ * sex=3 made getnamecolor() return a colour derived from the current microsecond,
+ * so the name flickered a different colour on every page load. A CSS animation does
+ * the same thing without a per-request random value.
+ */
+.name-rainbow {
+    animation: name-cycle 6s linear infinite;
+}
+
+@keyframes name-cycle {
+    0%   { color: #ff9b9b; }
+    17%  { color: #ffff9b; }
+    33%  { color: #9bff9b; }
+    50%  { color: #9bffff; }
+    67%  { color: #9b9bff; }
+    83%  { color: #ff9bff; }
+    100% { color: #ff9b9b; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .name-rainbow { animation: none; color: var(--name-male-0); }
+}
+
+.minipic { vertical-align: middle; }
+.user-link { white-space: nowrap; }
+
+/* ----------------------------------------------------------------- posts */
+
+.post-user {
+    /* em, not px: the stats column has to grow with the type inside it. */
+    width: 13em;
+    line-height: 1.4;
+}
+
+.post-body {
+    width: auto;
+    min-height: 180px;
+}
+
+.post-meta {
+    width: 100%;
+    border-collapse: collapse;
+    margin: -3px -5px 4px;
+    width: calc(100% + 10px);
+}
+
+.post-meta td {
+    border: 0;
+    padding: 2px 5px;
+}
+
+.post-content {
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* A post layout is arbitrary user HTML. It must not be able to drag the page
+   sideways or paint over the rest of the thread, whatever it contains. */
+.post-header, .post-signature, .post-content {
+    max-width: 100%;
+    overflow-x: auto;
+    contain: paint;
+}
+
+.post-signature { margin-top: 8px; }
+
+.sigsep-Dashes::before          { content: '--------------------'; display: block; }
+.sigsep-Line::before            { content: '____________________'; display: block; }
+.sigsep-HorizontalRule::before  { content: ''; display: block; border-top: 1px solid currentColor; margin: 6px 0; opacity: .5; }
+.sigsep-None::before            { content: ''; display: block; height: 6px; }
+
+.post-edited {
+    border-top: 1px solid var(--table-border);
+    margin-top: 8px;
+    padding-top: 4px;
+    opacity: .8;
+}
+
+.exp-bar {
+    display: block;
+    width: 100%;
+    max-width: 120px;
+    height: 8px;
+    background: var(--table-bg-2);
+    border: 1px solid var(--table-border);
+    margin: 2px 0;
+}
+
+.exp-bar-fill {
+    display: block;
+    height: 100%;
+    background: var(--link-color);
+}
+
+.layout-blocked {
+    font-style: italic;
+    opacity: .7;
+}
+
+/* -------------------------------------------------------------- markup */
+
+.smiley { vertical-align: middle; }
+
+.quote {
+    border-left: 3px solid var(--table-border);
+    background: rgba(0, 0, 0, .25);
+    margin: 6px 0;
+    padding: 6px 10px;
+}
+
+.quote cite {
+    display: block;
+    font-size: var(--size-small);
+    font-style: italic;
+    margin-bottom: 4px;
+    opacity: .85;
+}
+
+.code {
+    background: rgba(0, 0, 0, .35);
+    border: 1px solid var(--table-border);
+    padding: 8px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+}
+
+/*
+ * Spoilers. The original rendered black text on a black background, which was
+ * defeated by selecting it, by any custom stylesheet, and by a screen reader.
+ * This actually hides the content until it is asked for.
+ */
+.spoiler { display: inline-block; }
+.spoiler-label { font-weight: bold; cursor: pointer; }
+.spoiler-label::after { content: ' [show]'; font-weight: normal; font-size: .9em; }
+.spoiler-body { display: none; }
+.spoiler.revealed .spoiler-body { display: inline; }
+.spoiler.revealed .spoiler-label::after { content: ' [hide]'; }
+
+/* -------------------------------------------------------------- forms */
+
+input, select, textarea, button {
+    background: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--input-border);
+    font: var(--size-main) var(--font-main);
+    padding: 2px 4px;
+    max-width: 100%;
+}
+
+textarea { width: 100%; font-family: var(--font-main); }
+
+input[type="submit"], button {
+    border-width: 2px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 3px 10px;
+}
+
+input[type="submit"]:hover, button:hover { color: var(--link-hover); }
+
+input[type="checkbox"], input[type="radio"] {
+    border: 0;
+    background: none;
+    width: auto;
+    vertical-align: middle;
+}
+
+.linkbutton {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--link-color);
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+.linkbutton:hover { color: var(--link-hover); text-decoration: underline; }
+
+.inline-form { display: inline; }
+
+.form-row { margin-bottom: 2px; }
+.form-help {
+    display: block;
+    font: var(--size-small) var(--font-small);
+    opacity: .8;
+    margin-top: 2px;
+}
+
+.form-errors {
+    list-style: none;
+    margin: 4px 0;
+    padding: 0;
+    color: #ff9090;
+    font: var(--size-small) var(--font-small);
+}
+
+/* -------------------------------------------------------------- notices */
+
+.flash {
+    border: 1px solid var(--table-border);
+    background: var(--table-bg-1);
+    padding: 8px 12px;
+    margin: 6px 0;
+    font-weight: bold;
+}
+
+.flash-error { border-color: #c04040; color: #ffc0c0; }
+.flash-success { border-color: #40c040; }
+
+.new-cell { width: 34px; }
+.new-flag {
+    font: bold 9px var(--font-tiny);
+    color: var(--link-active);
+    letter-spacing: 1px;
+}
+
+.pagination { margin: 4px 0; }
+.pagination a, .pagination strong { padding: 0 3px; }
+
+.breadcrumb { margin: 6px 0; }
+
+.thread-icon { height: 15px; width: 15px; vertical-align: middle; }
+
+.status-icon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    text-align: center;
+    font: bold 9px var(--font-tiny);
+    border: 1px solid var(--table-border);
+}
+
+.status-new    { background: var(--link-color); color: #000; }
+.status-hot    { background: #c04040; color: #fff; }
+.status-closed { background: #404040; color: #aaa; }
+
+/* ----------------------------------------------------------- responsive
+ *
+ * The original was a fixed 100%-width table layout that simply overflowed on a
+ * phone. Below 720px the post grid stacks instead.
+ */
+
+@media (max-width: 720px) {
+    body { padding: 2px; }
+    .board-title { font-size: 1.25rem; }
+
+    .post-grid, .post-grid tbody, .post-grid tr, .post-grid td { display: block; width: auto; }
+    .post-user { width: auto; border-bottom: 0; }
+    .post-body { min-height: 0; }
+
+    .header-bar .nav-side { display: none; }
+    .hide-narrow { display: none; }
+}
+
+/* ------------------------------------------------------------- components */
+
+/* A borderless table used for breadcrumbs and toolbars, where the grid would
+   only add noise. */
+.bare { width: 100%; border-collapse: collapse; }
+.bare td { padding: 2px 0; vertical-align: middle; }
+
+.emphasised { font-style: italic; }
+
+.forum-jump { margin: 8px 0; }
+.forum-jump select { max-width: 320px; }
+
+.search-bar { margin: 6px 0; }
+
+/* ------------------------------------------------------------------ polls */
+
+.poll-bar {
+    display: block;
+    width: 100%;
+    height: 14px;
+    background: rgba(0, 0, 0, .3);
+    border: 1px solid var(--table-border);
+}
+
+.poll-bar-fill {
+    display: block;
+    height: 100%;
+    min-width: 1px;
+    background: var(--link-color);
+}
+
+/* ------------------------------------------------------------- post extras */
+
+.post-rank, .post-title, .post-badge { margin: 2px 0; }
+.post-since { margin-top: 6px; }
+.post-picture { display: block; margin: 4px 0; }
+
+.post-stats { margin: 6px 0; display: grid; grid-template-columns: auto 1fr; gap: 0 6px; }
+.post-stats dt { opacity: .8; }
+.post-stats dd { margin: 0; }
+
+.vertical-head { width: auto; }
+.vertical-meta { width: 24em; }
+
+.ezboard-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.ezboard-head img { margin: 0; }
+
+/* RPG layout status window */
+.rpg-window {
+    border: 2px solid var(--table-border);
+    background: var(--table-bg-2);
+    padding: 4px;
+    margin: 4px 0;
+}
+.rpg-portrait { float: left; margin-right: 6px; }
+.rpg-stats, .rpg-exp { width: 100%; border-collapse: collapse; }
+.rpg-stats th, .rpg-exp th { text-align: left; color: var(--table-head-text); padding: 0 4px 0 0; }
+.rpg-stats td, .rpg-exp td { text-align: right; font-weight: bold; }
+.rpg-exp { clear: both; margin-top: 4px; }
+
+/* ------------------------------------------------------------------- shop */
+
+.shop-layout { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+.shop-status { flex: 0 0 240px; }
+.shop-main { flex: 1 1 400px; min-width: 0; }
+
+.shop-items { font-size: var(--size-small); }
+.shop-items td { padding: 2px 4px; }
+
+.item-equipped { outline: 1px solid var(--link-color); }
+.item-unaffordable { opacity: .55; }
+
+.stat-up { color: #9bffab; }
+.stat-down { color: #ffab9b; }
+
+/* --------------------------------------------------------------- calendar */
+
+.calendar { table-layout: fixed; }
+.calendar-day { height: 80px; vertical-align: top; }
+.calendar-empty { background: rgba(0, 0, 0, .25); }
+.calendar-number { font-weight: bold; opacity: .75; }
+.calendar-event { margin-top: 2px; }
+.calendar-birthday { margin-top: 2px; }
+
+/* --------------------------------------------------------------- toolbar */
+
+.post-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.post-toolbar button {
+    padding: 2px 6px;
+    font-size: var(--size-small);
+    border-width: 1px;
+}
+
+.toolbar-colors { display: inline-flex; gap: 1px; }
+.toolbar-colors button { padding: 2px 4px; }
+.color-red { color: #ffc0c0; }
+.color-green { color: #c0ffc0; }
+.color-blue { color: #c0c0ff; }
+.color-orange { color: #ffc080; }
+.color-yellow { color: #ffee20; }
+.color-pink { color: #ffc0ff; }
+.color-white { color: #ffffff; }
+.color-black { color: #000000; text-shadow: 0 0 2px #fff; }
+
+.toolbar-smileys summary { cursor: pointer; font-size: var(--size-small); }
+.smiley-grid { display: flex; flex-wrap: wrap; gap: 2px; padding: 4px 0; }
+.smiley-grid button { padding: 2px; line-height: 0; }
+
+.smiley-list { display: flex; flex-wrap: wrap; gap: 10px; }
+.smiley-entry { display: inline-flex; align-items: center; gap: 4px; }
+
+/* ---------------------------------------------------------------- avatars */
+
+.avatar-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.avatar-option { display: inline-block; }
+.avatar-option button { padding: 2px; line-height: 0; }
+.avatar-option img { max-width: 100px; max-height: 100px; }
+
+/* ------------------------------------------------------------------ forms */
+
+.board-form { display: block; }
+.bulk-actions { margin: 6px 0; }
+.rating-form { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.rating-form label { display: inline-flex; align-items: center; gap: 2px; }
+
+.collection-item { margin-bottom: 4px; }
+
+.danger { color: #ff9090; }
+.danger:hover { color: #ffc0c0; }
+
+.icon-picker { display: flex; flex-wrap: wrap; gap: 8px; }
+.icon-picker label { display: inline-flex; align-items: center; gap: 3px; }
+
+/* -------------------------------------------------------------------- faq */
+
+.faq h2 { border-bottom: 1px solid var(--table-border); padding-bottom: 3px; margin-top: 20px; }
+.faq h3 { margin-top: 14px; }
+.faq p, .faq ul { line-height: 1.5; }
+.faq .inner { width: auto; min-width: 60%; margin: 8px 0; }
+.faq code { background: rgba(0, 0, 0, .3); padding: 0 3px; }
+
+/* ---------------------------------------------------------------- passkeys */
+
+.passkey-status {
+    display: inline-block;
+    margin-left: 8px;
+    font: var(--size-small) var(--font-small);
+}
+
+.passkey-error { color: #ff9090; }
+
+.timezone-detected { color: var(--link-color); }
+
+/* Wide post layout: poster details across the top instead of down the side. */
+.post-wide-bar { width: 100%; border-collapse: collapse; }
+.post-wide-bar td { padding: 2px 4px; }
+.post-wide-actions { text-align: right; white-space: nowrap; }
+.post-wide-level { margin-left: 8px; }
+.post-wide-body { min-height: 120px; }
+.post-wide-foot { opacity: .85; }
+
+/* Proportional bars on the statistics pages. */
+.stat-bar {
+    display: inline-block;
+    width: 100%;
+    height: 10px;
+    background: var(--input-bg);
+    border: 1px solid var(--table-border);
+    vertical-align: middle;
+}
+.stat-bar-fill { display: block; height: 100%; background: var(--link-color); }
+
+/* RPG status screen. Rendered at 256x224; pixel-art must not be smoothed. */
+.rpg-status {
+    display: block;
+    image-rendering: pixelated;
+    margin-bottom: 6px;
+}
+.rpg-status-caption { min-height: 1.2em; margin-bottom: 6px; }
+
+/* ACS movement indicators. */
+.acs-up   { color: #7ddc7d; }
+.acs-down { color: #e08a8a; }
+.acs-same { opacity: .6; }
+.acs-new  { color: var(--link-active); }
+
+/* Authenticator setup. */
+.totp-secret {
+    font: 1.15em var(--font-tiny);
+    letter-spacing: 2px;
+    padding: 4px 6px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    display: inline-block;
+}
+.recovery-codes {
+    list-style: none;
+    margin: 8px auto;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9em, max-content));
+    gap: 4px 18px;
+    justify-content: center;
+}
+.recovery-codes code { font: 1.05em var(--font-tiny); letter-spacing: 1px; }

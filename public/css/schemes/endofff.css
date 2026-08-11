@@ -1,0 +1,28 @@
+/*
+ * End of FF - ported from schemes/endofff.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-endofff {
+    --page-bg: #000000;
+    --page-bg-image: none;
+    --text-color: #FFFFFF;
+
+    --table-bg-1: #290323;
+    --table-bg-2: #3B0F34;
+    --category-bg: #000000;
+    --table-head-bg: #000000;
+    --table-head-text: #FFFFFF;
+    --table-border: #871F78;
+
+    --link-color: #FFFFFF;
+    --link-visited: #FFFFFF;
+    --link-active: #FFFFFF;
+    --link-hover: #FFFFFF;
+
+    --input-bg: #290323;
+    --input-border: #871F78;
+
+    --font-main: verdana, sans-serif;
+}

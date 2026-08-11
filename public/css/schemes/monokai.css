@@ -1,0 +1,39 @@
+/*
+ * Monokai.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-monokai {
+    --page-bg: #272822;
+    --text-color: #F8F8F2;
+
+    --table-bg-1: #2F3129;
+    --table-bg-2: #272822;
+    --category-bg: #3E3D32;
+    --table-head-bg: #75715E;
+    --table-head-text: #F8F8F2;
+    --table-border: #49483E;
+
+    --link-color: #A6E22E;
+    --link-visited: #AE81FF;
+    --link-active: #66D9EF;
+    --link-hover: #66D9EF;
+
+    --input-bg: #3E3D32;
+    --input-border: #49483E;
+
+    --name-male-0: #66D9EF;
+    --name-male-1: #66D9EF;
+    --name-male-2: #66D9EF;
+    --name-male-3: #A6E22E;
+    --name-female-0: #F92672;
+    --name-female-1: #F92672;
+    --name-female-2: #66D9EF;
+    --name-female-3: #A6E22E;
+    --name-na-0: #FD971F;
+    --name-na-1: #FD971F;
+    --name-na-2: #66D9EF;
+    --name-na-3: #A6E22E;
+    --name-banned: #6E7681;
+}

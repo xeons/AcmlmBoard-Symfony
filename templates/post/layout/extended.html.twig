@@ -1,0 +1,50 @@
+{# Everything the board knows about the author, in the sidebar. #}
+{% import 'post/_shell.html.twig' as shell %}
+{% set bg = striped ? 'tdbg2' : 'tdbg1' %}
+
+<tr>
+    <td class="tbl {{ bg }} font post-user" rowspan="2">
+        <a id="post-{{ post.post.id }}"></a>
+        {{ user_link(post.author) }}
+        <div class="fonts">
+            {{ shell.rank_block(post) }}
+
+            {% if post.author %}
+                <div class="post-level">Level {{ post.level }}</div>
+                {{ shell.exp_bar(post) }}
+                {{ shell.user_picture(post) }}
+
+                <dl class="post-stats">
+                    <dt>Posts</dt><dd>{{ post.post.authorPostNumber }}/{{ post.author.posts }}</dd>
+                    <dt>EXP</dt><dd>{{ post.experience|number_format }}</dd>
+                    <dt>For next</dt><dd>{{ post.experienceToNextLevel|number_format }}</dd>
+                    <dt>Since</dt><dd>{{ post.author.registeredAt|board_date_short }}</dd>
+                    {% if post.author.location %}
+                        <dt>From</dt><dd>{{ post.author.location }}</dd>
+                    {% endif %}
+                    {% if post.author.realName %}
+                        <dt>Name</dt><dd>{{ post.author.realName }}</dd>
+                    {% endif %}
+                    <dt>Last post</dt><dd>{{ post.author.lastPostAt|duration }}</dd>
+                    <dt>Last seen</dt><dd>{{ post.author.lastActivityAt|duration }}</dd>
+                    <dt>Today</dt><dd>{{ post.postsToday }} post{{ post.postsToday == 1 ? '' : 's' }}</dd>
+                </dl>
+
+                {% if post.author.homepageUrl %}
+                    <div><a href="{{ post.author.homepageUrl }}" rel="nofollow noopener noreferrer" target="_blank">
+                        {{ post.author.homepageName ?: 'Homepage' }}
+                    </a></div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </td>
+
+    <td class="tbl {{ bg }} font">
+        {{ shell.meta_row(post, thread|default(null)) }}
+    </td>
+</tr>
+<tr>
+    <td class="tbl {{ bg }} font post-body">
+        {{ shell.body(post) }}
+    </td>
+</tr>

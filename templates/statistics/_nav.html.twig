@@ -1,0 +1,51 @@
+{# Window picker and the three breakdowns, shared by all of them. #}
+{% set labels = {
+    hour: 'Last hour', day: 'Last day', week: 'Last week',
+    month: 'Last 30 days', all: 'Total',
+} %}
+{% set params = member ? {user: member.id} : {} %}
+
+<table class="table">
+    <tr><th class="tbl tdbgh center fonts" colspan="2">Post statistics</th></tr>
+    <tr>
+        <td class="tbl tdbg1 fonts" style="width:80px">Period</td>
+        <td class="tbl tdbg2 fonts">
+            {% for key in windows %}
+                {%- if not loop.first %} | {% endif -%}
+                {% if key == window %}
+                    <strong>{{ labels[key] }}</strong>
+                {% else %}
+                    <a href="{{ path(route, params|merge({window: key})) }}">{{ labels[key] }}</a>
+                {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <td class="tbl tdbg1 fonts">Breakdown</td>
+        <td class="tbl tdbg2 fonts">
+            {% for key, label in {
+                app_stats_by_forum: 'By forum',
+                app_stats_by_thread: 'By thread',
+                app_stats_by_hour: 'By hour of day',
+            } %}
+                {%- if not loop.first %} | {% endif -%}
+                {% if key == route %}
+                    <strong>{{ label }}</strong>
+                {% else %}
+                    <a href="{{ path(key, params|merge({window: window})) }}">{{ label }}</a>
+                {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <td class="tbl tdbg1 fonts">Showing</td>
+        <td class="tbl tdbg2 fonts">
+            {% if member %}
+                Posts by {{ user_link(member) }}
+                &mdash; <a href="{{ path(route, {window: window}) }}">show the whole board</a>
+            {% else %}
+                Posts from the whole board
+            {% endif %}
+        </td>
+    </tr>
+</table>

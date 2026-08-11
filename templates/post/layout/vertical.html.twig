@@ -1,0 +1,36 @@
+{#
+    Full-width layout: the author bar runs across the top, the post fills the width
+    below. Contributed to the original board by xkeeper in June 2005.
+#}
+{% import 'post/_shell.html.twig' as shell %}
+{% set bg = striped ? 'tdbg2' : 'tdbg1' %}
+
+<tr>
+    <td class="tbl {{ bg }} font vertical-head">
+        <a id="post-{{ post.post.id }}"></a>
+        <table class="bare">
+            <tr>
+                <td style="width:64px">{{ shell.user_picture(post) }}</td>
+                <td>
+                    {{ user_link(post.author) }}
+                    <div class="fonts nowrap">
+                        Level {{ post.level }}
+                        {{ shell.exp_bar(post) }}
+                        Post {{ post.post.authorPostNumber }}
+                        ({{ post.author ? post.author.posts : 0 }} total)<br>
+                        EXP {{ post.experience|number_format }}
+                        ({{ post.experienceToNextLevel|number_format }} for next)
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </td>
+    <td class="tbl {{ bg }} fonts right vertical-meta">
+        {{ shell.meta_row(post, thread|default(null)) }}
+    </td>
+</tr>
+<tr>
+    <td class="tbl {{ bg }} font post-body" colspan="2">
+        {{ shell.body(post) }}
+    </td>
+</tr>

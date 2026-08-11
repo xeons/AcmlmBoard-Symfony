@@ -1,0 +1,28 @@
+/*
+ * Classic - ported from schemes/classic.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-classic {
+    --page-bg: #550000;
+    --page-bg-image: url('/images/back07.gif');
+    --text-color: #E0E0E0;
+
+    --table-bg-1: #000090;
+    --table-bg-2: #000066;
+    --category-bg: #000090;
+    --table-head-bg: #0050A0;
+    --table-head-text: #FFFFFF;
+    --table-border: #000000;
+
+    --link-color: #FFC040;
+    --link-visited: #C09030;
+    --link-active: #FFEA00;
+    --link-hover: #FFFFFF;
+
+    --input-bg: #000090;
+    --input-border: #000000;
+
+    --font-main: verdana, sans-serif;
+}

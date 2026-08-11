@@ -1,0 +1,36 @@
+/*
+ * Final Fantasy IX - ported from schemes/ff9a.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-ff9a {
+    --page-bg: #000000;
+    --page-bg-image: url('/images/numff9/FF9b.gif');
+    --text-color: #FFEEDD;
+
+    --table-bg-1: #111111;
+    --table-bg-2: #222222;
+    --category-bg: #101879;
+    --table-head-bg: #101859;
+    --table-head-text: #FFFFFF;
+    --table-border: #FFFFFF;
+
+    --link-color: #C0C0C0;
+    --link-visited: #808080;
+    --link-active: #FFEA00;
+    --link-hover: #FFFFFF;
+
+    --input-bg: #111111;
+    --input-border: #FFFFFF;
+
+    --font-main: arial, sans-serif;
+}
+
+body.scheme-ff9a .tdbg1 {
+    background-image: url('/images/numff9/FF9d.gif');
+}
+
+body.scheme-ff9a .tdbg2 {
+    background-image: url('/images/numff9/FF9a.gif');
+}

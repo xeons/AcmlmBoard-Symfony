@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - {{ heading }}{% endblock %}
+{% block body %}
+    <div class="breadcrumb font">
+        <a href="{{ path('app_index') }}">{{ board.name }}</a> &mdash; {{ heading }}
+    </div>
+
+    {% include 'partial/pagination.html.twig' with {
+        page: page, pageCount: pageCount, route: route, routeParams: routeParams
+    } only %}
+
+    <table class="table post-grid">
+        <tr>
+            <th class="tbl tdbgh center fonts post-user">User</th>
+            <th class="tbl tdbgh center fonts">Post</th>
+        </tr>
+        {% for rendered in posts %}
+            {% include board.layout ? board.layout.template : 'post/layout/regular.html.twig'
+               with {post: rendered, striped: loop.index0 % 2, thread: null} only %}
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="2">No posts found.</td></tr>
+        {% endfor %}
+    </table>
+
+    {% include 'partial/pagination.html.twig' with {
+        page: page, pageCount: pageCount, route: route, routeParams: routeParams
+    } only %}
+{% endblock %}

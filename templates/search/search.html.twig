@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Search{% endblock %}
+{% block body %}
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Search posts</th></tr>
+            {% for field in form %}
+                {% if field.vars.name not in ['_token'] %}
+                    <tr>
+                        <td class="tbl tdbg1 font" style="width:200px">{{ form_label(field) }}</td>
+                        <td class="tbl tdbg2 font">
+                            {{ form_widget(field) }}
+                            {% if field.vars.help %}<span class="form-help">{{ field.vars.help }}</span>{% endif %}
+                            {{ form_errors(field) }}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit">Search</button></td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+
+    {% if results is not null %}
+        <table class="table">
+            <tr>
+                <td class="tbl tdbg1 fonts">
+                    {{ total }} matching post{{ total == 1 ? '' : 's' }}.
+                </td>
+            </tr>
+        </table>
+
+        {% include 'partial/pagination.html.twig' with {
+            page: page, pageCount: pageCount,
+            route: 'app_search', routeParams: app.request.query.all|filter((v, k) => k != 'page')
+        } only %}
+
+        <table class="table post-grid">
+            <tr>
+                <th class="tbl tdbgh center fonts post-user">User</th>
+                <th class="tbl tdbgh center fonts">Post</th>
+            </tr>
+            {% for rendered in results %}
+                {% include board.layout ? board.layout.template : 'post/layout/regular.html.twig'
+                   with {post: rendered, striped: loop.index0 % 2, thread: null} only %}
+            {% else %}
+                <tr><td class="tbl tdbg1 center font" colspan="2">Nothing matched.</td></tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

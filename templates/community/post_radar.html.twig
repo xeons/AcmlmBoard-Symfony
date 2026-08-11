@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Post radar{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="3">Post radar</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font" colspan="3">
+                <span class="fonts">
+                    Members on your radar appear in a line at the top of every page,
+                    showing how far ahead of or behind them you are.
+                </span>
+            </td>
+        </tr>
+        {% for entry in comparisons %}
+            <tr>
+                <td class="tbl tdbg2 font">{{ user_link(entry.rival) }}</td>
+                <td class="tbl tdbg2 font">
+                    {{ entry.rival.posts|number_format }} posts &mdash;
+                    you are {{ entry.difference }} {{ entry.ahead ? 'ahead' : 'behind' }}
+                </td>
+                <td class="tbl tdbg1 center" style="width:100px">
+                    <form method="post" action="{{ path('app_post_radar') }}" class="inline-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('post-radar') }}">
+                        <input type="hidden" name="rival" value="{{ entry.rival.id }}">
+                        <button type="submit" name="action" value="remove" class="linkbutton">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="3">Your radar is empty.</td></tr>
+        {% endfor %}
+    </table>
+
+    <form method="post" action="{{ path('app_post_radar') }}" class="board-form">
+        <input type="hidden" name="_token" value="{{ csrf_token('post-radar') }}">
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Add a member</th></tr>
+            <tr>
+                <td class="tbl tdbg1 font" style="width:180px"><label for="rival">Member ID</label></td>
+                <td class="tbl tdbg2 font">
+                    <input type="number" id="rival" name="rival" min="1" required>
+                    <span class="form-help">Find the ID in the address bar of their profile.</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit" name="action" value="add">Add to radar</button></td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}

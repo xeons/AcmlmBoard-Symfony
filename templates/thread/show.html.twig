@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }} - {{ forum.title }}: {{ thread.title }}{% endblock %}
+
+{% block feeds %}
+    <link rel="alternate" type="application/atom+xml"
+          href="{{ path('app_feed_thread', {id: thread.id}) }}" title="{{ thread.title }}">
+{% endblock %}
+
+{% block body %}
+
+    {% if online %}
+        <table class="table">
+            <tr>
+                <td class="tbl tdbg1 fonts">
+                    {{ online.userCount }} user{{ online.userCount == 1 ? '' : 's' }} currently in {{ forum.title }}{% if online.users is not empty %}:
+                        {% for person in online.users %}{{ user_link(person, true) }}{{ not loop.last ? ',' }}{% endfor %}
+                    {% else %}.{% endif %}
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+
+    {% include 'thread/_toolbar.html.twig' %}
+
+    {% if poll %}
+        {% include 'poll/_poll.html.twig' with {
+            thread: thread, poll: poll, votedChoiceIds: votedChoiceIds
+        } only %}
+    {% endif %}
+
+    {% if is_granted('THREAD_MODERATE', thread) %}
+        {% include 'thread/_moderation.html.twig' with {thread: thread} only %}
+    {% endif %}
+
+    <table class="table post-grid">
+        <tr>
+            <th class="tbl tdbgh center fonts post-user">User</th>
+            <th class="tbl tdbgh center fonts">Post</th>
+        </tr>
+
+        {% for rendered in posts %}
+            {% include board.layout ? board.layout.template : 'post/layout/regular.html.twig'
+               with {post: rendered, striped: loop.index0 % 2, thread: thread} only %}
+        {% endfor %}
+    </table>
+
+    {% include 'thread/_toolbar.html.twig' %}
+
+    {% include 'partial/forum_jump.html.twig' with {current: forum} only %}
+
+{% endblock %}

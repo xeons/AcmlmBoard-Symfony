@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }} - Log in{% endblock %}
+
+{% block body %}
+
+    <form method="post" action="{{ path('app_login') }}" class="board-form">
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Log in</th></tr>
+
+            {% if error %}
+                <tr>
+                    <td class="tbl tdbg1 font" colspan="2">
+                        <div class="flash flash-error">
+                            {# Deliberately generic: the original told you whether the
+                               username existed, which made it a user-enumeration oracle. #}
+                            Either that username does not exist, or the password is wrong.
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+
+            <tr>
+                <td class="tbl tdbg1 font" style="width:180px"><label for="username">User name</label></td>
+                <td class="tbl tdbg2 font">
+                    <input type="text" id="username" name="username" maxlength="25"
+                           value="{{ lastUsername }}" autocomplete="username" autofocus required>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font"><label for="password">Password</label></td>
+                <td class="tbl tdbg2 font">
+                    <input type="password" id="password" name="password"
+                           autocomplete="current-password" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font"><label for="remember_me">Stay logged in</label></td>
+                <td class="tbl tdbg2 font">
+                    <input type="checkbox" id="remember_me" name="remember_me" value="1" checked>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <button type="submit">Log in</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    {#
+        Revealed by passkeys.js only when the browser actually supports WebAuthn and
+        the connection is a secure context. Password login above is untouched and
+        works with JavaScript off.
+    #}
+    <table class="table" data-passkey-login-block hidden>
+        <tr><th class="tbl tdbgh center fonts">Or use a passkey</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                <button type="button" data-passkey-login>Sign in with a passkey</button>
+                <span data-passkey-login-status class="passkey-status"></span>
+                <span class="form-help">
+                    Uses your fingerprint, face, screen lock or security key. Leave the
+                    username blank if your device offers to pick the account for you.
+                </span>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table">
+        <tr>
+            <td class="tbl tdbg1 fonts">
+                No account yet? <a href="{{ path('app_register') }}">Register</a>.
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/passkeys.js') }}" defer></script>
+{% endblock %}

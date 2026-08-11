@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - {{ isNew ? 'Add' : 'Edit' }} poll{% endblock %}
+{% block body %}
+    <div class="breadcrumb font">
+        <a href="{{ path('app_thread', {id: thread.id}) }}">{{ thread.title }}</a>
+        &mdash; {{ isNew ? 'Add' : 'Edit' }} poll
+    </div>
+
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        <table class="table">
+            <tr>
+                <td class="tbl tdbg1 font" style="width:200px">{{ form_label(form.question) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.question) }}{{ form_errors(form.question) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">{{ form_label(form.briefing) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.briefing) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">{{ form_label(form.choices) }}</td>
+                <td class="tbl tdbg2 font">
+                    <div class="collection" data-prototype="{{ form_widget(form.choices.vars.prototype)|e('html_attr') }}">
+                        {% for choice in form.choices %}
+                            <div class="collection-item">{{ form_widget(choice) }}</div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="collection-add">Add another choice</button>
+                    {{ form_errors(form.choices) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">{{ form_label(form.multiVote) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.multiVote) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">{{ form_label(form.closed) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.closed) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit">Save poll</button></td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+{% endblock %}

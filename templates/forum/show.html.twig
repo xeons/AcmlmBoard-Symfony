@@ -1,0 +1,155 @@
+{% extends 'base.html.twig' %}
+
+{% set heading = forum ? forum.title : (listing == 'favorites' ? 'Favorites' : 'Threads by ' ~ listingUser.username) %}
+
+{% block title %}{{ board.name }} - {{ heading }}{% endblock %}
+
+{% block feeds %}
+    {% if forum %}
+        <link rel="alternate" type="application/atom+xml"
+              href="{{ path('app_feed_forum', {id: forum.id}) }}"
+              title="{{ forum.title }}">
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    {% if online %}
+        <table class="table">
+            <tr>
+                <td class="tbl tdbg1 fonts">
+                    {{ online.userCount }} user{{ online.userCount == 1 ? '' : 's' }} currently in {{ heading }}{% if online.users is not empty %}:
+                        {% for person in online.users %}{{ user_link(person, true) }}{{ not loop.last ? ',' }}{% endfor %}
+                    {% else %}.{% endif %}
+                    {% if online.guestCount %}| {{ online.guestCount }} guest{{ online.guestCount == 1 ? '' : 's' }}{% endif %}
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+
+    <div class="breadcrumb">
+        <table class="bare">
+            <tr>
+                <td class="font">
+                    <a href="{{ path('app_index') }}">{{ board.name }}</a> &mdash; {{ heading }}
+                </td>
+                <td class="fonts right">
+                    {% if forum and is_granted('FORUM_CREATE_THREAD', forum) %}
+                        <a href="{{ path('app_thread_new', {id: forum.id}) }}">New thread</a>
+                    {% endif %}
+                    {% if forum and board.isLoggedIn %}
+                        | <form method="post" action="{{ path('app_forum_mark_read', {id: forum.id}) }}" class="inline-form">
+                            <input type="hidden" name="_token" value="{{ csrf_token('mark-read') }}">
+                            <button type="submit" class="linkbutton">Mark forum read</button>
+                          </form>
+                    {% endif %}
+                    {% if forum %}
+                        | <a href="{{ path('app_feed_forum', {id: forum.id}) }}">Feed</a>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    {% if globalAnnouncement or forumAnnouncement %}
+        <table class="table">
+            <tr><td class="tbl tdbgh center fonts" colspan="2">Announcements</td></tr>
+            {% for a in [globalAnnouncement, forumAnnouncement] %}
+                {% if a %}
+                    <tr>
+                        <td class="tbl tdbg1 font" colspan="2">
+                            <a href="{{ path('app_announcements') }}">{{ a.title }}</a>
+                            &mdash; posted by {{ user_link(a.author) }} on {{ a.createdAt|board_date }}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    {% include 'partial/pagination.html.twig' with {
+        page: page, pageCount: pageCount,
+        route: forum ? 'app_forum' : (listing == 'favorites' ? 'app_favorites' : 'app_forum_by_user'),
+        routeParams: forum ? {id: forum.id} : (listing == 'favorites' ? {} : {id: listingUser.id})
+    } only %}
+
+    <table class="table thread-list">
+        <tr>
+            <th class="tbl tdbgh center fonts new-cell">&nbsp;</th>
+            <th class="tbl tdbgh center fonts" style="width:24px">&nbsp;</th>
+            <th class="tbl tdbgh center fonts">Thread</th>
+            <th class="tbl tdbgh center fonts hide-narrow" style="width:130px">Started by</th>
+            <th class="tbl tdbgh center fonts hide-narrow" style="width:60px">Replies</th>
+            <th class="tbl tdbgh center fonts hide-narrow" style="width:60px">Views</th>
+            <th class="tbl tdbgh center fonts" style="width:170px">Last post</th>
+        </tr>
+
+        {% for thread in threads %}
+            {% set cutoff = readAt ?? guestCutoff %}
+            {% set isNew = thread.lastPostAt > cutoff %}
+            {% set isHot = thread.isHot(hotThreshold) %}
+
+            <tr>
+                <td class="tbl tdbg1 center new-cell">
+                    {% if thread.closed %}
+                        <span class="status-icon status-closed" title="Closed">X</span>
+                    {% elseif isNew %}
+                        <span class="status-icon status-new" title="New posts">N</span>
+                    {% elseif isHot %}
+                        <span class="status-icon status-hot" title="Hot thread">H</span>
+                    {% endif %}
+                </td>
+                <td class="tbl tdbg2 center">
+                    {% if thread.icon %}
+                        <img class="thread-icon" alt=""
+                             src="{{ asset('images/icons/' ~ thread.icon ~ '.gif') }}">
+                    {% endif %}
+                </td>
+                <td class="tbl tdbg2 font">
+                    {% if thread.sticky %}<strong>Sticky:</strong>{% endif %}
+                    {% if thread.poll %}<strong>Poll:</strong>{% endif %}
+                    <a href="{{ path('app_thread', {id: thread.id}) }}"
+                       {% if thread.sticky or thread.poll %}class="emphasised"{% endif %}>{{ thread.title }}</a>
+
+                    {% if thread.replies >= postsPerPage %}
+                        <span class="fonts">(Pages:
+                            {% for p in 1..thread.pageCount(postsPerPage) %}
+                                <a href="{{ path('app_thread', {id: thread.id, page: p}) }}">{{ p }}</a>
+                            {% endfor %})
+                        </span>
+                    {% endif %}
+
+                    {% if listing != 'forum' %}
+                        <br><span class="fonts">in <a href="{{ path('app_forum', {id: thread.forum.id}) }}">{{ thread.forum.title }}</a></span>
+                    {% endif %}
+                </td>
+                <td class="tbl tdbg2 center hide-narrow">{{ user_link(thread.author) }}</td>
+                <td class="tbl tdbg1 center hide-narrow">{{ thread.replies }}</td>
+                <td class="tbl tdbg1 center hide-narrow">{{ thread.views }}</td>
+                <td class="tbl tdbg2 fonts">
+                    <span class="nowrap">{{ thread.lastPostAt|board_date }}</span>
+                    {% if thread.lastPoster %}<br>by {{ user_link(thread.lastPoster) }}{% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td class="tbl tdbg1 center font" colspan="7">
+                    {% if listing == 'favorites' %}
+                        You have no favorite threads yet. Open a thread and use "Add to favorites".
+                    {% else %}
+                        There are no threads here yet.
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% include 'partial/pagination.html.twig' with {
+        page: page, pageCount: pageCount,
+        route: forum ? 'app_forum' : (listing == 'favorites' ? 'app_favorites' : 'app_forum_by_user'),
+        routeParams: forum ? {id: forum.id} : (listing == 'favorites' ? {} : {id: listingUser.id})
+    } only %}
+
+    {% include 'partial/forum_jump.html.twig' with {current: forum} only %}
+
+{% endblock %}

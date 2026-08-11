@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }} - Registration closed{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Registration</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                {{ reason }}
+                <br><br>
+                <a href="{{ path('app_index') }}">Return to the board</a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Two-step sign-in{% endblock %}
+
+{% block body %}
+
+    {% if authenticationError %}
+        <div class="flash flash-error">
+            {{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="{{ path('app_2fa_check') }}" class="board-form">
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Two-step sign-in</th></tr>
+
+            <tr>
+                <td class="tbl tdbg1 font" colspan="2">
+                    <span class="fonts">
+                        Your password was accepted. Open your authenticator app and enter
+                        the six-digit code it is showing for this board.
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="tbl tdbg1 font" style="width:180px">
+                    <label for="_auth_code">Code</label>
+                    <span class="form-help">Six digits, or one of your recovery codes.</span>
+                </td>
+                <td class="tbl tdbg2 font">
+                    {# inputmode and autocomplete let a phone offer the code directly. #}
+                    <input type="text" id="_auth_code" name="_auth_code"
+                           autocomplete="one-time-code" inputmode="numeric"
+                           autofocus required size="14" maxlength="20">
+                </td>
+            </tr>
+
+            {% if displayTrustedOption %}
+                <tr>
+                    <td class="tbl tdbg1 font">Trust this device</td>
+                    <td class="tbl tdbg2 font">
+                        <label class="fonts">
+                            <input type="checkbox" name="_trusted" value="1">
+                            Do not ask again on this device
+                        </label>
+                    </td>
+                </tr>
+            {% endif %}
+
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font">
+                    {# Names come from the firewall config, not hardcoded here. #}
+                    <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+                    <button type="submit">Sign in</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Locked out?</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                <span class="fonts">
+                    If you cannot reach your authenticator app, enter one of the recovery
+                    codes you saved when you set it up. Each one works once.
+                    <br><br>
+                    <a href="{{ logoutPath }}">Cancel and sign out</a>
+                </span>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

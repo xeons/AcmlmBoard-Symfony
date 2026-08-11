@@ -1,0 +1,28 @@
+/*
+ * Dig - ported from schemes/dig.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-dig {
+    --page-bg: #222222;
+    --page-bg-image: url('/images/circuitbg.jpg');
+    --text-color: #EEFFDD;
+
+    --table-bg-1: #10200C;
+    --table-bg-2: #183012;
+    --category-bg: #204018;
+    --table-head-bg: #406030;
+    --table-head-text: #DEFECA;
+    --table-border: #000000;
+
+    --link-color: #DEFECA;
+    --link-visited: #87CA66;
+    --link-active: #F6FFF0;
+    --link-hover: #FFEA80;
+
+    --input-bg: #10200C;
+    --input-border: #000000;
+
+    --font-main: tahoma, sans-serif;
+}

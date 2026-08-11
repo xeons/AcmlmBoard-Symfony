@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Item shop{% endblock %}
+{% block body %}
+
+    <div class="shop-layout">
+        <div class="shop-status">
+            <img class="rpg-status" width="256" height="224" alt="Your status screen"
+                 src="{{ path('app_rpg_status', {id: app.user.id}) }}">
+
+            {% include 'shop/_status.html.twig' with {
+                stats: stats, baseStats: baseStats, coins: coins
+            } only %}
+        </div>
+
+        <div class="shop-main">
+            <table class="table">
+                <tr><th class="tbl tdbgh center fonts" colspan="3">Shops</th></tr>
+                <tr>
+                    <th class="tbl tdbgc center fonts">Shop</th>
+                    <th class="tbl tdbgc center fonts">Description</th>
+                    <th class="tbl tdbgc center fonts">Equipped</th>
+                </tr>
+                {% for category in categories %}
+                    {% set equippedId = profile.getEquippedItemId(category.id) %}
+                    <tr>
+                        <td class="tbl tdbg1 font">
+                            <a href="{{ path('app_shop_category', {id: category.id}) }}">{{ category.name }}</a>
+                        </td>
+                        <td class="tbl tdbg2 fonts">{{ category.description }}</td>
+                        <td class="tbl tdbg1 fonts">
+                            {{ equippedId and equipped[equippedId] is defined ? equipped[equippedId].name : '-' }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td class="tbl tdbg1 center font" colspan="3">No shops have been set up.</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

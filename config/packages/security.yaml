@@ -1,0 +1,95 @@
+security:
+    password_hashers:
+        # "auto" resolves to the strongest hasher available (argon2id, else bcrypt).
+        # The legacy AcmlmBoard stored raw md5() hashes. Accounts imported from an
+        # old board carry passwordLegacyMd5=true; they authenticate against the md5
+        # hash exactly once and are transparently rehashed on that first login.
+        App\Entity\User:
+            algorithm: auto
+            migrate_from:
+                - legacy_md5
+        legacy_md5:
+            id: App\Security\LegacyMd5PasswordHasher
+
+    providers:
+        board_users:
+            entity:
+                class: App\Entity\User
+                property: username
+
+    firewalls:
+        dev:
+            pattern: ^/(_profiler|_wdt|css|images|js)/
+            security: false
+        main:
+            lazy: true
+            provider: board_users
+            entry_point: App\Security\BoardAuthenticator
+            custom_authenticator:
+                # Order matters only in that each authenticator claims a distinct
+                # path: BoardAuthenticator takes POST /login, PasskeyAuthenticator
+                # takes POST /login/passkey/verify. They never both support a request.
+                - App\Security\BoardAuthenticator
+                - App\Security\PasskeyAuthenticator
+            login_throttling:
+                max_attempts: 5
+                interval: '15 minutes'
+            # After a password sign-in the member holds a two-factor token, not a
+            # full one, until they answer the challenge. A passkey already proves
+            # possession of a device, so those sign-ins are not challenged again.
+            two_factor:
+                auth_form_path: app_2fa_login
+                check_path: app_2fa_check
+                default_target_path: app_index
+                auth_code_parameter_name: _auth_code
+                trusted_parameter_name: _trusted
+                # Off by default in the bundle. The challenge is a state-changing
+                # POST like any other on the board, so it gets the same protection.
+                enable_csrf: true
+            logout:
+                path: app_logout
+                target: app_index
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 31536000 # 1 year, matching the original cookie's 2038 expiry
+                path: /
+                secure: auto
+                samesite: lax
+                token_provider:
+                    doctrine: true
+
+    # Only the *first* matching rule is applied.
+    access_control:
+        # The challenge itself must be reachable while holding only a two-factor
+        # token, which is what IS_AUTHENTICATED_2FA_IN_PROGRESS means.
+        - { path: ^/2fa, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        # Managing your own passkeys requires being signed in; the sign-in endpoints
+        # under /login are public by the rule above.
+        - { path: ^/profile/passkeys, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/staff, roles: ROLE_STAFF }
+        - { path: ^/messages, roles: ROLE_USER }
+        - { path: ^/system-messages, roles: ROLE_USER }
+        - { path: ^/profile/edit, roles: ROLE_USER }
+        - { path: ^/layout, roles: ROLE_USER }
+        - { path: ^/shop, roles: ROLE_USER }
+        - { path: ^/post-radar, roles: ROLE_USER }
+        - { path: ^/favorites, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_STAFF: ROLE_USER
+        ROLE_MODERATOR: ROLE_STAFF
+        ROLE_ADMIN: ROLE_MODERATOR
+        ROLE_OWNER: ROLE_ADMIN
+        ROLE_SYSTEM: ROLE_OWNER
+
+when@test:
+    security:
+        password_hashers:
+            App\Entity\User:
+                algorithm: auto
+                cost: 4
+                time_cost: 3
+                memory_cost: 10

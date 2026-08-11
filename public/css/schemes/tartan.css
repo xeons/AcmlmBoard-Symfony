@@ -1,0 +1,30 @@
+/*
+ * Tartan - ported from schemes/tartan.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-tartan {
+    --page-bg: #100018;
+    --page-bg-image: url('/images/tartan/tartan1.jpg');
+    --text-color: #EEEEEE;
+
+    --table-bg-1: #222222;
+    --table-bg-2: #333333;
+    --category-bg: #13031A;
+    --table-head-bg: #0054B0;
+    --table-head-text: #FFFFFF;
+    --table-border: #000000;
+
+    --link-color: #BABECE;
+    --link-visited: #9EBAFE;
+    --link-active: #FFEA00;
+    --link-hover: #FFD8A0;
+
+    --input-bg: #222222;
+    --input-border: #777799;
+}
+
+body.scheme-tartan .tdbgh {
+    background-image: url('/images/tartan/tartan2.jpg');
+}

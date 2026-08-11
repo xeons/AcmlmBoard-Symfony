@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Credits{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Credits</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                <p>
+                    This board runs a Symfony port of <strong>AcmlmBoard 1.A3</strong>,
+                    originally written in 2000&ndash;2005 by Acmlm, Emuz, Xkeeper,
+                    ||bass, Jesper and others.
+                </p>
+                <p>
+                    It also carries a few things back from <strong>AcmlmBoard
+                    1.92.08</strong>, a branch that went its own way from 1.A3: the
+                    wide post layout, and five of the colour schemes.
+                </p>
+                <p class="fonts">
+                    AcmlmBoard &copy; 2000&ndash;{{ 'now'|date('Y') }} Acmlm, Emuz et al.
+                    <br>
+                    Symfony port &copy; {{ 'now'|date('Y') }} Xeon Productions,
+                    developed with Claude Code.
+                </p>
+                <p>
+                    The feature set is the original's. The implementation is not: the
+                    port uses Doctrine for persistence, Symfony's security component
+                    for authentication and authorisation, CSRF tokens on every
+                    state-changing request, and an allowlist HTML sanitizer for the
+                    user-authored post layouts the board is known for.
+                </p>
+                <p class="fonts">
+                    Running on Symfony {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }},
+                    PHP {{ constant('PHP_VERSION') }}.
+                </p>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

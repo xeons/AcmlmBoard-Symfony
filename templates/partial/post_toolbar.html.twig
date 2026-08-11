@@ -1,0 +1,38 @@
+{#
+    The formatting toolbar. Buttons carry the tag they insert as a data attribute
+    and board.js wires them up; the original emitted a wall of inline
+    onclick="javascript:..." handlers built by string concatenation in PHP.
+
+    Hidden entirely when the member has turned the toolbar off in their profile.
+#}
+{% if app.user is null or app.user.hasPostToolbar %}
+    <div class="post-toolbar fonts" data-toolbar-for="{{ target }}">
+        <button type="button" data-wrap="[b]|[/b]" title="Bold"><strong>B</strong></button>
+        <button type="button" data-wrap="[i]|[/i]" title="Italic"><em>I</em></button>
+        <button type="button" data-wrap="[u]|[/u]" title="Underline"><u>U</u></button>
+        <button type="button" data-wrap="[s]|[/s]" title="Strikethrough"><s>S</s></button>
+        <button type="button" data-wrap="[url=]|[/url]" title="Link">URL</button>
+        <button type="button" data-wrap="[img]|[/img]" title="Image">IMG</button>
+        <button type="button" data-wrap="[quote]|[/quote]" title="Quote">Quote</button>
+        <button type="button" data-wrap="[code]|[/code]" title="Code">Code</button>
+        <button type="button" data-wrap="[spoiler]|[/spoiler]" title="Spoiler">Spoiler</button>
+
+        <span class="toolbar-colors">
+            {% for name in ['red', 'green', 'blue', 'orange', 'yellow', 'pink', 'white', 'black'] %}
+                <button type="button" class="color-{{ name }}"
+                        data-wrap="[{{ name }}]|[/color]" title="{{ name|capitalize }}">&#9632;</button>
+            {% endfor %}
+        </span>
+
+        <details class="toolbar-smileys">
+            <summary>Smileys</summary>
+            <div class="smiley-grid">
+                {% for smiley in smileys() %}
+                    <button type="button" data-insert="{{ smiley.code }}" title="{{ smiley.code }}">
+                        <img src="{{ smiley.image }}" alt="{{ smiley.code }}">
+                    </button>
+                {% endfor %}
+            </div>
+        </details>
+    </div>
+{% endif %}

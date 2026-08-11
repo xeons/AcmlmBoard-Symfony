@@ -1,0 +1,39 @@
+/*
+ * Alliance - palette carried over from the acmlm19208 fork.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-alliance {
+    --page-bg: #4B2742;
+    --text-color: #F2E9C8;
+
+    --table-bg-1: #3a1e33;
+    --table-bg-2: #43233b;
+    --category-bg: #2b1626;
+    --table-head-bg: #E6299D;
+    --table-head-text: #2b1626;
+    --table-border: #1d0f19;
+
+    --link-color: #DAD218;
+    --link-visited: #DAD218;
+    --link-active: #F3EE8A;
+    --link-hover: #F3EE8A;
+
+    --input-bg: #3a1e33;
+    --input-border: #E6299D;
+
+    --name-male-0: #7FC4FF;
+    --name-male-1: #7FC4FF;
+    --name-male-2: #F3EE8A;
+    --name-male-3: #F3EE8A;
+    --name-female-0: #FF9ED8;
+    --name-female-1: #FF9ED8;
+    --name-female-2: #F3EE8A;
+    --name-female-3: #F3EE8A;
+    --name-na-0: #DAD218;
+    --name-na-1: #DAD218;
+    --name-na-2: #F3EE8A;
+    --name-na-3: #F3EE8A;
+    --name-banned: #888888;
+}

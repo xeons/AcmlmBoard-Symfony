@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Ratings for {{ profile.username }}{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr>
+            <th class="tbl tdbgh center fonts">Ratings for {{ profile.username }}</th>
+            <th class="tbl tdbgh center fonts">Ratings by {{ profile.username }}</th>
+        </tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                {% for r in received %}
+                    <strong>{{ r.rating }}</strong> from {{ user_link(r.rater) }}<br>
+                {% else %}None.{% endfor %}
+            </td>
+            <td class="tbl tdbg1 font">
+                {% for r in given %}
+                    <strong>{{ r.rating }}</strong> for {{ user_link(r.rated) }}<br>
+                {% else %}None.{% endfor %}
+            </td>
+        </tr>
+    </table>
+{% endblock %}

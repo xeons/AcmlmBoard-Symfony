@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ board.name }}{% endblock %}</title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+
+    {# The layout is one stylesheet; the scheme is a second that only redefines
+       custom properties. Switching skins therefore never reflows the structure,
+       which is what made the original's per-scheme PHP files so fragile. #}
+    <link rel="stylesheet" href="{{ asset('css/board.css') }}">
+    {% if board.scheme %}
+        <link rel="stylesheet" href="{{ asset(board.scheme.stylesheetPath) }}">
+    {% endif %}
+
+    {% block feeds %}{% endblock %}
+    {% block head %}{% endblock %}
+</head>
+<body class="{{ board.scheme ? 'scheme-' ~ board.scheme.slug : 'scheme-default' }}{% if board.scheme and board.scheme.timeCycling %} {{ board.timeOfDayClass }}{% endif %}">
+
+<div class="board">
+
+    {#
+        The banner. Each scheme carries its own, as $boardtitle did in the original:
+        most schemes shared title2.jpg, a few shipped their own, and "classic" showed
+        styled text rather than a picture. A scheme with no banner falls back to the
+        board's name, which is also what guests see before a default scheme is set.
+
+        The name is always in the alt text, so the board is still identifiable when
+        images are off and to anyone using a screen reader - the original's banner
+        was an untitled <img> and announced as nothing at all.
+    #}
+    <div class="board-title">
+        <a href="{{ path('app_index') }}">
+            {% if board.scheme and board.scheme.titleImage %}
+                <img src="{{ asset(board.scheme.titleImage|trim('/')) }}"
+                     alt="{{ board.name }}" class="board-banner">
+            {% else %}
+                {{ board.name }}
+            {% endif %}
+        </a>
+    </div>
+
+    <table class="table header-bar">
+        <tr>
+            <td class="tbl tdbg1 center fonts" colspan="3">
+                {% if board.isLoggedIn %}
+                    <a href="{{ path('app_profile_edit') }}">Edit profile</a>
+                    | <a href="{{ path('app_layout_edit') }}">Edit layout</a>
+                    | <a href="{{ path('app_avatars') }}">Avatars</a>
+                    | <a href="{{ path('app_post_radar') }}">Post radar</a>
+                    | <a href="{{ path('app_favorites') }}">Favorites</a>
+                    {% if board.isAdmin %}| <a href="{{ path('app_admin') }}">Admin</a>{% endif %}
+                    {% if board.isStaff %}| <a href="{{ path('app_staff') }}">Staff panel</a>{% endif %}
+                    | <form method="post" action="{{ path('app_logout') }}" class="inline-form">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+                        <button type="submit" class="linkbutton">Logout</button>
+                      </form>
+                {% else %}
+                    <a href="{{ path('app_register') }}">Register</a>
+                    | <a href="{{ path('app_login') }}">Login</a>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="tbl tdbg2 center fonts nav-side">
+                <span class="nowrap">Views: {{ board.pageViews|number_format }}</span>
+            </td>
+            <td class="tbl tdbg2 center fonts nav-main">
+                <a href="{{ path('app_index') }}">Main</a>
+                | <a href="{{ path('app_members') }}">Memberlist</a>
+                | <a href="{{ path('app_active_users') }}">Active users</a>
+                | <a href="{{ path('app_acs') }}">ACS</a>
+                | <a href="{{ path('app_calendar') }}">Calendar</a>
+                | <a href="{{ path('app_online') }}">Online users</a><br>
+                <a href="{{ path('app_ranks') }}">Ranks</a>
+                | <a href="{{ path('app_stats') }}">Stats</a>
+                | <a href="{{ path('app_stats_by_forum') }}">Post stats</a>
+                | <a href="{{ path('app_faq') }}">FAQ</a>
+                | <a href="{{ path('app_announcements') }}">Announcements</a>
+                {% if board.canSearch %}| <a href="{{ path('app_search') }}">Search</a>{% endif %}
+                {% if board.isLoggedIn %}| <a href="{{ path('app_shop') }}">Item shop</a>{% endif %}
+            </td>
+            <td class="tbl tdbg2 center fonts nav-side">
+                {# board_date, not Twig's |date: this must be the viewer's clock. #}
+                <span class="nowrap">{{ 'now'|board_date }}</span>
+            </td>
+        </tr>
+
+        {% if board.postRadar is not empty %}
+            {# The post-count race ticker that ran across the top of every page. #}
+            <tr>
+                <td class="tbl tdbg1 center fonts" colspan="3">
+                    You are
+                    {%- for entry in board.postRadar %}
+                        {{- ' ' }}{{ entry.difference }}
+                        {{- entry.ahead ? ' ahead of' : ' behind' }}
+                        {{ user_link(entry.rival) }} ({{ entry.rival.posts }})
+                        {{- not loop.last ? (loop.revindex == 2 ? ' and' : ',') : '.' }}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endif %}
+    </table>
+
+    {% if board.isLoggedIn and board.hasUnread %}
+        <table class="table message-box">
+            <tr>
+                <td class="tbl tdbgh center fonts" colspan="2">Messages</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 center new-cell">
+                    {% if board.messages.unread %}<span class="new-flag" title="New messages">NEW</span>{% endif %}
+                </td>
+                <td class="tbl tdbg2 font">
+                    <a href="{{ path('app_messages') }}">Private messages</a> &mdash;
+                    you have {{ board.messages.total }} message{{ board.messages.total == 1 ? '' : 's' }}
+                    ({{ board.messages.unread }} new).
+                </td>
+            </tr>
+            {% if board.systemMessages.total %}
+                <tr>
+                    <td class="tbl tdbg1 center new-cell">
+                        {% if board.systemMessages.unread %}<span class="new-flag">NEW</span>{% endif %}
+                    </td>
+                    <td class="tbl tdbg2 font">
+                        <a href="{{ path('app_system_messages') }}">System messages</a> &mdash;
+                        you have {{ board.systemMessages.total }}
+                        ({{ board.systemMessages.unread }} new).
+                        {% if board.systemMessages.unread %}
+                            <strong>You cannot post until you have read them.</strong>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
+    {% endif %}
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash flash-{{ label }}">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
+
+    <main>
+        {% block body %}{% endblock %}
+    </main>
+
+    <div class="footer fonts">
+        {% if board.config.siteUrl and board.config.siteName %}
+            <a href="{{ board.config.siteUrl }}">{{ board.config.siteName }}</a><br>
+        {% endif %}
+        {#
+            The conventional forum-script footer line. The copyright range runs to the
+            current year rather than a hardcoded one, so it does not quietly go stale
+            the way the original's "2000-2005" did.
+        #}
+        Powered by <a href="{{ path('app_credits') }}">AcmlmBoard</a>
+        &copy; 2000&ndash;{{ 'now'|date('Y') }} Acmlm, Emuz et al.<br>
+        Ported by Xeon Productions, developed with Claude Code.
+    </div>
+
+</div>
+
+{% block javascripts %}
+    <script src="{{ asset('js/board.js') }}" defer></script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,64 @@
+/*
+ * Daily cycle - ported from schemes/dailycycle.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-dailycycle {
+    --page-bg: #070716;
+    --page-bg-image: url('/images/back09.gif');
+    --text-color: #E0E0E0;
+
+    --table-bg-1: #0A0A21;
+    --table-bg-2: #070716;
+    --category-bg: #111139;
+    --table-head-bg: #171750;
+    --table-head-text: #FFFFFF;
+    --table-border: #3C41A6;
+
+    --link-color: #FFD040;
+    --link-visited: #F0A020;
+    --link-active: #FFEA00;
+    --link-hover: #FFFFFF;
+
+    --input-bg: #0A0A21;
+    --input-border: #171750;
+}
+
+/* Time-of-day palettes; the class is set by BoardContext. */
+body.scheme-dailycycle.tod-0 {
+    --table-bg-1: #0A0A21;
+    --table-bg-2: #070716;
+    --page-bg: #070716;
+    --category-bg: #111139;
+    --table-head-bg: #171750;
+    --table-border: #3C41A6;
+    --input-border: #171750;
+}
+body.scheme-dailycycle.tod-1 {
+    --table-bg-1: #300652;
+    --table-bg-2: #220532;
+    --page-bg: #220532;
+    --category-bg: #3B1260;
+    --table-head-bg: #461E6E;
+    --table-border: #7642A5;
+    --input-border: #461E6E;
+}
+body.scheme-dailycycle.tod-2 {
+    --table-bg-1: #000060;
+    --table-bg-2: #000036;
+    --page-bg: #000036;
+    --category-bg: #000080;
+    --table-head-bg: #0050A0;
+    --table-border: #0070C0;
+    --input-border: #0050A0;
+}
+body.scheme-dailycycle.tod-3 {
+    --table-bg-1: #320A09;
+    --table-bg-2: #1F0707;
+    --page-bg: #1F0707;
+    --category-bg: #49110B;
+    --table-head-bg: #60180D;
+    --table-border: #BE6A20;
+    --input-border: #60180D;
+}

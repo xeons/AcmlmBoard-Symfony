@@ -1,0 +1,42 @@
+{#
+    Wide: the poster's details run across the top of the post rather than down the
+    side, so the body gets the full width of the table. Carried over from the
+    acmlm19208 fork's tlayouts/postwide.php.
+#}
+{% import 'post/_shell.html.twig' as shell %}
+{% set bg = striped ? 'tdbg2' : 'tdbg1' %}
+
+<tr>
+    <td class="tbl {{ bg }} font post-wide-head" colspan="2">
+        <a id="post-{{ post.post.id }}"></a>
+        <table class="post-wide-bar">
+            <tr>
+                <td class="fonts">
+                    {{ user_link(post.author) }}
+                    {% if post.author %}
+                        <span class="post-wide-level">Level: {{ post.level }}</span>
+                        {{ shell.exp_bar(post) }}
+                    {% endif %}
+                </td>
+                <td class="fonts right post-wide-actions">
+                    {{ shell.meta_row(post, thread|default(null)) }}
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td class="tbl {{ bg }} font post-body post-wide-body" colspan="2">
+        {{ shell.body(post) }}
+    </td>
+</tr>
+<tr>
+    <td class="tbl {{ bg }} fonts post-wide-foot" colspan="2">
+        Posted on {{ post.post.createdAt|board_date }}
+        {% if post.author %}
+            &mdash; {{ post.post.authorPostNumber }}/{{ post.author.posts }} posts,
+            member since {{ post.author.registeredAt|board_date_short }}
+            {% if post.author.location %}, from {{ post.author.location }}{% endif %}
+        {% endif %}
+    </td>
+</tr>

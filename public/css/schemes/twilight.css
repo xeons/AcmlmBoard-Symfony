@@ -1,0 +1,39 @@
+/*
+ * Twilight - palette carried over from the acmlm19208 fork.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-twilight {
+    --page-bg: #52814F;
+    --text-color: #0B3708;
+
+    --table-bg-1: #EAF3E9;
+    --table-bg-2: #DCEBDB;
+    --category-bg: #3f6a3c;
+    --table-head-bg: #0B3708;
+    --table-head-text: #DCEBDB;
+    --table-border: #2f5a2c;
+
+    --link-color: #0B3708;
+    --link-visited: #0B3708;
+    --link-active: #1d6b18;
+    --link-hover: #1d6b18;
+
+    --input-bg: #EAF3E9;
+    --input-border: #0B3708;
+
+    --name-male-0: #3460E0;
+    --name-male-1: #3460E0;
+    --name-male-2: #1d6b18;
+    --name-male-3: #1d6b18;
+    --name-female-0: #E936A6;
+    --name-female-1: #E936A6;
+    --name-female-2: #1d6b18;
+    --name-female-3: #1d6b18;
+    --name-na-0: #5F468C;
+    --name-na-1: #5F468C;
+    --name-na-2: #1d6b18;
+    --name-na-3: #1d6b18;
+    --name-banned: #888888;
+}

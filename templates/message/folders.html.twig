@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Message folders{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="2">Your folders</th></tr>
+        {% for folder in folders %}
+            <tr>
+                <td class="tbl tdbg1 font">
+                    <a href="{{ path('app_messages', {folder: folder.number}) }}">{{ folder.name }}</a>
+                </td>
+                <td class="tbl tdbg2 font" style="width:120px">
+                    <form method="post" action="{{ path('app_message_folder_delete', {id: folder.id}) }}"
+                          class="inline-form" data-confirm="Delete this folder? Its messages go back to your inbox.">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-folder' ~ folder.id) }}">
+                        <button type="submit" class="linkbutton danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="2">You have no custom folders.</td></tr>
+        {% endfor %}
+    </table>
+
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">New folder</th></tr>
+            <tr>
+                <td class="tbl tdbg1 font" style="width:180px">{{ form_label(form.name) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.name) }}{{ form_errors(form.name) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit">Create folder</button></td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{#
+    Page links.
+
+    The original rebuilt the query string with
+    `preg_replace("'page=([0-9].*)'si", '', '?'.getenv("QUERY_STRING"))`
+    and concatenated the result, which mangled any other parameter and happily
+    reflected the raw query string into the page. This generates real routes.
+#}
+{% if pageCount > 1 %}
+    <div class="pagination fonts">
+        Pages:
+        {% set window = 5 %}
+        {% set from = max(1, page - window) %}
+        {% set to = min(pageCount, page + window) %}
+
+        {% if from > 1 %}
+            <a href="{{ path(route, routeParams|merge({page: 1})) }}">1</a>
+            {% if from > 2 %}...{% endif %}
+        {% endif %}
+
+        {% for p in from..to %}
+            {% if p == page %}
+                <strong>{{ p }}</strong>
+            {% else %}
+                <a href="{{ path(route, routeParams|merge({page: p})) }}">{{ p }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if to < pageCount %}
+            {% if to < pageCount - 1 %}...{% endif %}
+            <a href="{{ path(route, routeParams|merge({page: pageCount})) }}">{{ pageCount }}</a>
+        {% endif %}
+    </div>
+{% endif %}

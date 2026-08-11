@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Moderators of {{ forum.title }}{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="2">Moderators of {{ forum.title }}</th></tr>
+        {% for moderator in forum.moderators %}
+            <tr>
+                <td class="tbl tdbg2 font">{{ user_link(moderator.user) }}</td>
+                <td class="tbl tdbg1 center" style="width:120px">
+                    <form method="post" action="{{ path('app_admin_forum_moderators', {id: forum.id}) }}" class="inline-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('moderators' ~ forum.id) }}">
+                        <input type="hidden" name="user" value="{{ moderator.user.id }}">
+                        <button type="submit" name="action" value="remove" class="linkbutton danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="2">This forum has no local moderators.</td></tr>
+        {% endfor %}
+    </table>
+
+    <form method="post" action="{{ path('app_admin_forum_moderators', {id: forum.id}) }}" class="board-form">
+        <input type="hidden" name="_token" value="{{ csrf_token('moderators' ~ forum.id) }}">
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Add a moderator</th></tr>
+            <tr>
+                <td class="tbl tdbg1 font" style="width:180px"><label for="user">Member ID</label></td>
+                <td class="tbl tdbg2 font"><input type="number" id="user" name="user" min="1" required></td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font"><button type="submit" name="action" value="add">Add</button></td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}

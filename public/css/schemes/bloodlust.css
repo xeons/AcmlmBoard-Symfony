@@ -1,0 +1,28 @@
+/*
+ * Bloodlust - ported from schemes/bloodlust.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-bloodlust {
+    --page-bg: #085A99;
+    --page-bg-image: url('/images/bloodlustbg.png');
+    --text-color: #FFFFFF;
+
+    --table-bg-1: #0C4A7A;
+    --table-bg-2: #194C73;
+    --category-bg: #0E5F92;
+    --table-head-bg: #0E5F92;
+    --table-head-text: #FFFFFF;
+    --table-border: #000000;
+
+    --link-color: #D3D3D3;
+    --link-visited: #B5B5B5;
+    --link-active: #EEEEEE;
+    --link-hover: #D3D3D3;
+
+    --input-bg: #0C4A7A;
+    --input-border: #000000;
+
+    --font-main: verdana, sans-serif;
+}

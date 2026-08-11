@@ -1,0 +1,233 @@
+[
+    {
+        "slug": "classic",
+        "name": "Classic",
+        "position": 0,
+        "timeCycling": false,
+        "titleImage": null
+    },
+    {
+        "slug": "oldblue",
+        "name": "Old blue",
+        "position": 1,
+        "timeCycling": false,
+        "titleImage": "/images/title.jpg"
+    },
+    {
+        "slug": "dailycycle",
+        "name": "Daily cycle",
+        "position": 2,
+        "timeCycling": true,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "purple",
+        "name": "Purple",
+        "position": 3,
+        "timeCycling": false,
+        "titleImage": "/images/title2b.jpg"
+    },
+    {
+        "slug": "night",
+        "name": "Night",
+        "position": 4,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "kafuka",
+        "name": "Kafuka",
+        "position": 5,
+        "timeCycling": false,
+        "titleImage": "/images/kafuka.jpg"
+    },
+    {
+        "slug": "mario",
+        "name": "Mario",
+        "position": 6,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "megaman",
+        "name": "Mega Man",
+        "position": 7,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "nes",
+        "name": "NES",
+        "position": 8,
+        "timeCycling": false,
+        "titleImage": "/images/title2nes.png"
+    },
+    {
+        "slug": "kirby",
+        "name": "Kirby",
+        "position": 9,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "bloodlust",
+        "name": "Bloodlust",
+        "position": 10,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "endofff",
+        "name": "End of FF",
+        "position": 11,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "ff9a",
+        "name": "Final Fantasy IX",
+        "position": 12,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "dig",
+        "name": "Dig",
+        "position": 13,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "dani",
+        "name": "Dani",
+        "position": 14,
+        "timeCycling": false,
+        "titleImage": "/images/title2dani.jpg"
+    },
+    {
+        "slug": "neon",
+        "name": "Neon",
+        "position": 15,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "tartan",
+        "name": "Tartan",
+        "position": 16,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "romhackdomain",
+        "name": "ROM Hack Domain",
+        "position": 17,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "aesucks",
+        "name": "Eyestrain",
+        "position": 18,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "aceboard",
+        "name": "Aceboard",
+        "position": 19,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "alliance",
+        "name": "Alliance",
+        "position": 20,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "horde",
+        "name": "Horde",
+        "position": 21,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "twilight",
+        "name": "Twilight",
+        "position": 22,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "yoshi",
+        "name": "Yoshi",
+        "position": 23,
+        "timeCycling": false,
+        "titleImage": "/images/title2.jpg"
+    },
+    {
+        "slug": "matrix",
+        "name": "Matrix",
+        "position": 24,
+        "timeCycling": false,
+        "titleImage": null
+    },
+    {
+        "slug": "dark-plus",
+        "name": "Dark+ (VS Code)",
+        "position": 25,
+        "timeCycling": false,
+        "titleImage": null
+    },
+    {
+        "slug": "monokai",
+        "name": "Monokai",
+        "position": 26,
+        "timeCycling": false,
+        "titleImage": null
+    },
+    {
+        "slug": "dracula",
+        "name": "Dracula",
+        "position": 27,
+        "timeCycling": false,
+        "titleImage": null
+    },
+    {
+        "slug": "nord",
+        "name": "Nord",
+        "position": 28,
+        "timeCycling": false,
+        "titleImage": null
+    },
+    {
+        "slug": "one-dark",
+        "name": "One Dark",
+        "position": 29,
+        "timeCycling": false,
+        "titleImage": null
+    },
+    {
+        "slug": "solarized-dark",
+        "name": "Solarized Dark",
+        "position": 30,
+        "timeCycling": false,
+        "titleImage": null
+    },
+    {
+        "slug": "solarized-light",
+        "name": "Solarized Light",
+        "position": 31,
+        "timeCycling": false,
+        "titleImage": null
+    },
+    {
+        "slug": "github-dark",
+        "name": "GitHub Dark",
+        "position": 32,
+        "timeCycling": false,
+        "titleImage": null
+    }
+]

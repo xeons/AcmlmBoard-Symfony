@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Calendar{% endblock %}
+{% block body %}
+
+    {% set prev = month == 1 ? {year: year - 1, month: 12} : {year: year, month: month - 1} %}
+    {% set next = month == 12 ? {year: year + 1, month: 1} : {year: year, month: month + 1} %}
+
+    <table class="bare">
+        <tr>
+            <td class="fonts"><a href="{{ path('app_calendar', prev) }}">&laquo; Previous</a></td>
+            <td class="font center"><strong>{{ firstOfMonth|date('F Y') }}</strong></td>
+            <td class="fonts right"><a href="{{ path('app_calendar', next) }}">Next &raquo;</a></td>
+        </tr>
+    </table>
+
+    <table class="table calendar">
+        <tr>
+            {% for day in ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] %}
+                <th class="tbl tdbgh center fonts">{{ day }}</th>
+            {% endfor %}
+        </tr>
+
+        {% set cell = 1 - (startWeekday - 1) %}
+        {% for week in 1..6 %}
+            {% if cell <= daysInMonth %}
+                <tr>
+                    {% for weekday in 1..7 %}
+                        {% if cell < 1 or cell > daysInMonth %}
+                            <td class="tbl tdbg1 calendar-empty">&nbsp;</td>
+                        {% else %}
+                            {% set isToday = year == today|date('Y')|number_format(0,'','')
+                                             and month == today|date('n')|number_format(0,'','')
+                                             and cell == today|date('j')|number_format(0,'','') %}
+                            <td class="tbl {{ isToday ? 'tdbgc' : 'tdbg2' }} font calendar-day">
+                                <div class="calendar-number">{{ cell }}</div>
+                                <div class="fonts">
+                                    {% for event in eventsByDay[cell]|default([]) %}
+                                        <div class="calendar-event" title="{{ event.body }}">{{ event.title }}</div>
+                                    {% endfor %}
+                                    {% for person in birthdaysByDay[cell]|default([]) %}
+                                        <div class="calendar-birthday">&#127874; {{ user_link(person) }}</div>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        {% endif %}
+                        {% set cell = cell + 1 %}
+                    {% endfor %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+
+{% endblock %}

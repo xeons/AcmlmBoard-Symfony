@@ -1,0 +1,36 @@
+/*
+ * Kafuka - ported from schemes/kafuka.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-kafuka {
+    --page-bg: #220000;
+    --page-bg-image: url('/images/firebg4.jpg');
+    --text-color: #FFEEDD;
+
+    --table-bg-1: #110000;
+    --table-bg-2: #220000;
+    --category-bg: #441100;
+    --table-head-bg: #883311;
+    --table-head-text: #FFFFFF;
+    --table-border: #000000;
+
+    --link-color: #FFD040;
+    --link-visited: #F0A020;
+    --link-active: #FFEA00;
+    --link-hover: #FFFFFF;
+
+    --input-bg: #110000;
+    --input-border: #773311;
+
+    --font-main: arial, sans-serif;
+}
+
+body.scheme-kafuka .tdbg1 {
+    background-image: url('/images/firebg2b.jpg');
+}
+
+body.scheme-kafuka .tdbg2 {
+    background-image: url('/images/firebg2.jpg');
+}

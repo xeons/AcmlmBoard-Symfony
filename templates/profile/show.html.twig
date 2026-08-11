@@ -1,0 +1,222 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - {{ profile.username }}{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr>
+            <th class="tbl tdbgh center fonts" colspan="2">
+                {{ user_link(profile) }}'s profile
+            </th>
+        </tr>
+
+        <tr>
+            <td class="tbl tdbg1 font" style="width:230px"><strong>Rank</strong></td>
+            <td class="tbl tdbg2 font">
+                {% if rankBlock.rank %}{{ rankBlock.rank|board_inline }}{% endif %}
+                {% if rankBlock.title %}<br>{{ rankBlock.title|board_inline }}{% endif %}
+                {% if rankBlock.badge %}<br><strong>{{ rankBlock.badge }}</strong>{% endif %}
+                {% if not rankBlock.rank and not rankBlock.title and not rankBlock.badge %}&mdash;{% endif %}
+            </td>
+        </tr>
+
+        {% set picture = safe_image_url(profile.picture) %}
+        {% if picture %}
+            <tr>
+                <td class="tbl tdbg1 font"><strong>Picture</strong></td>
+                <td class="tbl tdbg2 font">
+                    <img src="{{ picture }}" width="60" alt="" loading="lazy" referrerpolicy="no-referrer">
+                </td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Posts</strong></td>
+            <td class="tbl tdbg2 font">
+                {{ profile.posts|number_format }}
+                {% if actualPostCount != profile.posts %}
+                    <span class="fonts">({{ actualPostCount|number_format }} still on the board)</span>
+                {% endif %}
+                &mdash; ranked #{{ postRank }}
+                {% if postsToNextRank %}
+                    <span class="fonts">({{ postsToNextRank }} behind the next place)</span>
+                {% endif %}
+                <br><a href="{{ path('app_posts_by_user', {id: profile.id}) }}">View posts</a>
+                | <a href="{{ path('app_forum_by_user', {id: profile.id}) }}">View threads</a>
+                ({{ threadCount }})
+            </td>
+        </tr>
+
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Status</strong></td>
+            <td class="tbl tdbg2 font">
+                <img class="rpg-status" width="256" height="224"
+                     alt="{{ profile.username }}'s RPG status screen"
+                     src="{{ path('app_rpg_status', {id: profile.id}) }}" loading="lazy">
+            </td>
+        </tr>
+
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Level</strong></td>
+            <td class="tbl tdbg2 font">
+                {{ level }}
+                <span class="exp-bar"><span class="exp-bar-fill" style="width: {{ (levelProgress*100)|round(1) }}%"></span></span>
+                <br><span class="fonts">
+                    {{ experience|number_format }} EXP,
+                    {{ experienceToNext|number_format }} for the next level.
+                    Gaining {{ experiencePerPost }}/post{% if experiencePerSecond %},
+                    or one post's worth every {{ experiencePerSecond }}s of waiting{% endif %}.
+                </span>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Registered</strong></td>
+            <td class="tbl tdbg2 font">
+                {{ profile.registeredAt|board_date }}
+                <span class="fonts">({{ profile.daysRegistered()|round }} days ago)</span>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Last activity</strong></td>
+            <td class="tbl tdbg2 font">{{ profile.lastActivityAt|duration }} ago</td>
+        </tr>
+
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Last post</strong></td>
+            <td class="tbl tdbg2 font">{{ profile.lastPostAt|duration }} ago</td>
+        </tr>
+
+        {% if profile.realName %}
+            <tr>
+                <td class="tbl tdbg1 font"><strong>Real name</strong></td>
+                <td class="tbl tdbg2 font">{{ profile.realName }}</td>
+            </tr>
+        {% endif %}
+
+        {% if profile.location %}
+            <tr>
+                <td class="tbl tdbg1 font"><strong>Location</strong></td>
+                <td class="tbl tdbg2 font">{{ profile.location }}</td>
+            </tr>
+        {% endif %}
+
+        {% if profile.birthday %}
+            <tr>
+                <td class="tbl tdbg1 font"><strong>Birthday</strong></td>
+                <td class="tbl tdbg2 font">{{ profile.birthday|date('F j') }}</td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Sex</strong></td>
+            <td class="tbl tdbg2 font">{{ profile.sex.label }}</td>
+        </tr>
+
+        {% if canSeeEmail and profile.email %}
+            <tr>
+                <td class="tbl tdbg1 font"><strong>Email</strong></td>
+                <td class="tbl tdbg2 font">
+                    <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if profile.homepageUrl %}
+            <tr>
+                <td class="tbl tdbg1 font"><strong>Homepage</strong></td>
+                <td class="tbl tdbg2 font">
+                    <a href="{{ profile.homepageUrl }}" rel="nofollow noopener noreferrer" target="_blank">
+                        {{ profile.homepageName ?: profile.homepageUrl }}
+                    </a>
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if profile.bio %}
+            <tr>
+                <td class="tbl tdbg1 font"><strong>Bio</strong></td>
+                <td class="tbl tdbg2 font">{{ profile.bio|board_markup }}</td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td class="tbl tdbg1 font"><strong>Rating</strong></td>
+            <td class="tbl tdbg2 font">
+                {% if ratings.count %}
+                    {{ ratings.average }}/10 from {{ ratings.count }} member{{ ratings.count == 1 ? '' : 's' }}
+                {% else %}
+                    Not yet rated
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    | <a href="{{ path('app_profile_ratings', {id: profile.id}) }}">Breakdown</a>
+                {% endif %}
+
+                {% if canRate %}
+                    <form method="post" action="{{ path('app_profile_rate', {id: profile.id}) }}" class="rating-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('rate' ~ profile.id) }}">
+                        {% for n in 0..10 %}
+                            <label><input type="radio" name="rating" value="{{ n }}"
+                                {{ myRating == n ? 'checked' : '' }}> {{ n }}</label>
+                        {% endfor %}
+                        <button type="submit">Rate</button>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+
+        {% if canSeeIp and profile.lastIp %}
+            <tr>
+                <td class="tbl tdbg1 font"><strong>Last IP</strong></td>
+                <td class="tbl tdbg2 font">
+                    <a href="{{ path('app_admin_ip_search', {ip: profile.lastIp}) }}">{{ profile.lastIp }}</a>
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if forumBans is not empty %}
+            <tr>
+                <td class="tbl tdbg1 font"><strong>Forum bans</strong></td>
+                <td class="tbl tdbg2 font fonts">
+                    {% for ban in forumBans %}
+                        {{ ban.forum.title }}
+                        {{ ban.expiresAt ? '(until ' ~ ban.expiresAt|board_date_short ~ ')' : '(permanent)' }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td class="tbl tdbg1 font">&nbsp;</td>
+            <td class="tbl tdbg2 font">
+                {% if canMessage %}
+                    <a href="{{ path('app_message_send', {id: profile.id}) }}">Send a message</a>
+                {% endif %}
+
+                {% if board.isLoggedIn and app.user != profile %}
+                    |
+                    <form method="post" action="{{ path('app_layout_block', {id: profile.id}) }}" class="inline-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('block' ~ profile.id) }}">
+                        <button type="submit" class="linkbutton">
+                            {{ layoutBlocked ? 'Unblock layout' : 'Block layout' }}
+                        </button>
+                    </form>
+                {% endif %}
+
+                {% if app.user == profile %}
+                    | <a href="{{ path('app_profile_edit') }}">Edit profile</a>
+                    | <a href="{{ path('app_layout_edit') }}">Edit layout</a>
+                {% endif %}
+
+                {% if is_granted('ROLE_STAFF') %}
+                    | <a href="{{ path('app_staff_user', {id: profile.id}) }}">Staff record</a>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    | <a href="{{ path('app_admin_user_edit', {id: profile.id}) }}">Administer</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

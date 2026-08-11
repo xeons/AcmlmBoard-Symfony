@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }} - Reply to {{ thread.title }}{% endblock %}
+
+{% block body %}
+
+    <div class="breadcrumb font">
+        <a href="{{ path('app_index') }}">{{ board.name }}</a>
+        &mdash; <a href="{{ path('app_forum', {id: forum.id}) }}">{{ forum.title }}</a>
+        &mdash; <a href="{{ path('app_thread', {id: thread.id}) }}">{{ thread.title }}</a>
+    </div>
+
+    {% if preview %}
+        <table class="table post-grid">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Post preview</th></tr>
+            {% include board.layout ? board.layout.template : 'post/layout/regular.html.twig'
+               with {post: preview, striped: 0, thread: thread} only %}
+        </table>
+    {% endif %}
+
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        {% include 'partial/form_errors.html.twig' %}
+
+        <table class="table">
+            <tr>
+                <td class="tbl tdbg1 font" style="width:180px">{{ form_label(form.body) }}</td>
+                <td class="tbl tdbg2 font">
+                    {% include 'partial/post_toolbar.html.twig' with {target: 'reply_body'} only %}
+                    {{ form_widget(form.body) }}
+                    {{ form_errors(form.body) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font">
+                    {{ form_widget(form.submit) }}
+                    {{ form_widget(form.preview) }}
+                    {% if form.closeAfter is defined %}
+                        <div class="form-row">{{ form_widget(form.closeAfter) }} {{ form_label(form.closeAfter) }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+
+    {% if recentPosts is not empty %}
+        <table class="table post-grid">
+            <tr>
+                <th class="tbl tdbgh center fonts post-user">User</th>
+                <th class="tbl tdbgh center fonts">Recent posts in this thread</th>
+            </tr>
+            {% for rendered in recentPosts %}
+                {% include board.layout ? board.layout.template : 'post/layout/regular.html.twig'
+                   with {post: rendered, striped: loop.index0 % 2, thread: thread} only %}
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}

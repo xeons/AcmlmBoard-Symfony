@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Announcements{% endblock %}
+{% block body %}
+
+    {% if is_granted('ROLE_MODERATOR') %}
+        <div class="fonts"><a href="{{ path('app_announcement_new') }}">Post an announcement</a></div>
+    {% endif %}
+
+    {% for a in announcements %}
+        <table class="table">
+            <tr>
+                <th class="tbl tdbgh center fonts" colspan="2">
+                    {{ a.title }}
+                    {% if a.forum %}<span class="fonts">(in {{ a.forum.title }})</span>{% endif %}
+                </th>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font" style="width:170px">
+                    {{ user_link(a.author) }}
+                    <div class="fonts">
+                        {{ a.createdAt|board_date }}
+                        {% if a.editedAt %}<br>Edited {{ a.editedAt|board_date }}{% endif %}
+                    </div>
+                </td>
+                <td class="tbl tdbg2 font post-body">
+                    <div class="post-content">{{ a.body|board_markup }}</div>
+                    {% if is_granted('ROLE_MODERATOR') %}
+                        <div class="fonts">
+                            <a href="{{ path('app_announcement_edit', {id: a.id}) }}">Edit</a> |
+                            <form method="post" action="{{ path('app_announcement_delete', {id: a.id}) }}"
+                                  class="inline-form" data-confirm="Delete this announcement?">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete-announcement' ~ a.id) }}">
+                                <button type="submit" class="linkbutton danger">Delete</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    {% else %}
+        <table class="table">
+            <tr><td class="tbl tdbg1 center font">There are no announcements.</td></tr>
+        </table>
+    {% endfor %}
+
+{% endblock %}

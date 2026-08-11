@@ -1,0 +1,5 @@
+{# A proportional bar. width is a percentage of the largest value in the table. #}
+{% set pct = max > 0 ? (value / max * 100)|round : 0 %}
+<span class="stat-bar" role="img" aria-label="{{ pct }}%">
+    <span class="stat-bar-fill" style="width: {{ pct }}%"></span>
+</span>

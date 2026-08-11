@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Staff panel{% endblock %}
+{% block body %}
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="4">Disciplinary records</th></tr>
+        <tr>
+            <th class="tbl tdbgh center fonts">Member</th>
+            <th class="tbl tdbgh center fonts" style="width:90px">Strikes</th>
+            <th class="tbl tdbgh center fonts" style="width:160px">Opened</th>
+            <th class="tbl tdbgh center fonts" style="width:140px">&nbsp;</th>
+        </tr>
+        {% for record in records %}
+            <tr>
+                <td class="tbl tdbg2 font">{{ user_link(record.user) }}</td>
+                <td class="tbl tdbg1 center font">{{ record.strikes }}</td>
+                <td class="tbl tdbg1 center fonts">{{ record.createdAt|board_date_short }}</td>
+                <td class="tbl tdbg2 center fonts">
+                    <a href="{{ path('app_staff_user', {id: record.user.id}) }}">Open record</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="4">No records yet.</td></tr>
+        {% endfor %}
+    </table>
+
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts" colspan="4">Active suspensions</th></tr>
+        {% for ban in softBans %}
+            <tr>
+                <td class="tbl tdbg2 font">{{ user_link(ban.user) }}</td>
+                <td class="tbl tdbg1 center fonts">
+                    {{ ban.expiresAt ? 'until ' ~ ban.expiresAt|board_date : 'indefinite' }}
+                </td>
+                <td class="tbl tdbg1 fonts">{{ ban.reason ?: '-' }}</td>
+                <td class="tbl tdbg2 center" style="width:90px">
+                    <form method="post" action="{{ path('app_staff_soft_ban_lift', {id: ban.id}) }}" class="inline-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token('lift-ban' ~ ban.id) }}">
+                        <button type="submit" class="linkbutton">Lift</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td class="tbl tdbg1 center font" colspan="4">Nobody is suspended.</td></tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

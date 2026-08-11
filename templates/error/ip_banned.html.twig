@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Access denied</title>
+    <link rel="stylesheet" href="/css/board.css">
+</head>
+<body>
+    <div class="board">
+        <table class="table">
+            <tr><th class="tbl tdbgh center fonts">Access denied</th></tr>
+            <tr>
+                <td class="tbl tdbg1 font">
+                    Your IP address is banned from this board.
+                    {% if ban.reason %}<br><br>Reason: {{ ban.reason }}{% endif %}
+                    {% if not ban.permanent %}<br><br>This ban expires on {{ ban.expiresAt|date('Y-m-d H:i') }} UTC.{% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

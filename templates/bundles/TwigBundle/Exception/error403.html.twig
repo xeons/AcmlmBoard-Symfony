@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ board.name }} - Access denied{% endblock %}
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Access denied</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                {% if board.isLoggedIn %}
+                    You do not have permission to do that.
+                {% else %}
+                    You need to <a href="{{ path('app_login') }}">log in</a> to do that.
+                {% endif %}
+                <br><br><a href="{{ path('app_index') }}">Return to the board</a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

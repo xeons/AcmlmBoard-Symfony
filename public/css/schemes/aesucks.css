@@ -1,0 +1,28 @@
+/*
+ * Eyestrain - ported from schemes/aesucks.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-aesucks {
+    --page-bg: #00FF00;
+    --page-bg-image: url('/images/boo.gif');
+    --text-color: #FF0000;
+
+    --table-bg-1: #0000FF;
+    --table-bg-2: #00FF00;
+    --category-bg: #FF00FF;
+    --table-head-bg: #FFFFFF;
+    --table-head-text: #FFFF00;
+    --table-border: #00FFFF;
+
+    --link-color: #FF0000;
+    --link-visited: #FF0000;
+    --link-active: #FF0000;
+    --link-hover: #FFFF00;
+
+    --input-bg: #0000FF;
+    --input-border: #00FFFF;
+
+    --font-main: "MS Serif", serif;
+}

@@ -1,0 +1,42 @@
+/*
+ * Kirby - ported from schemes/kirby.php.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-kirby {
+    --page-bg: #BF407C;
+    --page-bg-image: url('/images/kirbybg.jpg');
+    --text-color: #E9E9E9;
+
+    --table-bg-1: #630E2C;
+    --table-bg-2: #570F11;
+    --category-bg: #BD9252;
+    --table-head-bg: #D6AA73;
+    --table-head-text: #570D27;
+    --table-border: #B58631;
+
+    --link-color: #FFD062;
+    --link-visited: #BDB8FA;
+    --link-active: #FFFFFF;
+    --link-hover: #FFCAFF;
+
+    --input-bg: #630E2C;
+    --input-border: #FAAADE;
+}
+
+body.scheme-kirby .tdbg1 {
+    background-image: url('/images/kirbybg2a.png');
+}
+
+body.scheme-kirby .tdbg2 {
+    background-image: url('/images/kirbybg2b.png');
+}
+
+body.scheme-kirby .tdbgc {
+    background-image: url('/images/kirbybgtop2.png');
+}
+
+body.scheme-kirby .tdbgh {
+    background-image: url('/images/kirbybgtop.png');
+}

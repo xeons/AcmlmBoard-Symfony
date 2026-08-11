@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }} - Check your email{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <tr><th class="tbl tdbgh center fonts">Registration started</th></tr>
+        <tr>
+            <td class="tbl tdbg1 font">
+                Thank you, {{ username }}. A verification code has been sent to
+                <strong>{{ email }}</strong>.
+                <br><br>
+                Follow the link in that email, or
+                <a href="{{ path('app_register_verify', {username: username}) }}">enter the code here</a>,
+                to choose a password and finish creating your account.
+                <br><br>
+                <span class="fonts">The code expires in seven days.</span>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

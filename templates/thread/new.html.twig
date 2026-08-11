@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }} - New thread in {{ forum.title }}{% endblock %}
+
+{% block body %}
+
+    <div class="breadcrumb font">
+        <a href="{{ path('app_index') }}">{{ board.name }}</a>
+        &mdash; <a href="{{ path('app_forum', {id: forum.id}) }}">{{ forum.title }}</a>
+        &mdash; New thread
+    </div>
+
+    {% if preview %}
+        <table class="table post-grid">
+            <tr><th class="tbl tdbgh center fonts" colspan="2">Post preview</th></tr>
+            {% include board.layout ? board.layout.template : 'post/layout/regular.html.twig'
+               with {post: preview, striped: 0, thread: null} only %}
+        </table>
+    {% endif %}
+
+    {{ form_start(form, {attr: {class: 'board-form'}}) }}
+        {% include 'partial/form_errors.html.twig' %}
+
+        <table class="table">
+            <tr>
+                <td class="tbl tdbg1 font" style="width:180px">{{ form_label(form.title) }}</td>
+                <td class="tbl tdbg2 font">{{ form_widget(form.title) }}{{ form_errors(form.title) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">{{ form_label(form.icon) }}</td>
+                <td class="tbl tdbg2 font icon-picker">{{ form_widget(form.icon) }}</td>
+            </tr>
+            <tr>
+                <td class="tbl tdbg1 font">{{ form_label(form.body) }}</td>
+                <td class="tbl tdbg2 font">
+                    {% include 'partial/post_toolbar.html.twig' with {target: 'new_thread_body'} only %}
+                    {{ form_widget(form.body) }}
+                    {{ form_errors(form.body) }}
+                </td>
+            </tr>
+
+            {% if form.withPoll is defined %}
+                <tr><th class="tbl tdbgh fonts" colspan="2">Poll (optional)</th></tr>
+                <tr>
+                    <td class="tbl tdbg1 font">{{ form_label(form.withPoll) }}</td>
+                    <td class="tbl tdbg2 font">{{ form_widget(form.withPoll) }}</td>
+                </tr>
+                <tr>
+                    <td class="tbl tdbg1 font">{{ form_label(form.pollQuestion) }}</td>
+                    <td class="tbl tdbg2 font">{{ form_widget(form.pollQuestion) }}</td>
+                </tr>
+                <tr>
+                    <td class="tbl tdbg1 font">{{ form_label(form.pollBriefing) }}</td>
+                    <td class="tbl tdbg2 font">{{ form_widget(form.pollBriefing) }}</td>
+                </tr>
+                <tr>
+                    <td class="tbl tdbg1 font">{{ form_label(form.pollChoices) }}</td>
+                    <td class="tbl tdbg2 font">{{ form_widget(form.pollChoices) }}</td>
+                </tr>
+                <tr>
+                    <td class="tbl tdbg1 font">{{ form_label(form.pollMultiVote) }}</td>
+                    <td class="tbl tdbg2 font">{{ form_widget(form.pollMultiVote) }}</td>
+                </tr>
+            {% endif %}
+
+            <tr>
+                <td class="tbl tdbg1 font">&nbsp;</td>
+                <td class="tbl tdbg2 font">
+                    {{ form_widget(form.submit) }}
+                    {{ form_widget(form.preview) }}
+                    {% if form.sticky is defined %}{{ form_row(form.sticky) }}{% endif %}
+                </td>
+            </tr>
+        </table>
+    {{ form_end(form) }}
+
+{% endblock %}
