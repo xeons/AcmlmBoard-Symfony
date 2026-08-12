@@ -95,6 +95,17 @@ class BoardConfig
     private ?Forum $trashForum = null;
 
     /**
+     * Scheme shown to guests and to members who have not chosen one.
+     *
+     * Null falls back to the scheme with the lowest position, which is how the
+     * board decided this before the setting existed - and it means the choice of
+     * default could not be separated from the order of the picker.
+     */
+    #[ORM\ManyToOne(targetEntity: ColorScheme::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?ColorScheme $defaultScheme = null;
+
+    /**
      * Posts a user may make in one thread per day. The original hardcoded 50, or 5 if
      * the thread title contained "ACS ".
      */
@@ -333,6 +344,18 @@ class BoardConfig
     public function setTrashForum(?Forum $forum): static
     {
         $this->trashForum = $forum;
+
+        return $this;
+    }
+
+    public function getDefaultScheme(): ?ColorScheme
+    {
+        return $this->defaultScheme;
+    }
+
+    public function setDefaultScheme(?ColorScheme $scheme): static
+    {
+        $this->defaultScheme = $scheme;
 
         return $this;
     }

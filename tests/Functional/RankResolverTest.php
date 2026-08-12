@@ -89,9 +89,8 @@ final class RankResolverTest extends BoardWebTestCase
 
     /**
      * Until the scheduled recalculation has run, a percentile rung must be out of
-     * reach. Seeding them at zero posts instead - which is what the invented
-     * ladder did - hands the top badge to every member on a board too small to
-     * have a ranked population at all.
+     * reach. Seeded at zero posts they would hand the top badge to every member
+     * on a board too small to have a ranked population at all.
      */
     public function testPercentileRungsAreUnreachableBeforeTheyAreRecalculated(): void
     {
@@ -105,11 +104,7 @@ final class RankResolverTest extends BoardWebTestCase
     // The sprites
     // ------------------------------------------------------------------
 
-    /**
-     * Nearly every rank in the original was a picture over a name. The ladders
-     * were seeded as bare text for a while, so the rank column under a post was a
-     * word where the board had always shown a Goomba.
-     */
+    /** Nearly every rank in the original was a picture stacked over a name. */
     public function testRankLabelsCarryTheirSprite(): void
     {
         $label = $this->resolver()->resolve($this->set('Mario'), 20)?->getLabel();

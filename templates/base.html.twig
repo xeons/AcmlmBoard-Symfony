@@ -46,7 +46,9 @@
         <tr>
             <td class="tbl tdbg1 center fonts" colspan="3">
                 {% if board.isLoggedIn %}
-                    <a href="{{ path('app_profile_edit') }}">Edit profile</a>
+                    {# Permanent, unlike the unread box below, which comes and goes. #}
+                    <a href="{{ path('app_messages') }}">Messages{% if board.messages.unread %} ({{ board.messages.unread }}){% endif %}</a>
+                    | <a href="{{ path('app_profile_edit') }}">Edit profile</a>
                     | <a href="{{ path('app_layout_edit') }}">Edit layout</a>
                     | <a href="{{ path('app_avatars') }}">Avatars</a>
                     | <a href="{{ path('app_post_radar') }}">Post radar</a>

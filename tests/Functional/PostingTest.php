@@ -322,6 +322,12 @@ final class PostingTest extends BoardWebTestCase
     {
         $post = $this->em()->find(Post::class, $this->id('post', 'first'));
 
+        // The grace period runs five minutes from the post's own timestamp, and
+        // the seeded rows are stamped once when the world is built, so their age
+        // depends on how long the suite has been running.
+        $post->setCreatedAt(new \DateTimeImmutable());
+        $this->em()->flush();
+
         $this->manager()->edit($post, 'Corrected straight away.', $this->user('Member'));
 
         self::assertNull($post->getEditedAt());

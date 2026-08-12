@@ -16,11 +16,10 @@ use Symfony\Component\HtmlSanitizer\Visitor\AttributeSanitizer\AttributeSanitize
  * images/ranks, images/ranksz or images/gb, so nothing is lost by refusing the
  * rest.
  *
- * This has to be an attribute sanitizer rather than configuration.
- * `allowed_media_schemes: []` reads like "permit no scheme at all" and does the
- * opposite: an empty list leaves the URL sanitizer with no restriction to apply,
- * so an https:// sprite sails through. Stating the rule in code means it is the
- * rule that is tested.
+ * This has to be an attribute sanitizer rather than configuration:
+ * `allowed_media_schemes: []` reads like "permit no scheme at all" but means the
+ * opposite, since an empty list leaves the URL sanitizer with no restriction to
+ * apply.
  */
 final class RankImageSanitizer implements AttributeSanitizerInterface
 {

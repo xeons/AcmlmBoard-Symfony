@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\BoardConfig;
+use App\Entity\ColorScheme;
 use App\Entity\Forum;
 use App\Entity\User;
+use App\Repository\ColorSchemeRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -149,6 +151,16 @@ final class BoardConfigType extends AbstractType
                 'required' => false,
                 'placeholder' => 'None',
                 'help' => 'Receives trashed threads. The original hardcoded forum 20.',
+            ])
+            ->add('defaultScheme', EntityType::class, [
+                'label' => 'Default colour scheme',
+                'class' => ColorScheme::class,
+                'choice_label' => 'name',
+                'query_builder' => static fn (ColorSchemeRepository $r) => $r
+                    ->createQueryBuilder('s')->orderBy('s.position', 'ASC')->addOrderBy('s.name', 'ASC'),
+                'required' => false,
+                'placeholder' => 'First in the list',
+                'help' => 'Shown to guests and to members who have not picked one of their own.',
             ]);
     }
 

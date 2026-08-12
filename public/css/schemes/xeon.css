@@ -1,0 +1,45 @@
+/*
+ * Xeon.
+ *
+ * Built from the colours in images/title-xeon.png: near-black blue ground, navy
+ * panels, the chrome-and-azure of the lettering, and the ring gold as the accent
+ * that marks the active link and the administrators.
+ *
+ * Only custom properties are redefined; structure comes from board.css.
+ */
+
+body.scheme-xeon {
+    --page-bg: #000207;
+    --page-bg-image: none;
+    --text-color: #DCE6F5;
+
+    --table-bg-1: #000D47;
+    --table-bg-2: #000925;
+    --category-bg: #001867;
+    --table-head-bg: #01287B;
+    --table-head-text: #F0EDE6;
+    --table-border: #002F8F;
+
+    --link-color: #6BEAFD;
+    --link-visited: #4C9FC4;
+    --link-active: #FCE267;
+    --link-hover: #FFFFFF;
+
+    --input-bg: #000925;
+    --input-border: #0030B7;
+
+    --name-male-0: #7FB6F2;
+    --name-male-1: #BFE3FF;
+    --name-male-2: #6BEAFD;
+    --name-male-3: #FCE267;
+    --name-female-0: #E88CC8;
+    --name-female-1: #FFB8E8;
+    --name-female-2: #C08CF0;
+    --name-female-3: #FFD24A;
+    --name-na-0: #9AA8C8;
+    --name-na-1: #CBD6EA;
+    --name-na-2: #4FD8C0;
+    --name-na-3: #FCE267;
+    /* Muted, but still 5:1 against the panel: a banned name has to read. */
+    --name-banned: #7C8798;
+}

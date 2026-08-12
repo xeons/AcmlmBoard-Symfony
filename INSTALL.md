@@ -223,6 +223,44 @@ renders on every post cannot become an outbound request to somewhere else.
 
 ---
 
+## Demo data
+
+An empty board hides most of what is worth looking at: rank ladders, the ACS
+rankings, pagination, the hot-thread markers and the percentile ranks all need a
+population before they show anything. For a private or staging board:
+
+```bash
+php bin/console app:board:seed-demo
+php bin/console app:board:maintenance
+```
+
+Defaults to 250 members, 600 threads and 12,000 posts spread over 900 days. Scale
+it with `--members`, `--threads`, `--posts`, `--messages` and `--days`; 500 members
+and 150,000 posts takes about 75 seconds. Every demo member signs in with the same
+password, `--password`, which defaults to `demo-password-123`.
+
+It only ever inserts, so it is safe to run on a board that already has real
+content, and it refuses to run under `APP_ENV=prod` without `--force`.
+
+```bash
+php bin/console app:board:seed-demo --purge
+```
+
+removes it again. Everything seeded is tagged by an `@demo.invalid` address — a
+reserved TLD that cannot belong to a real person — so the purge can find its own
+rows and leave everything else alone.
+
+Two things to expect. The percentile rank set only counts members with 1,000 or
+more posts, so on a small demo board the top rungs all collapse onto one post
+count; it takes roughly 150,000 posts before those thresholds separate. And this
+is demo traffic, not a load test: the post bodies are drawn from a short list of
+fragments, so they repeat.
+
+**Never point this at a public board.** The accounts it creates are real, working
+accounts that share one published password.
+
+---
+
 ## Importing an existing board
 
 ```bash

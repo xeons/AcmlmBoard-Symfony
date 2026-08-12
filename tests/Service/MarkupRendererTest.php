@@ -247,8 +247,7 @@ final class MarkupRendererTest extends KernelTestCase
     /**
      * Rank labels are the one place a picture has to survive an inline render:
      * nearly every rung the original shipped was a sprite stacked over its name.
-     * They went through the title sanitizer for a while, which strips <img> by
-     * design, so the ladders rendered as bare words.
+     * The title sanitizer strips <img> by design, so ranks need their own profile.
      */
     public function testRankModeKeepsASpriteWithARelativeSource(): void
     {
@@ -266,8 +265,7 @@ final class MarkupRendererTest extends KernelTestCase
      * sprite the original shipped.
      *
      * Configuration alone does not get this right: `allowed_media_schemes: []`
-     * reads like "permit no scheme" and behaves like "apply no restriction", so
-     * the https sprite below survived until RankImageSanitizer took over.
+     * reads like "permit no scheme" and behaves like "apply no restriction".
      */
     #[DataProvider('rejectedSprites')]
     public function testRankModeConfinesSpritesToTheBoardsOwnImages(string $src): void

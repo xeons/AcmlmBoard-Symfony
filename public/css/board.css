@@ -442,9 +442,8 @@ input[type="checkbox"], input[type="radio"] {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    /* The badges are 24x8 pixel art. Left to a smooth scaler they turn to mush
-       on a high-density display, which is the whole reason they read as blurry
-       smudges rather than as the lettering they are. */
+    /* 24x8 pixel art: a smooth scaler turns the lettering to mush on a
+       high-density display. */
     image-rendering: pixelated;
     vertical-align: middle;
 }

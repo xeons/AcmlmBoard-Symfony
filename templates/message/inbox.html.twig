@@ -6,13 +6,16 @@
         <tr>
             <td class="font"><strong>{{ folder.name }}</strong></td>
             <td class="fonts right">
-                {% if not isSystem %}
+                {% if isSystem %}
+                    <a href="{{ path('app_messages') }}">Inbox</a>
+                {% else %}
                     <a href="{{ path('app_messages') }}">Inbox</a>
                     | <a href="{{ path('app_messages', {folder: 'sent'}) }}">Sent</a>
                     {% for f in folders %}
                         | <a href="{{ path('app_messages', {folder: f.number}) }}">{{ f.name }}</a>
                     {% endfor %}
                     | <a href="{{ path('app_message_folders') }}">Manage folders</a>
+                    | <a href="{{ path('app_system_messages') }}">System messages</a>
                 {% endif %}
             </td>
         </tr>

@@ -10,10 +10,9 @@ use App\Tests\Support\BoardWebTestCase;
 /**
  * Naming a member on the forms that act on one.
  *
- * Both of these used to be a numeric "Member ID" box, which is only discoverable
- * by hovering a profile link and reading the id out of the URL. The original got
- * away with that because its own links were `?u=N`; there is no reason to make
- * anyone do it now.
+ * A numeric member id is only discoverable by hovering a profile link and reading
+ * it out of the URL. The original got away with that because its own links were
+ * `?u=N`; these forms take a name.
  *
  * The name is resolved server-side, so the forms work with scripting off - the
  * type-ahead only fills in suggestions. The remove buttons still carry an id,

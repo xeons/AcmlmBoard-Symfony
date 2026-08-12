@@ -51,6 +51,8 @@ final class TestWorld
      */
     public static function reset(KernelInterface $kernel): void
     {
+        self::clearRateLimiters($kernel);
+
         if (null === self::$snapshot) {
             self::build($kernel);
             self::capture(self::connection($kernel));
@@ -59,6 +61,23 @@ final class TestWorld
         }
 
         self::restore(self::connection($kernel));
+    }
+
+    /**
+     * Login throttling counts five attempts per username and IP over fifteen
+     * minutes, and its counters live in a cache pool rather than the database, so
+     * restoring the rows does not touch them. Every test signs in from the same
+     * address as the same handful of members, and the suite runs for longer than
+     * the window, so without this a test fails according to how many tests before
+     * it happened to use the login form.
+     */
+    private static function clearRateLimiters(KernelInterface $kernel): void
+    {
+        $container = $kernel->getContainer()->get('test.service_container');
+
+        if ($container->has('cache.rate_limiter')) {
+            $container->get('cache.rate_limiter')->clear();
+        }
     }
 
     /** The id of a seeded record, e.g. id('user', 'Member'). */

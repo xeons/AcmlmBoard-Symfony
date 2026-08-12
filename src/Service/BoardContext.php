@@ -79,9 +79,15 @@ final class BoardContext
     }
 
     /** The viewer's chosen skin, falling back to the board default for guests. */
+    /**
+     * The member's own scheme, then the board's configured default, then the
+     * scheme with the lowest position for a board that has never set one.
+     */
     public function getScheme(): ?ColorScheme
     {
-        return $this->scheme ??= $this->getUser()?->getColorScheme() ?? $this->schemes->findDefault();
+        return $this->scheme ??= $this->getUser()?->getColorScheme()
+            ?? $this->getConfig()->getDefaultScheme()
+            ?? $this->schemes->findDefault();
     }
 
     public function getLayout(): ?ThreadLayout

@@ -229,5 +229,12 @@
         "position": 32,
         "timeCycling": false,
         "titleImage": null
+    },
+    {
+        "slug": "xeon",
+        "name": "Xeon",
+        "position": 33,
+        "timeCycling": false,
+        "titleImage": "/images/title-xeon.png"
     }
 ]

@@ -105,11 +105,10 @@ final class BoardFixtures extends Fixture
     /**
      * The rank ladders, from config/ranks.json.
      *
-     * These used to be three short hand-written ladders of plain text. The real
-     * ones are in the original's SQL dump: 206 rungs across a Super Mario set, a
-     * Zelda set and the "Global ranking" set, and nearly every rung is a sprite
-     * stacked over its name. The sprites were copied across with the rest of
-     * public/images and are checked to exist when the JSON is generated.
+     * 206 rungs across a Super Mario set, a Zelda set and the "Global ranking"
+     * set, taken from the original's SQL dump. Nearly every rung is a sprite
+     * stacked over its name; the images live in public/images and are checked to
+     * exist when the JSON is generated.
      *
      * "Global ranking" was rank set 3, whose top nine thresholds updategb()
      * rewrote on every page load by walking the whole users table. Those rungs

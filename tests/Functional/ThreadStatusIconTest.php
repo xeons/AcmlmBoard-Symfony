@@ -19,8 +19,8 @@ use App\Tests\Support\BoardWebTestCase;
  *     if (hot && closed) new = hotoff.gif
  *
  * So "hot" combines with the other two rather than competing with them, and
- * closed beats new. A port that reads the three as one if/elseif chain silently
- * loses two of the five states, which is what happened here.
+ * closed beats new. Read as a single if/elseif chain, two of the five states
+ * become unreachable.
  */
 final class ThreadStatusIconTest extends BoardWebTestCase
 {

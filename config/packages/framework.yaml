@@ -8,6 +8,25 @@ framework:
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
     trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-port']
 
+    # HttpKernel's ErrorListener logs every HttpException below 500 at "error",
+    # so a mistyped URL or a deleted thread is recorded at the same severity as a
+    # database going away. On a public board that is nearly all of the log: bots
+    # probing for wp-login.php, links to threads that were trashed years ago,
+    # someone editing an id in the address bar. None of it is a fault, and burying
+    # the genuine faults underneath it is how real errors get missed.
+    #
+    # Only the level is set. Leaving status_code alone matters: the security
+    # listener turns an access denial into a redirect to the login page for a
+    # guest, and pinning a status here would override that and show a bare 403
+    # to somebody who simply is not signed in yet.
+    exceptions:
+        Symfony\Component\HttpKernel\Exception\NotFoundHttpException:
+            log_level: notice
+        Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException:
+            log_level: notice
+        Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException:
+            log_level: notice
+
     session:
         handler_id: null
         cookie_secure: auto
