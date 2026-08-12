@@ -37,10 +37,12 @@
         <table class="table">
             <tr><th class="tbl tdbgh center fonts" colspan="2">Add a member</th></tr>
             <tr>
-                <td class="tbl tdbg1 font" style="width:180px"><label for="rival">Member ID</label></td>
+                <td class="tbl tdbg1 font" style="width:180px"><label for="member">Member</label></td>
                 <td class="tbl tdbg2 font">
-                    <input type="number" id="rival" name="rival" min="1" required>
-                    <span class="form-help">Find the ID in the address bar of their profile.</span>
+                    {% include 'partial/member_picker.html.twig' with {
+                        id: 'member', name: 'member', placeholder: 'Member name'
+                    } only %}
+                    <span class="form-help">Start typing to see matching members.</span>
                 </td>
             </tr>
             <tr>

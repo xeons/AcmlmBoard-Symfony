@@ -68,6 +68,22 @@
      */
     --size-main: clamp(0.875rem, 0.75rem + 0.2vw, 1.125rem);
     --size-small: clamp(0.75rem, 0.66rem + 0.15vw, 0.9375rem);
+
+    /*
+     * Thread and forum status markers.
+     *
+     * The original's five 24x8 badges, set as custom properties so a scheme can
+     * swap the whole set the way it swaps a palette. That is how the fork handled
+     * it: the night scheme shipped its own 16x16 icons, which is also why the size
+     * is a variable rather than a constant.
+     */
+    --icon-w: 24px;
+    --icon-h: 8px;
+    --icon-new: url("../images/new.gif");
+    --icon-hot: url("../images/hot.gif");
+    --icon-hot-new: url("../images/hotnew.gif");
+    --icon-closed: url("../images/off.gif");
+    --icon-hot-closed: url("../images/hotoff.gif");
 }
 
 /*
@@ -411,11 +427,6 @@ input[type="checkbox"], input[type="radio"] {
 .flash-success { border-color: #40c040; }
 
 .new-cell { width: 34px; }
-.new-flag {
-    font: bold 9px var(--font-tiny);
-    color: var(--link-active);
-    letter-spacing: 1px;
-}
 
 .pagination { margin: 4px 0; }
 .pagination a, .pagination strong { padding: 0 3px; }
@@ -426,17 +437,23 @@ input[type="checkbox"], input[type="radio"] {
 
 .status-icon {
     display: inline-block;
-    width: 14px;
-    height: 14px;
-    line-height: 14px;
-    text-align: center;
-    font: bold 9px var(--font-tiny);
-    border: 1px solid var(--table-border);
+    width: var(--icon-w);
+    height: var(--icon-h);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    /* The badges are 24x8 pixel art. Left to a smooth scaler they turn to mush
+       on a high-density display, which is the whole reason they read as blurry
+       smudges rather than as the lettering they are. */
+    image-rendering: pixelated;
+    vertical-align: middle;
 }
 
-.status-new    { background: var(--link-color); color: #000; }
-.status-hot    { background: #c04040; color: #fff; }
-.status-closed { background: #404040; color: #aaa; }
+.status-new        { background-image: var(--icon-new); }
+.status-hot        { background-image: var(--icon-hot); }
+.status-hot-new    { background-image: var(--icon-hot-new); }
+.status-closed     { background-image: var(--icon-closed); }
+.status-hot-closed { background-image: var(--icon-hot-closed); }
 
 /* ----------------------------------------------------------- responsive
  *

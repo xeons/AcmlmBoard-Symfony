@@ -35,6 +35,7 @@ final class BoardExtension extends AbstractExtension
         return [
             new TwigFilter('board_markup', $this->renderMarkup(...), ['is_safe' => ['html']]),
             new TwigFilter('board_inline', $this->renderInline(...), ['is_safe' => ['html']]),
+            new TwigFilter('board_rank', $this->renderRank(...), ['is_safe' => ['html']]),
             new TwigFilter('board_plain', $this->markup->toPlainText(...)),
             new TwigFilter('board_date', $this->formatDate(...)),
             new TwigFilter('board_date_short', $this->formatDateShort(...)),
@@ -66,6 +67,11 @@ final class BoardExtension extends AbstractExtension
     public function renderInline(?string $raw): string
     {
         return $this->markup->renderInline($raw);
+    }
+
+    public function renderRank(?string $raw): string
+    {
+        return $this->markup->renderRank($raw);
     }
 
     /**

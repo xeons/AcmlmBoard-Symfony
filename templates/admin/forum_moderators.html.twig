@@ -25,8 +25,12 @@
         <table class="table">
             <tr><th class="tbl tdbgh center fonts" colspan="2">Add a moderator</th></tr>
             <tr>
-                <td class="tbl tdbg1 font" style="width:180px"><label for="user">Member ID</label></td>
-                <td class="tbl tdbg2 font"><input type="number" id="user" name="user" min="1" required></td>
+                <td class="tbl tdbg1 font" style="width:180px"><label for="member">Member</label></td>
+                <td class="tbl tdbg2 font">
+                    {% include 'partial/member_picker.html.twig' with {
+                        id: 'member', name: 'member', placeholder: 'Member name'
+                    } only %}
+                </td>
             </tr>
             <tr>
                 <td class="tbl tdbg1 font">&nbsp;</td>

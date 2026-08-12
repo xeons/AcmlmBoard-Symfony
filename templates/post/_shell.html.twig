@@ -11,7 +11,7 @@
 
 {% macro rank_block(post) %}
     {% if post.rankBlock.rank %}
-        <div class="post-rank">{{ post.rankBlock.rank|board_inline }}</div>
+        <div class="post-rank">{{ post.rankBlock.rank|board_rank }}</div>
     {% endif %}
     {% if post.rankBlock.title %}
         <div class="post-title">{{ post.rankBlock.title|board_inline }}</div>

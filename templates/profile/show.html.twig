@@ -12,7 +12,7 @@
         <tr>
             <td class="tbl tdbg1 font" style="width:230px"><strong>Rank</strong></td>
             <td class="tbl tdbg2 font">
-                {% if rankBlock.rank %}{{ rankBlock.rank|board_inline }}{% endif %}
+                {% if rankBlock.rank %}{{ rankBlock.rank|board_rank }}{% endif %}
                 {% if rankBlock.title %}<br>{{ rankBlock.title|board_inline }}{% endif %}
                 {% if rankBlock.badge %}<br><strong>{{ rankBlock.badge }}</strong>{% endif %}
                 {% if not rankBlock.rank and not rankBlock.title and not rankBlock.badge %}&mdash;{% endif %}

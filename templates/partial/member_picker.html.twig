@@ -1,0 +1,27 @@
+{#
+    A field for naming a member.
+
+    These forms used to ask for a numeric member ID, which is only discoverable
+    by hovering a profile link and reading the URL. The original got away with it
+    because its own links were `?u=N` and staff learned the numbers; there is no
+    reason to keep asking.
+
+    The datalist is filled by board.js from /members/find as the name is typed.
+    Without scripting the field is still a working text box, because the server
+    resolves the name it is given rather than relying on the browser having
+    offered a suggestion.
+
+    Parameters: id, name, label (optional), placeholder (optional).
+#}
+<input type="text"
+       id="{{ id }}"
+       name="{{ name }}"
+       list="{{ id }}-options"
+       data-member-picker="{{ path('app_member_find') }}"
+       maxlength="25"
+       autocomplete="off"
+       autocapitalize="off"
+       spellcheck="false"
+       required
+       {% if placeholder is defined and placeholder %}placeholder="{{ placeholder }}"{% endif %}>
+<datalist id="{{ id }}-options"></datalist>

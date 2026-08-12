@@ -11,7 +11,6 @@ use App\Form\SystemMessageType;
 use App\Repository\ForumBanRepository;
 use App\Repository\PunishmentRepository;
 use App\Repository\SoftBanRepository;
-use App\Repository\UserRepository;
 use App\Service\MessageManager;
 use App\Service\ModerationService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -216,15 +215,4 @@ final class StaffController extends AbstractBoardController
         return $this->render('staff/system_message.html.twig', ['profile' => $user, 'form' => $form]);
     }
 
-    /** Type-ahead used by the staff forms to find a member. */
-    #[Route('/find-user', name: 'app_staff_find_user', methods: ['GET'])]
-    public function findUser(Request $request, UserRepository $users): Response
-    {
-        $matches = $users->searchByUsername((string) $request->query->get('q', ''), 10);
-
-        return $this->json(array_map(
-            static fn (User $u): array => ['id' => $u->getId(), 'name' => $u->getUsername()],
-            $matches,
-        ));
-    }
 }

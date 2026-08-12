@@ -16,6 +16,7 @@ use App\Entity\RankSet;
 use App\Entity\ThreadLayout;
 use App\Entity\UserPicture;
 use App\Entity\UserPictureCategory;
+use App\Service\RankLadderCatalog;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -35,6 +36,7 @@ final class BoardFixtures extends Fixture
     public function __construct(
         #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
+        private readonly RankLadderCatalog $ranks,
     ) {
     }
 
@@ -100,82 +102,35 @@ final class BoardFixtures extends Fixture
         }
     }
 
+    /**
+     * The rank ladders, from config/ranks.json.
+     *
+     * These used to be three short hand-written ladders of plain text. The real
+     * ones are in the original's SQL dump: 206 rungs across a Super Mario set, a
+     * Zelda set and the "Global ranking" set, and nearly every rung is a sprite
+     * stacked over its name. The sprites were copied across with the rest of
+     * public/images and are checked to exist when the JSON is generated.
+     *
+     * "Global ranking" was rank set 3, whose top nine thresholds updategb()
+     * rewrote on every page load by walking the whole users table. Those rungs
+     * carry the percentile they represent and RankPercentileUpdater recomputes
+     * their thresholds on a schedule; until it has run they sit at an unreachable
+     * sentinel so a board too small to rank does not award the top badge to
+     * everyone.
+     */
     private function loadRankSets(ObjectManager $manager): void
     {
-        // The classic Super Mario Bros. enemy ladder, which is the set most
-        // AcmlmBoard installs shipped with.
-        $mario = new RankSet('Mario');
-        $mario->setPosition(0);
-        $manager->persist($mario);
+        foreach ($this->ranks->sets() as $definition) {
+            $set = new RankSet($definition['name']);
+            $set->setPosition($definition['position']);
+            $set->setPercentileBased($definition['percentileBased']);
+            $manager->persist($set);
 
-        $marioRanks = [
-            0 => 'Red Koopa',
-            20 => 'Goomba',
-            50 => 'Red Paragoomba',
-            100 => 'Red Cheep-cheep',
-            200 => 'Micro-Goomba',
-            300 => 'Buzzy Beetle',
-            500 => 'Shyguy',
-            750 => 'Koopa',
-            1000 => 'Paratroopa',
-            1500 => 'Hammer Brother',
-            2000 => 'Boo',
-            3000 => 'Bullet Bill',
-            4000 => 'Spiny',
-            5000 => 'Bob-omb',
-            7500 => 'Chain Chomp',
-            10000 => 'Birdo',
-        ];
-        foreach ($marioRanks as $posts => $label) {
-            $manager->persist(new Rank($mario, $posts, $label));
-        }
-
-        // A plain descriptive ladder for boards that do not want the game theme.
-        $plain = new RankSet('Standard');
-        $plain->setPosition(1);
-        $manager->persist($plain);
-
-        $plainRanks = [
-            0 => 'Newcomer',
-            25 => 'Member',
-            100 => 'Regular',
-            250 => 'Familiar face',
-            500 => 'Veteran',
-            1000 => 'Old hand',
-            2500 => 'Fixture',
-            5000 => 'Institution',
-            10000 => 'Legend',
-        ];
-        foreach ($plainRanks as $posts => $label) {
-            $manager->persist(new Rank($plain, $posts, $label));
-        }
-
-        // The percentile set. In the original this was rank set 3, whose thresholds
-        // updategb() rewrote on every page load by walking the whole users table.
-        // The percentile each rung represents is data now, and a scheduled command
-        // recomputes the post counts. See RankPercentileUpdater.
-        $global = new RankSet('Global ranking');
-        $global->setPosition(2);
-        $global->setPercentileBased(true);
-        $manager->persist($global);
-
-        // Pairs, not a keyed map: PHP casts float array keys to int, so 0.001 and
-        // 0.70 alike become key 0 and the whole ladder collapses to its last entry.
-        $percentiles = [
-            [0.001, 'Top 0.1%'],
-            [0.01, 'Top 1%'],
-            [0.03, 'Top 3%'],
-            [0.06, 'Top 6%'],
-            [0.10, 'Top 10%'],
-            [0.20, 'Top 20%'],
-            [0.30, 'Top 30%'],
-            [0.50, 'Top 50%'],
-            [0.70, 'Top 70%'],
-        ];
-        foreach ($percentiles as [$percentile, $label]) {
-            $rank = new Rank($global, 0, $label);
-            $rank->setPercentile($percentile);
-            $manager->persist($rank);
+            foreach ($definition['ranks'] as $rung) {
+                $rank = new Rank($set, $rung['minPosts'], $rung['label']);
+                $rank->setPercentile($rung['percentile'] ?? null);
+                $manager->persist($rank);
+            }
         }
     }
 

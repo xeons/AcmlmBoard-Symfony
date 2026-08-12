@@ -177,3 +177,44 @@ framework:
                 allow_relative_medias: false
                 with_attribute_sanitizers:
                     - 'App\Service\Sanitizer\StyleAttributeSanitizer'
+
+            # ---------------------------------------------------------------
+            # app.rank_sanitizer
+            #
+            # Rank ladder labels. Nearly every rank in the original was a sprite
+            # stacked over its name - "<img src=images/ranks/goomba.gif><br>Goomba"
+            # - so unlike a custom title this profile has to permit <img>.
+            #
+            # The src is confined to /images/ by RankImageSanitizer, which is
+            # tighter than the original (it had no sanitizer, and [img] accepted
+            # any URL) and loses nothing: every shipped rank pointed at
+            # images/ranks, images/ranksz or images/gb. Ranks are reference data
+            # written by whoever administers the board, but a badge that renders on
+            # every post of every page is the last place to leave an outbound
+            # request that a third party controls. Links stay out entirely; a rank
+            # is a badge, not a destination.
+            # ---------------------------------------------------------------
+            app.rank_sanitizer:
+                allow_safe_elements: false
+                allow_elements:
+                    b: ['style']
+                    strong: ['style']
+                    i: ['style']
+                    em: ['style']
+                    u: ['style']
+                    small: []
+                    big: []
+                    font: ['color', 'style']
+                    span: ['style', 'class']
+                    br: []
+                    img: ['src', 'alt', 'title', 'width', 'height', 'class', 'style']
+                force_attributes:
+                    img:
+                        loading: 'lazy'
+                        referrerpolicy: 'no-referrer'
+                allowed_link_schemes: []
+                allow_relative_links: false
+                allow_relative_medias: true
+                with_attribute_sanitizers:
+                    - 'App\Service\Sanitizer\StyleAttributeSanitizer'
+                    - 'App\Service\Sanitizer\RankImageSanitizer'

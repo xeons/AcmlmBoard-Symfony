@@ -99,7 +99,10 @@
 
                 <tr>
                     <td class="tbl tdbg1 center new-cell">
-                        {% if isNew %}<span class="status-icon status-new" title="New posts">N</span>{% endif %}
+                        {% if isNew %}
+                            <span class="status-icon status-new"
+                                  role="img" aria-label="New posts" title="New posts"></span>
+                        {% endif %}
                     </td>
                     <td class="tbl tdbg2 font">
                         <a href="{{ path('app_forum', {id: forum.id}) }}">{{ forum.title }}</a>

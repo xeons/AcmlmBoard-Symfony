@@ -301,6 +301,21 @@ it:
 - **The percentile rank ladder had one rung instead of nine.** The fixtures used float
   array keys (`0.001 => 'Top 0.1%'`); PHP casts those to `int`, so all nine collapsed
   to key `0`.
+- **The rank ladders lost their sprites.** Nearly every rung the original shipped was
+  a picture over a name (`<img src=images/ranks/goomba.gif><br>Goomba`), but labels
+  rendered through the *title* sanitizer, which drops `<img>` by design - and the
+  seeded ladders were invented plain text anyway, 16 rungs where the original had 206
+  across three sets. The sprites had been copied to `public/images` the whole time.
+  Rank labels now have their own sanitizer profile, and `config/ranks.json` carries
+  the real ladders.
+- **`allowed_media_schemes: []` does not mean "no schemes".** An empty list leaves the
+  URL sanitizer with nothing to enforce, so an off-site `https://` sprite passed
+  straight through a profile written to forbid exactly that. The rule is stated in
+  code now, in `RankImageSanitizer`, where a test can hold it.
+- **Two of the five thread markers were unreachable.** The original combined "hot"
+  with new and closed - `hotnew.gif` and `hotoff.gif` - and applied closed last and
+  unconditionally. Written as a single `if/elseif` chain, a busy thread with unread
+  posts and a busy closed thread both showed the wrong marker.
 - **Previews** render a `Post` with no database row, so its id and its thread's id are
   null. Anything building a route or consulting a voter with those throws. All four
   preview paths share one Twig macro and broke together.

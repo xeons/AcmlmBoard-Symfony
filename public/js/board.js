@@ -119,6 +119,70 @@
     });
 })();
 
+/* ------------------------------------------------------- member type-ahead
+ *
+ * Fills the datalist behind a [data-member-picker] field from the lookup
+ * endpoint. Purely additive: the field is a plain text box that the server
+ * resolves by name, so with this file blocked the form still works - it just
+ * stops suggesting.
+ */
+(function () {
+    'use strict';
+
+    var fields = document.querySelectorAll('[data-member-picker]');
+    if (!fields.length || typeof window.fetch !== 'function') return;
+
+    Array.prototype.forEach.call(fields, function (field) {
+        var endpoint = field.getAttribute('data-member-picker');
+        var list = document.getElementById(field.getAttribute('list'));
+        if (!endpoint || !list) return;
+
+        var timer = null;
+        var lastQuery = null;
+        var inFlight = null;
+
+        field.addEventListener('input', function () {
+            var query = field.value.trim();
+
+            // Two characters is where the endpoint starts answering; below that
+            // every member on the board would match and the list is noise.
+            if (query.length < 2 || query === lastQuery) return;
+
+            window.clearTimeout(timer);
+            timer = window.setTimeout(function () {
+                lastQuery = query;
+
+                // A slow reply for an abandoned prefix must not overwrite the
+                // suggestions for what is now in the box.
+                if (inFlight) inFlight.abort();
+                inFlight = typeof AbortController === 'function' ? new AbortController() : null;
+
+                window.fetch(endpoint + '?q=' + encodeURIComponent(query), {
+                    headers: { Accept: 'application/json' },
+                    credentials: 'same-origin',
+                    signal: inFlight ? inFlight.signal : undefined
+                })
+                    .then(function (response) {
+                        return response.ok ? response.json() : [];
+                    })
+                    .then(function (matches) {
+                        if (query !== lastQuery) return;
+
+                        list.textContent = '';
+                        matches.forEach(function (match) {
+                            var option = document.createElement('option');
+                            option.value = match.name;
+                            list.appendChild(option);
+                        });
+                    })
+                    .catch(function () {
+                        // An aborted or failed lookup just means no suggestions.
+                    });
+            }, 200);
+        });
+    });
+})();
+
 /* ------------------------------------------------- timezone autodetection
  *
  * The original asked members to enter their offset from board time as a number

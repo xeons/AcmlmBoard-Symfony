@@ -37,7 +37,10 @@
                         <input type="checkbox" name="selected[]" value="{{ message.id }}">
                     </td>
                     <td class="tbl tdbg1 center new-cell">
-                        {% if message.unread %}<span class="new-flag">NEW</span>{% endif %}
+                        {% if message.unread %}
+                            <span class="status-icon status-new"
+                                  role="img" aria-label="Unread" title="Unread"></span>
+                        {% endif %}
                     </td>
                     <td class="tbl tdbg2 font">
                         <a href="{{ path('app_message_show', {id: message.id}) }}">{{ message.title }}</a>

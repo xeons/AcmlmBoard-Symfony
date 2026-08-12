@@ -111,7 +111,10 @@
             </tr>
             <tr>
                 <td class="tbl tdbg1 center new-cell">
-                    {% if board.messages.unread %}<span class="new-flag" title="New messages">NEW</span>{% endif %}
+                    {% if board.messages.unread %}
+                        <span class="status-icon status-new"
+                              role="img" aria-label="New messages" title="New messages"></span>
+                    {% endif %}
                 </td>
                 <td class="tbl tdbg2 font">
                     <a href="{{ path('app_messages') }}">Private messages</a> &mdash;
@@ -122,7 +125,10 @@
             {% if board.systemMessages.total %}
                 <tr>
                     <td class="tbl tdbg1 center new-cell">
-                        {% if board.systemMessages.unread %}<span class="new-flag">NEW</span>{% endif %}
+                        {% if board.systemMessages.unread %}
+                            <span class="status-icon status-new"
+                                  role="img" aria-label="New system messages" title="New system messages"></span>
+                        {% endif %}
                     </td>
                     <td class="tbl tdbg2 font">
                         <a href="{{ path('app_system_messages') }}">System messages</a> &mdash;

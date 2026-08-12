@@ -23,4 +23,14 @@ body.scheme-night {
 
     --input-bg: #111133;
     --input-border: #663399;
+
+    /* This scheme is the one that shipped its own status markers, 16x16 rather
+       than the stock 24x8 strips. */
+    --icon-w: 16px;
+    --icon-h: 16px;
+    --icon-new: url("../../images/nightscheme_newposts.png");
+    --icon-hot: url("../../images/nightscheme_hotthreads.png");
+    --icon-hot-new: url("../../images/nightscheme_hotnewposts.png");
+    --icon-closed: url("../../images/nightscheme_closedthreads.png");
+    --icon-hot-closed: url("../../images/nightscheme_hotclosedthreads.png");
 }

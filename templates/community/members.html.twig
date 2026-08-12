@@ -39,7 +39,7 @@
                 <td class="tbl tdbg2 center fonts">{{ member.registeredAt|board_date_short }}</td>
                 <td class="tbl tdbg2 center fonts">{{ member.lastActivityAt|duration }}</td>
                 <td class="tbl tdbg1 center fonts">{{ member.powerLevel.label }}</td>
-                <td class="tbl tdbg2 fonts">{{ ranks.resolveLabel(member)|board_inline }}</td>
+                <td class="tbl tdbg2 fonts">{{ ranks.resolveLabel(member)|board_rank }}</td>
             </tr>
         {% else %}
             <tr><td class="tbl tdbg1 center font" colspan="6">No members matched.</td></tr>

@@ -1,0 +1,899 @@
+[
+    {
+        "name": "Mario",
+        "position": 0,
+        "percentileBased": false,
+        "ranks": [
+            {
+                "minPosts": 0,
+                "label": "Non-poster"
+            },
+            {
+                "minPosts": 1,
+                "label": "Newcomer"
+            },
+            {
+                "minPosts": 10,
+                "label": "<img src=\"/images/ranks/microgoomba.gif\" width=\"8\" height=\"9\" alt=\"\"><br>Micro-Goomba"
+            },
+            {
+                "minPosts": 20,
+                "label": "<img src=\"/images/ranks/goomba.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Goomba"
+            },
+            {
+                "minPosts": 35,
+                "label": "<img src=\"/images/ranks/redgoomba.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Red Goomba"
+            },
+            {
+                "minPosts": 50,
+                "label": "<img src=\"/images/ranks/redparagoomba.gif\" width=\"20\" height=\"24\" alt=\"\"><br>Red Paragoomba"
+            },
+            {
+                "minPosts": 65,
+                "label": "<img src=\"/images/ranks/paragoomba.gif\" width=\"20\" height=\"24\" alt=\"\"><br>Paragoomba"
+            },
+            {
+                "minPosts": 80,
+                "label": "<img src=\"/images/ranks/shyguy.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Shyguy"
+            },
+            {
+                "minPosts": 100,
+                "label": "<img src=\"/images/ranks/koopa.gif\" width=\"16\" height=\"27\" alt=\"\"><br>Koopa"
+            },
+            {
+                "minPosts": 120,
+                "label": "<img src=\"/images/ranks/redkoopa.gif\" width=\"16\" height=\"27\" alt=\"\"><br>Red Koopa"
+            },
+            {
+                "minPosts": 140,
+                "label": "<img src=\"/images/ranks/paratroopa.gif\" width=\"16\" height=\"28\" alt=\"\"><br>Paratroopa"
+            },
+            {
+                "minPosts": 160,
+                "label": "<img src=\"/images/ranks/redparatroopa.gif\" width=\"16\" height=\"28\" alt=\"\"><br>Red Paratroopa"
+            },
+            {
+                "minPosts": 180,
+                "label": "<img src=\"/images/ranks/cheepcheep.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Cheep-cheep"
+            },
+            {
+                "minPosts": 200,
+                "label": "<img src=\"/images/ranks/redcheepcheep.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Red Cheep-cheep"
+            },
+            {
+                "minPosts": 225,
+                "label": "<img src=\"/images/ranks/ninji.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Ninji"
+            },
+            {
+                "minPosts": 250,
+                "label": "<img src=\"/images/ranks/flurry.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Flurry"
+            },
+            {
+                "minPosts": 275,
+                "label": "<img src=\"/images/ranks/snifit.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Snifit"
+            },
+            {
+                "minPosts": 300,
+                "label": "<img src=\"/images/ranks/porcupo.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Porcupo"
+            },
+            {
+                "minPosts": 325,
+                "label": "<img src=\"/images/ranks/panser.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Panser"
+            },
+            {
+                "minPosts": 350,
+                "label": "<img src=\"/images/ranks/mole.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Mole"
+            },
+            {
+                "minPosts": 375,
+                "label": "<img src=\"/images/ranks/beetle.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Buzzy Beetle"
+            },
+            {
+                "minPosts": 400,
+                "label": "<img src=\"/images/ranks/nipperplant.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Nipper Plant"
+            },
+            {
+                "minPosts": 425,
+                "label": "<img src=\"/images/ranks/bloober.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Bloober"
+            },
+            {
+                "minPosts": 450,
+                "label": "<img src=\"/images/ranks/busterbeetle.gif\" width=\"16\" height=\"15\" alt=\"\"><br>Buster Beetle"
+            },
+            {
+                "minPosts": 475,
+                "label": "<img src=\"/images/ranks/beezo.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Beezo"
+            },
+            {
+                "minPosts": 500,
+                "label": "<img src=\"/images/ranks/bulletbill.gif\" width=\"16\" height=\"14\" alt=\"\"><br>Bullet Bill"
+            },
+            {
+                "minPosts": 525,
+                "label": "<img src=\"/images/ranks/rex.gif\" width=\"20\" height=\"32\" alt=\"\"><br>Rex"
+            },
+            {
+                "minPosts": 550,
+                "label": "<img src=\"/images/ranks/lakitu.gif\" width=\"16\" height=\"24\" alt=\"\"><br>Lakitu"
+            },
+            {
+                "minPosts": 575,
+                "label": "<img src=\"/images/ranks/spiny.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Spiny"
+            },
+            {
+                "minPosts": 600,
+                "label": "<img src=\"/images/ranks/bobomb.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Bob-Omb"
+            },
+            {
+                "minPosts": 625,
+                "label": "<img src=\"/images/ranks/drybones.gif\" alt=\"\"><br>Dry Bones"
+            },
+            {
+                "minPosts": 650,
+                "label": "<img src=\"/images/ranks/cobrat.gif\" width=\"16\" height=\"32\" alt=\"\"><br>Cobrat"
+            },
+            {
+                "minPosts": 675,
+                "label": "<img src=\"/images/ranks/pokey.gif\" width=\"18\" height=\"64\" alt=\"\"><br>Pokey"
+            },
+            {
+                "minPosts": 700,
+                "label": "<img src=\"/images/ranks/spike.gif\" width=\"32\" height=\"32\" alt=\"\"><br>Spike"
+            },
+            {
+                "minPosts": 725,
+                "label": "<img src=\"/images/ranks/hedgehog.gif\" width=\"16\" height=\"24\" alt=\"\"><br>Melon Bug"
+            },
+            {
+                "minPosts": 750,
+                "label": "<img src=\"/images/ranks/lanternghost.gif\" width=\"26\" height=\"19\" alt=\"\"><br>Lantern Ghost"
+            },
+            {
+                "minPosts": 775,
+                "label": "<img src=\"/images/ranks/fuzzy.gif\" width=\"32\" height=\"31\" alt=\"\"><br>Fuzzy"
+            },
+            {
+                "minPosts": 800,
+                "label": "<img src=\"/images/ranks/bandit.gif\" width=\"23\" height=\"28\" alt=\"\"><br>Bandit"
+            },
+            {
+                "minPosts": 830,
+                "label": "<img src=\"/images/ranks/superkoopa.gif\" width=\"23\" height=\"13\" alt=\"\"><br>Super Koopa"
+            },
+            {
+                "minPosts": 860,
+                "label": "<img src=\"/images/ranks/redsuperkoopa.gif\" width=\"23\" height=\"13\" alt=\"\"><br>Red Super Koopa"
+            },
+            {
+                "minPosts": 900,
+                "label": "<img src=\"/images/ranks/boo.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Boo"
+            },
+            {
+                "minPosts": 925,
+                "label": "<img src=\"/images/ranks/boo2.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Boo"
+            },
+            {
+                "minPosts": 950,
+                "label": "<img src=\"/images/ranks/fuzzball.gif\" width=\"16\" height=\"16\" alt=\"\"><br>Fuzz Ball"
+            },
+            {
+                "minPosts": 1000,
+                "label": "<img src=\"/images/ranks/boomerangbrother.gif\" width=\"60\" height=\"40\" alt=\"\"><br>Boomerang Brother"
+            },
+            {
+                "minPosts": 1050,
+                "label": "<img src=\"/images/ranks/hammerbrother.gif\" width=\"60\" height=\"40\" alt=\"\"><br>Hammer Brother"
+            },
+            {
+                "minPosts": 1100,
+                "label": "<img src=\"/images/ranks/firebrother.gif\" width=\"60\" height=\"24\" alt=\"\"><br>Fire Brother"
+            },
+            {
+                "minPosts": 1150,
+                "label": "<img src=\"/images/ranks/firesnake.gif\" width=\"45\" height=\"36\" alt=\"\"><br>Fire Snake"
+            },
+            {
+                "minPosts": 1200,
+                "label": "<img src=\"/images/ranks/giantgoomba.gif\" width=\"24\" height=\"23\" alt=\"\"><br>Giant Goomba"
+            },
+            {
+                "minPosts": 1250,
+                "label": "<img src=\"/images/ranks/giantkoopa.gif\" width=\"24\" height=\"31\" alt=\"\"><br>Giant Koopa"
+            },
+            {
+                "minPosts": 1300,
+                "label": "<img src=\"/images/ranks/giantredkoopa.gif\" width=\"24\" height=\"31\" alt=\"\"><br>Giant Red Koopa"
+            },
+            {
+                "minPosts": 1350,
+                "label": "<img src=\"/images/ranks/giantparatroopa.gif\" width=\"24\" height=\"31\" alt=\"\"><br>Giant Paratroopa"
+            },
+            {
+                "minPosts": 1400,
+                "label": "<img src=\"/images/ranks/giantredparatroopa.gif\" width=\"24\" height=\"31\" alt=\"\"><br>Giant Red Paratroopa"
+            },
+            {
+                "minPosts": 1450,
+                "label": "<img src=\"/images/ranks/chuck.gif\" width=\"28\" height=\"27\" alt=\"\"><br>Chuck"
+            },
+            {
+                "minPosts": 1500,
+                "label": "<img src=\"/images/ranks/thwomp.gif\" width=\"44\" height=\"32\" alt=\"\"><br>Thwomp"
+            },
+            {
+                "minPosts": 1550,
+                "label": "<img src=\"/images/ranks/bigcheepcheep.gif\" width=\"24\" height=\"32\" alt=\"\"><br>Boss Bass"
+            },
+            {
+                "minPosts": 1600,
+                "label": "<img src=\"/images/ranks/volcanolotus.gif\" width=\"32\" height=\"30\" alt=\"\"><br>Volcano Lotus"
+            },
+            {
+                "minPosts": 1650,
+                "label": "<img src=\"/images/ranks/lavalotus.gif\" width=\"24\" height=\"32\" alt=\"\"><br>Lava Lotus"
+            },
+            {
+                "minPosts": 1700,
+                "label": "<img src=\"/images/ranks/ptooie2.gif\" width=\"16\" height=\"43\" alt=\"\"><br>Ptooie"
+            },
+            {
+                "minPosts": 1800,
+                "label": "<img src=\"/images/ranks/sledgebrother.gif\" width=\"60\" height=\"50\" alt=\"\"><br>Sledge Brother"
+            },
+            {
+                "minPosts": 1900,
+                "label": "<img src=\"/images/ranks/boomboom.gif\" width=\"28\" height=\"26\" alt=\"\"><br>Boomboom"
+            },
+            {
+                "minPosts": 2000,
+                "label": "<img src=\"/images/ranks/birdopink.gif\" width=\"60\" height=\"36\" alt=\"\"><br>Birdo"
+            },
+            {
+                "minPosts": 2100,
+                "label": "<img src=\"/images/ranks/birdored.gif\" width=\"60\" height=\"36\" alt=\"\"><br>Red Birdo"
+            },
+            {
+                "minPosts": 2200,
+                "label": "<img src=\"/images/ranks/birdogreen.gif\" width=\"60\" height=\"36\" alt=\"\"><br>Green Birdo"
+            },
+            {
+                "minPosts": 2300,
+                "label": "<img src=\"/images/ranks/iggy.gif\" width=\"28\" alt=\"\"><br>Larry Koopa"
+            },
+            {
+                "minPosts": 2400,
+                "label": "<img src=\"/images/ranks/morton.gif\" width=\"34\" alt=\"\"><br>Morton Koopa"
+            },
+            {
+                "minPosts": 2500,
+                "label": "<img src=\"/images/ranks/wendy.gif\" width=\"28\" alt=\"\"><br>Wendy Koopa"
+            },
+            {
+                "minPosts": 2600,
+                "label": "<img src=\"/images/ranks/larry.gif\" width=\"28\" alt=\"\"><br>Iggy Koopa"
+            },
+            {
+                "minPosts": 2700,
+                "label": "<img src=\"/images/ranks/roy.gif\" width=\"34\" alt=\"\"><br>Roy Koopa"
+            },
+            {
+                "minPosts": 2800,
+                "label": "<img src=\"/images/ranks/lemmy.gif\" width=\"28\" alt=\"\"><br>Lemmy Koopa"
+            },
+            {
+                "minPosts": 2900,
+                "label": "<img src=\"/images/ranks/ludwig.gif\" width=\"33\" alt=\"\"><br>Ludwig Von Koopa"
+            },
+            {
+                "minPosts": 3000,
+                "label": "<img src=\"/images/ranks/triclyde.gif\" width=\"40\" height=\"48\" alt=\"\"><br>Triclyde"
+            },
+            {
+                "minPosts": 3100,
+                "label": "<img src=\"/images/ranks/kamek.gif\" width=\"45\" height=\"34\" alt=\"\"><br>Magikoopa"
+            },
+            {
+                "minPosts": 3200,
+                "label": "<img src=\"/images/ranks/wart.gif\" width=\"40\" height=\"47\" alt=\"\"><br>Wart"
+            },
+            {
+                "minPosts": 3300,
+                "label": "<img src=\"/images/ranks/babybowser.gif\" width=\"36\" height=\"36\" alt=\"\"><br>Baby Bowser"
+            },
+            {
+                "minPosts": 3400,
+                "label": "<img src=\"/images/ranks/bowser.gif\" width=\"52\" height=\"49\" alt=\"\"><br>King Bowser Koopa"
+            },
+            {
+                "minPosts": 3500,
+                "label": "<img src=\"/images/ranks/yoshi.gif\" width=\"31\" height=\"33\" alt=\"\"><br>Yoshi"
+            },
+            {
+                "minPosts": 3600,
+                "label": "<img src=\"/images/ranks/yoshiyellow.gif\" width=\"31\" height=\"32\" alt=\"\"><br>Yellow Yoshi"
+            },
+            {
+                "minPosts": 3700,
+                "label": "<img src=\"/images/ranks/yoshiblue.gif\" width=\"36\" height=\"35\" alt=\"\"><br>Blue Yoshi"
+            },
+            {
+                "minPosts": 3800,
+                "label": "<img src=\"/images/ranks/yoshired.gif\" width=\"33\" height=\"36\" alt=\"\"><br>Red Yoshi"
+            },
+            {
+                "minPosts": 3900,
+                "label": "<img src=\"/images/ranks/kingyoshi.gif\" width=\"24\" height=\"34\" alt=\"\"><br>King Yoshi"
+            },
+            {
+                "minPosts": 4000,
+                "label": "<img src=\"/images/ranks/babymario.gif\" width=\"28\" height=\"24\" alt=\"\"><br>Baby Mario"
+            },
+            {
+                "minPosts": 4100,
+                "label": "<img src=\"/images/ranks/luigismall.gif\" width=\"15\" height=\"22\" alt=\"\"><br>Luigi"
+            },
+            {
+                "minPosts": 4200,
+                "label": "<img src=\"/images/ranks/mariosmall.gif\" width=\"15\" height=\"20\" alt=\"\"><br>Mario"
+            },
+            {
+                "minPosts": 4300,
+                "label": "<img src=\"/images/ranks/luigibig.gif\" width=\"16\" height=\"30\" alt=\"\"><br>Super Luigi"
+            },
+            {
+                "minPosts": 4400,
+                "label": "<img src=\"/images/ranks/mariobig.gif\" width=\"16\" height=\"28\" alt=\"\"><br>Super Mario"
+            },
+            {
+                "minPosts": 4500,
+                "label": "<img src=\"/images/ranks/luigifire.gif\" width=\"16\" height=\"30\" alt=\"\"><br>Fire Luigi"
+            },
+            {
+                "minPosts": 4600,
+                "label": "<img src=\"/images/ranks/mariofire.gif\" width=\"16\" height=\"28\" alt=\"\"><br>Fire Mario"
+            },
+            {
+                "minPosts": 4700,
+                "label": "<img src=\"/images/ranks/luigicape.gif\" width=\"26\" height=\"30\" alt=\"\"><br>Cape Luigi"
+            },
+            {
+                "minPosts": 4800,
+                "label": "<img src=\"/images/ranks/mariocape.gif\" width=\"26\" height=\"28\" alt=\"\"><br>Cape Mario"
+            },
+            {
+                "minPosts": 4900,
+                "label": "<img src=\"/images/ranks/luigistar.gif\" width=\"16\" height=\"30\" alt=\"\"><br>Star Luigi"
+            },
+            {
+                "minPosts": 5000,
+                "label": "<img src=\"/images/ranks/mariostar.gif\" width=\"16\" height=\"28\" alt=\"\"><br>Star Mario"
+            },
+            {
+                "minPosts": 10000,
+                "label": "Climbing the ranks again!"
+            }
+        ]
+    },
+    {
+        "name": "Zelda",
+        "position": 1,
+        "percentileBased": false,
+        "ranks": [
+            {
+                "minPosts": 0,
+                "label": "Non-poster"
+            },
+            {
+                "minPosts": 1,
+                "label": "Newcomer"
+            },
+            {
+                "minPosts": 10,
+                "label": "<img src=\"/images/ranksz/MiniOctorok.gif\" alt=\"\"><br>Mini Octorok"
+            },
+            {
+                "minPosts": 20,
+                "label": "<img src=\"/images/ranksz/Octorok.gif\" alt=\"\"><br>Octorok"
+            },
+            {
+                "minPosts": 35,
+                "label": "<img src=\"/images/ranksz/BlueOctorok.gif\" alt=\"\"><br>Blue Octorok"
+            },
+            {
+                "minPosts": 50,
+                "label": "<img src=\"/images/ranksz/Tektite.gif\" alt=\"\"><br>Tektite"
+            },
+            {
+                "minPosts": 65,
+                "label": "<img src=\"/images/ranksz/RedTektite.gif\" alt=\"\"><br>Red Tektite"
+            },
+            {
+                "minPosts": 80,
+                "label": "<img src=\"/images/ranksz/Rat.gif\" alt=\"\"><br>Rat"
+            },
+            {
+                "minPosts": 100,
+                "label": "<img src=\"/images/ranksz/Rope.gif\" alt=\"\"><br>Rope"
+            },
+            {
+                "minPosts": 120,
+                "label": "<img src=\"/images/ranksz/Keese.gif\" alt=\"\"><br>Keese"
+            },
+            {
+                "minPosts": 140,
+                "label": "<img src=\"/images/ranksz/Bee.gif\" alt=\"\"><br>Bee"
+            },
+            {
+                "minPosts": 160,
+                "label": "<img src=\"/images/ranksz/Octoballoon.gif\" alt=\"\"><br>Octoballoon"
+            },
+            {
+                "minPosts": 180,
+                "label": "<img src=\"/images/ranksz/Leever.gif\" alt=\"\"><br>Leever"
+            },
+            {
+                "minPosts": 200,
+                "label": "<img src=\"/images/ranksz/PurpleLeever.gif\" alt=\"\"><br>Purple Leever"
+            },
+            {
+                "minPosts": 220,
+                "label": "<img src=\"/images/ranksz/SandCrab.gif\" alt=\"\"><br>Sand Crab"
+            },
+            {
+                "minPosts": 240,
+                "label": "<img src=\"/images/ranksz/Bit.gif\" alt=\"\"><br>Bit"
+            },
+            {
+                "minPosts": 260,
+                "label": "<img src=\"/images/ranksz/Bot.gif\" alt=\"\"><br>Bot"
+            },
+            {
+                "minPosts": 280,
+                "label": "<img src=\"/images/ranksz/BuzzBlob.gif\" alt=\"\"><br>Buzz Blob"
+            },
+            {
+                "minPosts": 300,
+                "label": "<img src=\"/images/ranksz/Cukeman.gif\" alt=\"\"><br>Cukeman"
+            },
+            {
+                "minPosts": 325,
+                "label": "<img src=\"/images/ranksz/Slime.gif\" alt=\"\"><br>Slime"
+            },
+            {
+                "minPosts": 350,
+                "label": "<img src=\"/images/ranksz/Hoarder.gif\" alt=\"\"><br>Hoarder"
+            },
+            {
+                "minPosts": 375,
+                "label": "<img src=\"/images/ranksz/Crow.gif\" alt=\"\"><br>Crow"
+            },
+            {
+                "minPosts": 400,
+                "label": "<img src=\"/images/ranksz/Tendoru.gif\" alt=\"\"><br>Tendoru"
+            },
+            {
+                "minPosts": 425,
+                "label": "<img src=\"/images/ranksz/Deddorokku.gif\" alt=\"\"><br>Deddorokku"
+            },
+            {
+                "minPosts": 450,
+                "label": "<img src=\"/images/ranksz/Geldman.gif\" alt=\"\"><br>Geldman"
+            },
+            {
+                "minPosts": 475,
+                "label": "<img src=\"/images/ranksz/Armos.gif\" alt=\"\"><br>Armos"
+            },
+            {
+                "minPosts": 500,
+                "label": "<img src=\"/images/ranksz/Zora.gif\" alt=\"\"><br>Zora"
+            },
+            {
+                "minPosts": 525,
+                "label": "<img src=\"/images/ranksz/Popo.gif\" alt=\"\"><br>Popo"
+            },
+            {
+                "minPosts": 550,
+                "label": "<img src=\"/images/ranksz/HardhatBeetle.gif\" alt=\"\"><br>Hardhat Beetle"
+            },
+            {
+                "minPosts": 575,
+                "label": "<img src=\"/images/ranksz/Kodondo.gif\" alt=\"\"><br>Kodondo"
+            },
+            {
+                "minPosts": 600,
+                "label": "<img src=\"/images/ranksz/Surarok.gif\" alt=\"\"><br>Surarok"
+            },
+            {
+                "minPosts": 625,
+                "label": "<img src=\"/images/ranksz/Bazu.gif\" alt=\"\"><br>Bazu"
+            },
+            {
+                "minPosts": 650,
+                "label": "<img src=\"/images/ranksz/Sukarurope.gif\" alt=\"\"><br>Sukarurope"
+            },
+            {
+                "minPosts": 675,
+                "label": "<img src=\"/images/ranksz/Chasupa.gif\" alt=\"\"><br>Chasupa"
+            },
+            {
+                "minPosts": 700,
+                "label": "<img src=\"/images/ranksz/Raven.gif\" alt=\"\"><br>Raven"
+            },
+            {
+                "minPosts": 725,
+                "label": "<img src=\"/images/ranksz/Ropa.gif\" alt=\"\"><br>Ropa"
+            },
+            {
+                "minPosts": 750,
+                "label": "<img src=\"/images/ranksz/Zirro.gif\" alt=\"\"><br>Zirro"
+            },
+            {
+                "minPosts": 775,
+                "label": "<img src=\"/images/ranksz/SnapDragon.gif\" alt=\"\"><br>Snap Dragon"
+            },
+            {
+                "minPosts": 800,
+                "label": "<img src=\"/images/ranksz/LikeLike.gif\" alt=\"\"><br>Like Like"
+            },
+            {
+                "minPosts": 830,
+                "label": "<img src=\"/images/ranksz/Poe.gif\" alt=\"\"><br>Poe"
+            },
+            {
+                "minPosts": 860,
+                "label": "<img src=\"/images/ranksz/Moblin.gif\" alt=\"\"><br>Moblin"
+            },
+            {
+                "minPosts": 900,
+                "label": "<img src=\"/images/ranksz/Helmasaur.gif\" alt=\"\"><br>Helmasaur"
+            },
+            {
+                "minPosts": 925,
+                "label": "<img src=\"/images/ranksz/Onoff.gif\" alt=\"\"><br>Onoff"
+            },
+            {
+                "minPosts": 950,
+                "label": "<img src=\"/images/ranksz/Bubble.gif\" alt=\"\"><br>Bubble"
+            },
+            {
+                "minPosts": 1000,
+                "label": "<img src=\"/images/ranksz/Stalfos.gif\" alt=\"\"><br>Stalfos"
+            },
+            {
+                "minPosts": 1050,
+                "label": "<img src=\"/images/ranksz/RedStalfos.gif\" alt=\"\"><br>Red Stalfos"
+            },
+            {
+                "minPosts": 1100,
+                "label": "<img src=\"/images/ranksz/YellowStalfos.gif\" alt=\"\"><br>Yellow Stalfos"
+            },
+            {
+                "minPosts": 1150,
+                "label": "<img src=\"/images/ranksz/Torosu.gif\" alt=\"\"><br>Torosu"
+            },
+            {
+                "minPosts": 1200,
+                "label": "<img src=\"/images/ranksz/RedTorosu.gif\" alt=\"\"><br>Red Torosu"
+            },
+            {
+                "minPosts": 1250,
+                "label": "<img src=\"/images/ranksz/Darknut.gif\" alt=\"\"><br>Darknut"
+            },
+            {
+                "minPosts": 1300,
+                "label": "<img src=\"/images/ranksz/IronKnuckle.gif\" alt=\"\"><br>Iron Knuckle"
+            },
+            {
+                "minPosts": 1350,
+                "label": "<img src=\"/images/ranksz/Vire.gif\" alt=\"\"><br>Vire"
+            },
+            {
+                "minPosts": 1400,
+                "label": "<img src=\"/images/ranksz/Rocklops.gif\" alt=\"\"><br>Rocklops"
+            },
+            {
+                "minPosts": 1450,
+                "label": "<img src=\"/images/ranksz/Beamos.gif\" alt=\"\"><br>Beamos"
+            },
+            {
+                "minPosts": 1500,
+                "label": "<img src=\"/images/ranksz/Wallmaster.gif\" alt=\"\"><br>Wallmaster"
+            },
+            {
+                "minPosts": 1550,
+                "label": "<img src=\"/images/ranksz/Gibdos.gif\" alt=\"\"><br>Gibdo"
+            },
+            {
+                "minPosts": 1600,
+                "label": "<img src=\"/images/ranksz/Wizzrobe.gif\" alt=\"\"><br>Wizzrobe"
+            },
+            {
+                "minPosts": 1650,
+                "label": "<img src=\"/images/ranksz/Lynel.gif\" alt=\"\"><br>Lynel"
+            },
+            {
+                "minPosts": 1700,
+                "label": "<img src=\"/images/ranksz/BallNChainTrooper.gif\" alt=\"\"><br>Ball and Chain Trooper"
+            },
+            {
+                "minPosts": 1800,
+                "label": "<img src=\"/images/ranksz/HinoxBoss.gif\" alt=\"\"><br>Hinox"
+            },
+            {
+                "minPosts": 1900,
+                "label": "<img src=\"/images/ranksz/MasterStalfosTrimmed.gif\" alt=\"\"><br>Master Stalfos"
+            },
+            {
+                "minPosts": 2000,
+                "label": "<img src=\"/images/ranksz/Aquamentus.gif\" alt=\"\"><br>Aquamentus"
+            },
+            {
+                "minPosts": 2100,
+                "label": "<img src=\"/images/ranksz/Dodongo.gif\" alt=\"\"><br>Dodongo"
+            },
+            {
+                "minPosts": 2200,
+                "label": "<img src=\"/images/ranksz/Gohma.gif\" alt=\"\"><br>Gohma"
+            },
+            {
+                "minPosts": 2300,
+                "label": "<img src=\"/images/ranksz/Gleeok.gif\" alt=\"\"><br>Gleeok"
+            },
+            {
+                "minPosts": 2400,
+                "label": "<img src=\"/images/ranksz/Digdogger.gif\" alt=\"\"><br>Digdogger"
+            },
+            {
+                "minPosts": 2500,
+                "label": "<img src=\"/images/ranksz/Manhandla.gif\" alt=\"\"><br>Manhandla"
+            },
+            {
+                "minPosts": 2600,
+                "label": "<img src=\"/images/ranksz/ArmosKnight.gif\" alt=\"\"><br>Armos Knight"
+            },
+            {
+                "minPosts": 2700,
+                "label": "<img src=\"/images/ranksz/Moldorm.gif\" alt=\"\"><br>Moldorm"
+            },
+            {
+                "minPosts": 2800,
+                "label": "<img src=\"/images/ranksz/Arrghus.gif\" alt=\"\"><br>Arrghus"
+            },
+            {
+                "minPosts": 2900,
+                "label": "<img src=\"/images/ranksz/Mothula.gif\" alt=\"\"><br>Mothula"
+            },
+            {
+                "minPosts": 3000,
+                "label": "<img src=\"/images/ranksz/Blind.gif\" alt=\"\"><br>Blind"
+            },
+            {
+                "minPosts": 3100,
+                "label": "<img src=\"/images/ranksz/Kholdstare.gif\" alt=\"\"><br>Kholdstare"
+            },
+            {
+                "minPosts": 3200,
+                "label": "<img src=\"/images/ranksz/Vitreous.gif\" alt=\"\"><br>Vitreous"
+            },
+            {
+                "minPosts": 3300,
+                "label": "<img src=\"/images/ranksz/DarkLink.gif\" alt=\"\"><br>Dark Link"
+            },
+            {
+                "minPosts": 3400,
+                "label": "<img src=\"/images/ranksz/DeathI.gif\" alt=\"\"><br>DethI"
+            },
+            {
+                "minPosts": 3500,
+                "label": "<img src=\"/images/ranksz/Agahnim.gif\" alt=\"\"><br>Agahnim"
+            },
+            {
+                "minPosts": 3600,
+                "label": "<img src=\"/images/ranksz/Ganon.gif\" alt=\"\"><br>Ganon"
+            },
+            {
+                "minPosts": 3700,
+                "label": "<img src=\"/images/ranksz/Zelda.gif\" alt=\"\"><br>Zelda"
+            },
+            {
+                "minPosts": 3800,
+                "label": "<img src=\"/images/ranksz/Link.gif\" alt=\"\"><br>Link"
+            },
+            {
+                "minPosts": 3900,
+                "label": "<img src=\"/images/ranksz/TheAdventureOfLink.gif\" alt=\"\"><br>The Adventure of Link"
+            },
+            {
+                "minPosts": 4000,
+                "label": "<img src=\"/images/ranksz/Link'sAwakening.gif\" alt=\"\"><br>Link's Awakening"
+            },
+            {
+                "minPosts": 4100,
+                "label": "<img src=\"/images/ranksz/ALinkToThePast.gif\" alt=\"\"><br>A Link to the Past"
+            },
+            {
+                "minPosts": 4200,
+                "label": "<img src=\"/images/ranksz/FighterLink.gif\" alt=\"\"><br>Fighter Link"
+            },
+            {
+                "minPosts": 4300,
+                "label": "<img src=\"/images/ranksz/BlueMailLink.gif\" alt=\"\"><br>Blue Mail Link"
+            },
+            {
+                "minPosts": 4400,
+                "label": "<img src=\"/images/ranksz/RedMailLink.gif\" alt=\"\"><br>Red Mail Link"
+            },
+            {
+                "minPosts": 4500,
+                "label": "<img src=\"/images/ranksz/RabbitLink.gif\" alt=\"\"><br>Rabbit Link"
+            },
+            {
+                "minPosts": 4600,
+                "label": "<img src=\"/images/ranksz/MagicHammer.gif\" alt=\"\"><br>Magic Hammer"
+            },
+            {
+                "minPosts": 4700,
+                "label": "<img src=\"/images/ranksz/CaneOfByrna.gif\" alt=\"\"><br>Cane of Byrna"
+            },
+            {
+                "minPosts": 4800,
+                "label": "<img src=\"/images/ranksz/HeroOfTime.gif\" alt=\"\"><br>Hero of Time"
+            },
+            {
+                "minPosts": 4900,
+                "label": "<img src=\"/images/ranksz/HeroOfWinds.gif\" alt=\"\"><br>Hero of Winds"
+            },
+            {
+                "minPosts": 5000,
+                "label": "<img src=\"/images/ranksz/HeroOfHyrule.gif\" alt=\"\"><br>Hero of Hyrule"
+            },
+            {
+                "minPosts": 10000,
+                "label": "Climbing the ranks again!"
+            }
+        ]
+    },
+    {
+        "name": "Global ranking",
+        "position": 2,
+        "percentileBased": true,
+        "ranks": [
+            {
+                "minPosts": 0,
+                "label": "<img src=\"/images/gb/rank23.png\" width=\"25\" height=\"15\" alt=\"\"><br>Chicken"
+            },
+            {
+                "minPosts": 10,
+                "label": "<img src=\"/images/gb/rank22.png\" width=\"25\" height=\"15\" alt=\"\"><br>Hammer"
+            },
+            {
+                "minPosts": 25,
+                "label": "<img src=\"/images/gb/rank21.png\" width=\"25\" height=\"15\" alt=\"\"><br>Double hammer"
+            },
+            {
+                "minPosts": 50,
+                "label": "<img src=\"/images/gb/rank20.png\" width=\"25\" height=\"15\" alt=\"\"><br>Stone axe"
+            },
+            {
+                "minPosts": 80,
+                "label": "<img src=\"/images/gb/rank19.png\" width=\"25\" height=\"15\" alt=\"\"><br>Double stone axe"
+            },
+            {
+                "minPosts": 130,
+                "label": "<img src=\"/images/gb/rank18.png\" width=\"25\" height=\"15\" alt=\"\"><br>Metal axe"
+            },
+            {
+                "minPosts": 200,
+                "label": "<img src=\"/images/gb/rank17.png\" width=\"25\" height=\"15\" alt=\"\"><br>Double metal axe"
+            },
+            {
+                "minPosts": 300,
+                "label": "<img src=\"/images/gb/rank16.png\" width=\"25\" height=\"15\" alt=\"\"><br>Silver axe"
+            },
+            {
+                "minPosts": 450,
+                "label": "<img src=\"/images/gb/rank15.png\" width=\"25\" height=\"15\" alt=\"\"><br>Double silver axe"
+            },
+            {
+                "minPosts": 600,
+                "label": "<img src=\"/images/gb/rank14.png\" width=\"25\" height=\"15\" alt=\"\"><br>Gold axe"
+            },
+            {
+                "minPosts": 800,
+                "label": "<img src=\"/images/gb/rank13.png\" width=\"25\" height=\"15\" alt=\"\"><br>Double gold axe"
+            },
+            {
+                "minPosts": 1000,
+                "label": "<img src=\"/images/gb/rank12.png\" width=\"25\" height=\"15\" alt=\"\"><br>Metal battleaxe"
+            },
+            {
+                "minPosts": 8388607,
+                "label": "<img src=\"/images/gb/rank11.png\" width=\"25\" height=\"15\" alt=\"\"><br>Metal battleaxe +",
+                "percentile": 0.7
+            },
+            {
+                "minPosts": 8388607,
+                "label": "<img src=\"/images/gb/rank10.png\" width=\"25\" height=\"15\" alt=\"\"><br>Silver battleaxe",
+                "percentile": 0.5
+            },
+            {
+                "minPosts": 8388607,
+                "label": "<img src=\"/images/gb/rank9.png\" width=\"25\" height=\"15\" alt=\"\"><br>Silver battleaxe +",
+                "percentile": 0.3
+            },
+            {
+                "minPosts": 8388607,
+                "label": "<img src=\"/images/gb/rank8.png\" width=\"25\" height=\"15\" alt=\"\"><br>Gold battleaxe",
+                "percentile": 0.2
+            },
+            {
+                "minPosts": 8388607,
+                "label": "<img src=\"/images/gb/rank7.png\" width=\"25\" height=\"15\" alt=\"\"><br>Gold battleaxe +",
+                "percentile": 0.1
+            },
+            {
+                "minPosts": 8388607,
+                "label": "<img src=\"/images/gb/rank6.png\" width=\"25\" height=\"15\" alt=\"\"><br>Purple wand",
+                "percentile": 0.06
+            },
+            {
+                "minPosts": 8388607,
+                "label": "<img src=\"/images/gb/rank5.png\" width=\"25\" height=\"15\" alt=\"\"><br>Blue wand",
+                "percentile": 0.03
+            },
+            {
+                "minPosts": 8388607,
+                "label": "<img src=\"/images/gb/rank4.png\" width=\"25\" height=\"15\" alt=\"\"><br>Red wand",
+                "percentile": 0.01
+            },
+            {
+                "minPosts": 8388607,
+                "label": "<img src=\"/images/gb/rank3.png\" width=\"25\" height=\"15\" alt=\"\"><br>Diamond wand",
+                "percentile": 0.001
+            }
+        ]
+    },
+    {
+        "name": "Standard",
+        "position": 3,
+        "percentileBased": false,
+        "ranks": [
+            {
+                "minPosts": 0,
+                "label": "Newcomer"
+            },
+            {
+                "minPosts": 25,
+                "label": "Member"
+            },
+            {
+                "minPosts": 100,
+                "label": "Regular"
+            },
+            {
+                "minPosts": 250,
+                "label": "Familiar face"
+            },
+            {
+                "minPosts": 500,
+                "label": "Veteran"
+            },
+            {
+                "minPosts": 1000,
+                "label": "Old hand"
+            },
+            {
+                "minPosts": 2500,
+                "label": "Fixture"
+            },
+            {
+                "minPosts": 5000,
+                "label": "Institution"
+            },
+            {
+                "minPosts": 10000,
+                "label": "Legend"
+            }
+        ]
+    }
+]

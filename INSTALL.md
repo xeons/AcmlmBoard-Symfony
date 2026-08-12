@@ -197,6 +197,32 @@ a check.
 
 ---
 
+## Updating the rank ladders
+
+The rank ladders ship in `config/ranks.json`: a Super Mario set, a Zelda set, and the
+"Global ranking" set whose top nine rungs are percentiles of the ranked population.
+`doctrine:fixtures:load` seeds them, but fixtures only run on an empty database, so an
+existing board takes them from:
+
+```bash
+php bin/console app:ranks:sync --dry-run
+php bin/console app:ranks:sync
+```
+
+Sets are matched by name and their rungs replaced; the set row itself is kept, so every
+member who has chosen that ladder keeps their choice. A set that is not in the JSON is
+left alone, which makes this safe on a board with ladders of its own.
+
+Percentile rungs stay at an unreachable threshold until `app:board:maintenance`
+recomputes them from the actual population; on a board with nobody above 1,000 posts
+they simply never apply, which is correct.
+
+Rank labels may contain an `<img>`; nearly every rung the original shipped was a sprite
+stacked over its name. The `src` has to be a path under `/images/`, so a badge that
+renders on every post cannot become an outbound request to somewhere else.
+
+---
+
 ## Importing an existing board
 
 ```bash

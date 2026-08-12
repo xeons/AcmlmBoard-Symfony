@@ -47,6 +47,8 @@ final class MarkupRenderer
         private readonly HtmlSanitizerInterface $postSanitizer,
         #[Autowire(service: 'html_sanitizer.sanitizer.app.title_sanitizer')]
         private readonly HtmlSanitizerInterface $titleSanitizer,
+        #[Autowire(service: 'html_sanitizer.sanitizer.app.rank_sanitizer')]
+        private readonly HtmlSanitizerInterface $rankSanitizer,
     ) {
     }
 
@@ -73,8 +75,8 @@ final class MarkupRenderer
     }
 
     /**
-     * Inline-only rendering for custom titles and rank labels. Uses the stricter
-     * sanitizer: no images, no links, no block boxes.
+     * Inline-only rendering for member-authored custom titles and thread titles.
+     * Uses the strictest sanitizer: no images, no links, no block boxes.
      */
     public function renderInline(?string $raw): string
     {
@@ -83,6 +85,20 @@ final class MarkupRenderer
         }
 
         return $this->titleSanitizer->sanitize($this->expandTags($raw));
+    }
+
+    /**
+     * Rank ladder labels, which are a sprite stacked over a name in every set the
+     * original shipped. Same inline-only treatment as a custom title, except that
+     * <img> survives and its src must be a relative path.
+     */
+    public function renderRank(?string $raw): string
+    {
+        if (null === $raw || '' === trim($raw)) {
+            return '';
+        }
+
+        return $this->rankSanitizer->sanitize($this->expandTags($raw));
     }
 
     /**

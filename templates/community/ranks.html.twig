@@ -24,7 +24,7 @@
         </tr>
         {% for row in rows %}
             <tr>
-                <td class="tbl tdbg2 font">{{ row.rank.label|board_inline }}</td>
+                <td class="tbl tdbg2 font">{{ row.rank.label|board_rank }}</td>
                 <td class="tbl tdbg1 center font">{{ row.rank.minPosts|number_format }}</td>
                 <td class="tbl tdbg1 center font">{{ row.count }}</td>
                 <td class="tbl tdbg2 fonts">

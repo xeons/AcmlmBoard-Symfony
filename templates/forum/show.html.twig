@@ -90,13 +90,25 @@
             {% set isHot = thread.isHot(hotThreshold) %}
 
             <tr>
+                {#
+                    The original's precedence, from forum.php: closed wins over
+                    new, and "hot" combines with whichever of the two applies
+                    rather than replacing it. A hot thread with unread posts gets
+                    hotnew.gif, not new.gif.
+                #}
+                {% set status = null %}
+                {% if thread.closed %}
+                    {% set status = isHot ? ['hot-closed', 'Closed, hot thread'] : ['closed', 'Closed'] %}
+                {% elseif isNew %}
+                    {% set status = isHot ? ['hot-new', 'New posts in a hot thread'] : ['new', 'New posts'] %}
+                {% elseif isHot %}
+                    {% set status = ['hot', 'Hot thread'] %}
+                {% endif %}
+
                 <td class="tbl tdbg1 center new-cell">
-                    {% if thread.closed %}
-                        <span class="status-icon status-closed" title="Closed">X</span>
-                    {% elseif isNew %}
-                        <span class="status-icon status-new" title="New posts">N</span>
-                    {% elseif isHot %}
-                        <span class="status-icon status-hot" title="Hot thread">H</span>
+                    {% if status %}
+                        <span class="status-icon status-{{ status[0] }}"
+                              role="img" aria-label="{{ status[1] }}" title="{{ status[1] }}"></span>
                     {% endif %}
                 </td>
                 <td class="tbl tdbg2 center">

@@ -24,6 +24,30 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CommunityController extends AbstractBoardController
 {
     /**
+     * Name lookup behind the member pickers.
+     *
+     * Any signed-in member can call this, which gives away nothing: /members
+     * already lists everyone by name. It exists so that the forms that need to
+     * name a member can offer a type-ahead instead of demanding the numeric id
+     * the original's `?u=N` links happened to expose.
+     */
+    #[Route('/members/find', name: 'app_member_find', methods: ['GET'])]
+    public function findMember(Request $request, UserRepository $users): Response
+    {
+        $this->requireBoardUser();
+
+        $fragment = trim((string) $request->query->get('q', ''));
+        if (\strlen($fragment) < 2) {
+            return $this->json([]);
+        }
+
+        return $this->json(array_map(
+            static fn (User $u): array => ['id' => $u->getId(), 'name' => $u->getUsername()],
+            $users->searchByUsername($fragment, 10),
+        ));
+    }
+
+    /**
      * Sortable member list.
      *
      * The original built the ORDER BY by concatenating the `sort` query parameter
@@ -213,10 +237,18 @@ final class CommunityController extends AbstractBoardController
         if ($request->isMethod('POST')) {
             $this->assertCsrf($request, 'post-radar');
 
-            $rival = $users->find($request->request->getInt('rival'));
+            $removing = 'remove' === $request->request->get('action');
+
+            // The remove buttons carry the id of a row the server rendered; the
+            // add field carries a name somebody typed. Separate fields so that a
+            // member named "12" cannot stand in for member 12.
+            $rival = $removing
+                ? $users->find($request->request->getInt('rival'))
+                : $users->findOneByUsername(trim((string) $request->request->get('member', '')));
+
             if (null === $rival) {
-                $this->addFlash('error', 'That member does not exist.');
-            } elseif ('remove' === $request->request->get('action')) {
+                $this->addFlash('error', 'No member by that name.');
+            } elseif ($removing) {
                 $user->removeRival($rival);
                 $em->flush();
                 $this->addFlash('success', \sprintf('%s removed from your radar.', $rival->getUsername()));

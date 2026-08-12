@@ -27,7 +27,11 @@ class Rank
     #[ORM\Column(options: ['default' => 0])]
     private int $minPosts = 0;
 
-    /** Rank titles may contain inline markup; rendered through app.title_sanitizer. */
+    /**
+     * Nearly always a sprite stacked over a name, as in
+     * "<img src=images/ranks/goomba.gif width=16 height=16><br>Goomba". Rendered
+     * through app.rank_sanitizer, which permits <img> with a relative src.
+     */
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     private string $label = '';

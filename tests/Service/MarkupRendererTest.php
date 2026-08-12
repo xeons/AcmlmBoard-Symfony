@@ -242,6 +242,85 @@ final class MarkupRendererTest extends KernelTestCase
         self::assertStringContainsString('<b>Champion</b>', $html);
     }
 
+    // ----------------------------------------------------------- rank labels
+
+    /**
+     * Rank labels are the one place a picture has to survive an inline render:
+     * nearly every rung the original shipped was a sprite stacked over its name.
+     * They went through the title sanitizer for a while, which strips <img> by
+     * design, so the ladders rendered as bare words.
+     */
+    public function testRankModeKeepsASpriteWithARelativeSource(): void
+    {
+        $html = $this->markup->renderRank('<img src="/images/ranks/goomba.gif" width="16" height="16" alt=""><br>Goomba');
+
+        self::assertStringContainsString('<img', $html);
+        self::assertStringContainsString('/images/ranks/goomba.gif', $html);
+        self::assertStringContainsString('Goomba', $html);
+    }
+
+    /**
+     * A rank renders on every post of every page, so an off-site src would be an
+     * outbound request a third party controls, repeated across the whole board
+     * and attached to every reader. Paths under /images/ only, which is every
+     * sprite the original shipped.
+     *
+     * Configuration alone does not get this right: `allowed_media_schemes: []`
+     * reads like "permit no scheme" and behaves like "apply no restriction", so
+     * the https sprite below survived until RankImageSanitizer took over.
+     */
+    #[DataProvider('rejectedSprites')]
+    public function testRankModeConfinesSpritesToTheBoardsOwnImages(string $src): void
+    {
+        $html = $this->markup->renderRank(\sprintf('<img src="%s">', $src));
+
+        self::assertStringNotContainsString($src, $html);
+    }
+
+    /** @return iterable<string, array{string}> */
+    public static function rejectedSprites(): iterable
+    {
+        yield 'off-site https' => ['https://example.com/tracker.gif'];
+        yield 'off-site http' => ['http://example.com/tracker.gif'];
+        yield 'protocol relative' => ['//example.com/tracker.gif'];
+        yield 'outside images' => ['/uploads/tracker.gif'];
+        yield 'traversal' => ['/images/../../etc/passwd'];
+        yield 'the old resizer' => ['/images/gb/rankimg.php?num=3'];
+    }
+
+    public function testRankModeKeepsEverySpriteDirectoryTheOriginalUsed(): void
+    {
+        foreach (['/images/ranks/goomba.gif', '/images/ranksz/Octorok.gif', '/images/gb/rank23.png'] as $src) {
+            self::assertStringContainsString(
+                $src,
+                $this->markup->renderRank(\sprintf('<img src="%s">', $src)),
+            );
+        }
+    }
+
+    /** As with a title, an element that is not on the list goes with its contents. */
+    public function testRankModeDropsLinks(): void
+    {
+        self::assertStringNotContainsString('<a ', $this->markup->renderRank('<a href="https://example.com">Rank</a>'));
+    }
+
+    public function testRankModeStillRejectsScripting(): void
+    {
+        $html = $this->markup->renderRank('<img src="/images/ranks/goomba.gif" onerror="alert(1)"><script>alert(2)</script>');
+
+        self::assertStringNotContainsString('onerror', $html);
+        self::assertStringNotContainsString('<script', $html);
+    }
+
+    /** Widening the rank profile must not have widened the title one with it. */
+    public function testTitlesStillCannotCarryAnImage(): void
+    {
+        self::assertStringNotContainsString(
+            '<img',
+            $this->markup->renderInline('<img src="/images/ranks/goomba.gif">Champion'),
+        );
+    }
+
     // ------------------------------------------------------------ plain text
 
     public function testPlainTextStripsMarkupAndTruncates(): void

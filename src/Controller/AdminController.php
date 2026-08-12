@@ -169,14 +169,23 @@ final class AdminController extends AbstractBoardController
         if ($request->isMethod('POST')) {
             $this->assertCsrf($request, 'moderators'.$forum->getId());
 
-            $target = $users->find($request->request->getInt('user'));
+            $removing = 'remove' === $request->request->get('action');
+
+            // Removal comes from a button the server rendered, so it carries the
+            // id. Adding comes from a name somebody typed. Keeping them on
+            // separate fields means a member whose name happens to be a number
+            // cannot be confused with the row id of another.
+            $target = $removing
+                ? $users->find($request->request->getInt('user'))
+                : $users->findOneByUsername(trim((string) $request->request->get('member', '')));
+
             if (null === $target) {
-                $this->addFlash('error', 'That member does not exist.');
+                $this->addFlash('error', 'No member by that name.');
 
                 return $this->redirectToRoute('app_admin_forum_moderators', ['id' => $forum->getId()]);
             }
 
-            if ('remove' === $request->request->get('action')) {
+            if ($removing) {
                 foreach ($forum->getModerators() as $moderator) {
                     if ($moderator->getUser() === $target) {
                         $em->remove($moderator);

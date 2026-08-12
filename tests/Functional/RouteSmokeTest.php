@@ -73,6 +73,7 @@ final class RouteSmokeTest extends BoardWebTestCase
         yield 'blocked layouts' => ['/blocked-layouts'];
         yield 'passkeys' => ['/profile/passkeys'];
         yield 'post radar' => ['/post-radar'];
+        yield 'member lookup' => ['/members/find'];
         yield 'reply form' => ['/thread/{thread:open}/reply'];
         yield 'new thread form' => ['/forum/{forum:General discussion}/new-thread'];
         yield 'edit own post' => ['/post/{post:first}/edit'];
@@ -87,7 +88,6 @@ final class RouteSmokeTest extends BoardWebTestCase
     {
         yield 'staff panel' => ['/staff'];
         yield 'staff user view' => ['/staff/user/{user:Member}'];
-        yield 'find user' => ['/staff/find-user'];
         yield 'soft ban form' => ['/staff/user/{user:Member}/soft-ban'];
         yield 'forum ban form' => ['/staff/user/{user:Member}/forum-ban'];
         yield 'system message form' => ['/staff/user/{user:Member}/system-message'];
